@@ -24,6 +24,19 @@ URL = "https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do"
 
 
 def call_api_list(startpage, display):
+    """
+    Work24 공개채용 공채속보 목록 API를 호출
+
+    startpage와 display(출력 개수)를 기준으로
+    XML 응답을 받아 dict 형태로 파싱하여 반환
+
+    Args:
+        startpage (int): 조회할 페이지 번호
+        display (int): 페이지당 조회할 공고 개수
+
+    Returns:
+        dict: xmltodict로 파싱된 공채속보 목록 데이터
+    """
     params = {"authKey": WORK24_API_KEY, "callTp": "L", "returnType": "XML", "startPage": startpage, "display": display}
 
     res = requests.get(URL, params=params)
@@ -36,6 +49,18 @@ def call_api_list(startpage, display):
 
 
 def call_api_detail(empseqno):
+    """
+    Work24 공개채용 공채속보 상세 API를 호출
+
+    공개채용공고 순번(empSeqno)을 기준으로 상세 정보를 조회하여
+    XML 응답을 dict 형태로 파싱해 반환
+
+    Args:
+        empseqno (int): 공개채용공고 순번
+
+    Returns:
+        dict: xmltodict로 파싱된 공채속보 상세 데이터
+    """
     params = {"authKey": WORK24_API_KEY, "callTp": "D", "returnType": "XML", "empSeqno": empseqno}
 
     res = requests.get(URL, params=params)
@@ -49,6 +74,15 @@ def call_api_detail(empseqno):
 
 
 def save_job_posting_list():
+    """
+    공채속보 목록 API 데이터를 JobPostingList 테이블에 저장한
+
+    전체 공채속보 목록을 페이지 단위로 순회하며,
+    emp_seqno를 기준으로 update_or_create 방식으로 저장
+
+    - 이미 존재하는 공고는 최신 정보로 업데이트
+    - 신규 공고는 새 레코드로 생성
+    """
     res = call_api_list(1, 1)
     page_size = 100
     total_num = int(res.get("dhsOpenEmpInfoList").get("total"))
@@ -84,6 +118,18 @@ def save_job_posting_list():
 
 
 def save_job_posting_detail():
+    """
+    JobPostingList에 저장된 모든 공고를 기준으로
+    공채속보 상세 API를 호출하여 관련 테이블을 갱신
+
+    처리 내용:
+    1. JobPostingList: 상세 정보 필드 업데이트
+    2. OccupationType: 직종 코드 목록 저장 (N:1)
+    3. JobPostingDetail: 모집 직무 상세 정보 저장 (N:1)
+
+    - emp_seqno를 외래키로 사용
+    - 리스트/단일 객체 응답을 모두 처리하도록 방어 로직 포함
+    """
     posts = JobPostingList.objects.all()
     saved = 0
     idx = 1
@@ -151,6 +197,18 @@ def save_job_posting_detail():
 
 
 def build_recruitment_process(raw_data):
+    """
+    채용 전형 단계(empSelsList)를 하나의 문자열로 가공
+
+    전형 단계 목록에서 selsNm 값을 추출하여
+    ' - ' 구분자로 연결한 문자열을 생성
+
+    Args:
+        raw_data (dict): empSelsList 원본 데이터
+
+    Returns:
+        str | None: 전형 단계 문자열 또는 데이터가 없을 경우 None
+    """
     recruitment_process = []
     process_list = raw_data["empSelsListInfo"]
     process_list = process_list if isinstance(process_list, list) else [process_list]
