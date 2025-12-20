@@ -15,10 +15,6 @@ sys.path.append(str(BASE_DIR))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruit_insight.settings")
 django.setup()
 
-
-# https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do?authKey=674b002d-b9a5-4825-9566-73de217ebedb&callTp=L&returnType=XML&startPage=1&display=10
-# https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210D21.do?authKey=674b002d-b9a5-4825-9566-73de217ebedb&returnType=XML&callTp=D&empSeqno=145337
-
 WORK24_API_KEY = os.getenv("WORK24_API_KEY")
 URL = "https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do"
 
