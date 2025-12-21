@@ -139,8 +139,8 @@ class JobAbilityComparison(models.Model):
     acoss_job_abl_status = models.DecimalField()  # 업무수행능력 중요도: 중요도(0:낮음 ~ 100:높음)
     within_job_abl_lvl_status_cmpr = models.DecimalField()  # 업무수행능력수준 : 중요도(7점 만점)
     accoss_job_abl_lvl_status = models.DecimalField()  # 업무수행능력 수준: 중요도(0:낮음 ~ 100:높음)
-    job_abl_nm_cmpr = models.TextField()  # 업무수행능력 중요도: 업무수행능력
-    job_abl_cont_cmpr = models.TextField()  # 업무수행능력 중요도: 설명
+    job_abl_nm = models.TextField()  # 업무수행능력 중요도: 업무수행능력
+    job_abl_cont = models.TextField()  # 업무수행능력 중요도: 설명
 
 
 # 5
@@ -150,8 +150,8 @@ class KnowledgeComparison(models.Model):
     across_knwldg_status = models.DecimalField()  # 지식중요도: 중요도(0:낮음 ~ 100:높음)
     within_knwldg_lvl_status_cmpr = models.DecimalField()  # 지식수준: 중요도(7점 만점)
     across_knwldg_lvl_status = models.DecimalField()  # 지식수준: 중요도(0:낮음 ~ 100:높음)
-    knwldg_nm_cmpr = models.TextField()  # 지식중요도: 업무수행능력
-    knwldg_cont_cmpr = models.TextField()  # 지식중요도: 설명
+    knwldg_nm = models.TextField()  # 지식중요도: 업무수행능력
+    knwldg_cont = models.TextField()  # 지식중요도: 설명
 
 
 # 5
@@ -159,8 +159,8 @@ class JobEnvironmentComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
     within_job_env_status_cmpr = models.DecimalField()  # 업무환경: 중요도(5점 만점)
     across_job_env_status = models.DecimalField()  # 업무환경: 중요도(0:낮음 ~ 100:높음)
-    job_env_nm_cmpr = models.TextField()  # 업무환경: 업무수행능력
-    job_env_cont_cmpr = models.TextField()  # 업무환경: 설명
+    job_env_nm = models.TextField()  # 업무환경: 업무수행능력
+    job_env_cont = models.TextField()  # 업무환경: 설명
 
 
 # 6
@@ -168,38 +168,24 @@ class JobCharacterComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
     within_job_chr_status_cmpr = models.DecimalField()  # 성격: 중요도(5점 만점)
     across_ob_chr_status = models.DecimalField()  # 성격: 중요도(0:낮음 ~ 100:높음)
-    job_chr_nm_cmpr = models.TextField()  # 성격: 업무수행능력
-    job_chr_cont_cmpr = models.TextField()  # 성격: 설명
+    job_chr_nm = models.TextField()  # 성격: 업무수행능력
+    job_chr_cont = models.TextField()  # 성격: 설명
 
 
 # 6
-class WithinJobInterestComparison(models.Model):
+class JobInterestComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
     within_intrst_status_cmpr = models.DecimalField()  # 흥미: 중요도(5점 만점)
     across_intrst_status = models.DecimalField()  # 흥미: 중요도(0:낮음 ~ 100:높음)
-    intrst_nm_cmpr = models.TextField()  # 흥미: 업무수행능력
-    intrst_cont_cmpr = models.TextField()  # 흥미: 설명
-
-
-# 6
-class AcrossJobInterestComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
     intrst_nm = models.TextField()  # 흥미: 업무수행능력
     intrst_cont = models.TextField()  # 흥미: 설명
 
 
 # 6
-class WithinJobValuesComparison(models.Model):
+class JobValuesComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    vals_status_cmpr = models.DecimalField()  # 가치관: 중요도(5점 만점)
-    vals_nm_cmpr = models.TextField()  # 가치관: 업무수행능력
-    vals_cont_cmpr = models.TextField()  # 가치관: 설명
-
-
-# 6
-class AcrossJobValuesComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    vals_status = models.DecimalField()  # 가치관: 중요도(0:낮음 ~ 100:높음)
+    within_vals_status_cmpr = models.DecimalField()  # 가치관: 중요도(5점 만점)
+    across_vals_status = models.DecimalField()  # 가치관: 중요도(0:낮음 ~ 100:높음)
     vals_nm = models.TextField()  # 가치관: 업무수행능력
     vals_cont = models.TextField()  # 가치관: 설명
 
