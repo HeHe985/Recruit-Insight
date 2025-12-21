@@ -175,7 +175,8 @@ class JobCharacterComparison(models.Model):
 # 6
 class WithinJobInterestComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    intrst_status_cmpr = models.DecimalField()  # 흥미: 중요도(5점 만점)
+    within_intrst_status_cmpr = models.DecimalField()  # 흥미: 중요도(5점 만점)
+    across_intrst_status = models.DecimalField()  # 흥미: 중요도(0:낮음 ~ 100:높음)
     intrst_nm_cmpr = models.TextField()  # 흥미: 업무수행능력
     intrst_cont_cmpr = models.TextField()  # 흥미: 설명
 
@@ -183,7 +184,6 @@ class WithinJobInterestComparison(models.Model):
 # 6
 class AcrossJobInterestComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    intrst_status = models.DecimalField()  # 흥미: 중요도(0:낮음 ~ 100:높음)
     intrst_nm = models.TextField()  # 흥미: 업무수행능력
     intrst_cont = models.TextField()  # 흥미: 설명
 
