@@ -180,7 +180,13 @@ class AcrossKnowledgeComparison(models.Model):
     knwldg_cont = models.TextField()  # 지식중요도: 설명
 
 
-# class RelatedMajor(models.Model):
-#     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+# 5
+class WithinKnowledgeLevelComparison(models.Model):
+    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    knwldg_lvl_status_cmpr = models.DecimalField()  # 지식수준: 중요도(7점 만점)
+    knwldg_lvl_nm_cmpr = models.TextField()  # 지식수준: 업무수행능력
+    knwldg_lvl_cont_cmpr = models.TextField()  # 지식수준: 설명
+
+
 # class RelatedMajor(models.Model):
 #     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
