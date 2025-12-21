@@ -4,10 +4,10 @@ import os
 # BASE_DIR = Path(__file__).resolve().parent.parent  # backend
 # sys.path.append(str(BASE_DIR))
 # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruit_insight.settings")
-# django.setup()
 import requests
 import xmltodict
 
+# django.setup()
 from job_postings.models import JobPostingDetail, JobPostingList, OccupationType
 
 
@@ -249,16 +249,16 @@ def call_api_job_detail(job_cd, dtl_gb):
     xml_text = res.text
 
     data = xmltodict.parse(xml_text)
-    # json_data = json.dumps(data, ensure_ascii=False, indent=4)
-    # print(json_data)
-    with open(f"job_detail{dtl_gb}.json", "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
+    json_data = json.dumps(data, ensure_ascii=False, indent=4)
+    print(json_data)
+    # with open(f"job_detail{dtl_gb}.json", "w", encoding="utf-8") as f:
+    #     json.dump(data, f, ensure_ascii=False, indent=4)
     # return data
 
 
 # call_api_job_list()
-# call_api_job_detail("K000001059", 1)
+call_api_job_detail("K000000969", 3)
 
-for i in "1234567":
-    call_api_job_detail("K000001059", i)
-    print("------------------------")
+# for i in "1234567":
+#     call_api_job_detail("K000000833", i)
+#     print("------------------------")

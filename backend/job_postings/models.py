@@ -73,6 +73,9 @@ class JobList(models.Model):
     exec_job = models.TextField()  # 수행직무
     # 3
     techn_know = models.TextField()  # 필수 기술 및 지식
+    # 아래 두행은 리스트로 들어올 수도 있어서 확인 필요
+    keco_cd = models.CharField(max_length=100)  # 한국고용직업분류(KECO)코드
+    keco_nm = models.CharField(max_length=100)  # 한국고용직업분류(KECO)코드명
     # 4 - 없음
     # 5 - 없음
     # 6 - 없음
@@ -109,6 +112,7 @@ class EducationBackground(models.Model):
     edubg_dgradu = models.IntegerField()  # 학력분포 (%) : 박사졸
 
 
+# 3
 class SchoolDistribution(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
     cult_lang_dpt = models.IntegerField()  # 전공학과분포 (%): 인문계열
@@ -120,8 +124,12 @@ class SchoolDistribution(models.Model):
     artphy_dpt = models.IntegerField()  # 전공학과분포 (%): 예체능계열
 
 
-# class RelatedMajor(models.Model):
-#     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+# 4
+class JobProspect(models.Model):
+    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    job_prospect_nm = models.CharField(max_length=100)  # 일자리전망(예 :많이 늘어남, 늘어남 등)
+    job_prospect_ratio = models.DecimalField()  # 일자리전망률
+    job_prospect_inq_yr = models.IntegerField()  # 조사년도
 
 
 # class RelatedMajor(models.Model):
