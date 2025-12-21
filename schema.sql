@@ -51,3 +51,50 @@ CREATE TABLE job_postings_jobpostingdetail (
         REFERENCES job_postings_jobpostinglist (emp_seqno)
         ON DELETE CASCADE
 );
+
+-- DART
+CREATE TABLE corp_code (
+    id SERIAL PRIMARY KEY,
+    corp_code VARCHAR(8) NOT NULL UNIQUE,
+    corp_name VARCHAR(50) NOT NULL
+);
+
+CREATE INDEX idx_corp_code_corp_name ON corp_code(corp_name);
+
+CREATE TABLE sj_div (
+    id SERIAL PRIMARY KEY,
+    sj_div VARCHAR(5) NOT NULL UNIQUE,
+    sj_nm VARCHAR(5) NOT NULL
+);
+
+CREATE TABLE financial_data (
+    id SERIAL PRIMARY KEY,
+    corp_code INTEGER NOT NULL,
+    bsns_year INTEGER NOT NULL,
+    account_id VARCHAR(50) NOT NULL,
+    account_nm VARCHAR(50) NOT NULL,
+    account_detail VARCHAR(50) NOT NULL,
+    reprt_code VARCHAR(5) NOT NULL,
+    sj_div INTEGER NOT NULL,
+    thstrm_nm VARCHAR(10),
+    thstrm_amount DECIMAL(25, 5),
+    currency VARCHAR(5) NOT NULL,
+    CONSTRAINT fk_financial_data_corp FOREIGN KEY (corp_code) REFERENCES corp_code (id) ON DELETE CASCADE,
+    CONSTRAINT fk_financial_data_sj FOREIGN KEY (sj_div) REFERENCES sj_div (id) ON DELETE CASCADE,
+    CONSTRAINT corp_bsns_account UNIQUE (corp_code, bsns_year, account_id, account_detail)
+);
+
+CREATE TABLE financial_ratio (
+    id SERIAL PRIMARY KEY,
+    corp_code INTEGER NOT NULL,
+    bsns_year INTEGER NOT NULL,
+    ratio_id VARCHAR(50) NOT NULL,
+    ratio_nm VARCHAR(50) NOT NULL,
+    reprt_code VARCHAR(5) NOT NULL,
+    category VARCHAR(10) NOT NULL,
+    thstrm_nm VARCHAR(10),
+    thstrm_amount DECIMAL(20, 7),
+    unit VARCHAR(5) NOT NULL,
+    CONSTRAINT fk_financial_ratio_corp FOREIGN KEY (corp_code) REFERENCES corp_code (id) ON DELETE CASCADE,
+    CONSTRAINT corp_bsns_ratio UNIQUE (corp_code, bsns_year, ratio_id)
+);
