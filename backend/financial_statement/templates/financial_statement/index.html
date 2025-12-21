@@ -7,6 +7,12 @@
 </head>
 <body>
   <h1>인덱스 페이지</h1>
+  <form action="{% url "financial_statement:get_data" %}" method="GET">
+    <input type="text" id="corp_name" name="corp_name">
+    <input type="text" id="bsns_year" name="bsns_year">
+    <input type="text" id="reprt_code" name="reprt_code">
+    <input type="submit" text="제출">
+  </form>
   <a href="{% url "financial_statement:get_corp_code" %}">회사코드</a>
 </body>
 </html>
