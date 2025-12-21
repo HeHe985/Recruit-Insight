@@ -132,8 +132,12 @@ class JobProspect(models.Model):
     job_prospect_inq_yr = models.IntegerField()  # 조사년도
 
 
-# class RelatedMajor(models.Model):
-#     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+# 5
+class WithInJobAbilityComparison(models.Model):
+    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    job_abl_status_cmpr = models.DecimalField()  # 업무수행능력 중요도: 중요도(5점 만점)
+    job_abl_nm_cmpr = models.TextField()  # 업무수행능력 중요도: 업무수행능력
+    job_abl_cont_cmpr = models.TextField()  # 업무수행능력 중요도: 설명
 
 
 # class RelatedMajor(models.Model):
