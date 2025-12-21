@@ -45,65 +45,62 @@ class JobPostingDetail(models.Model):
     work_region_nm = models.CharField(max_length=100, blank=True, null=True)  # 근무지
 
 
-class JobList(models.Model):
+class Job(models.Model):
     # list
     job_cd = models.CharField(max_length=100, primary_key=True)  # 직업분류코드
     job_clcd = models.CharField(max_length=100)  # 직업분류명
     job_clcd_nm = models.CharField(max_length=100)  # 직업코드
     job_nm = models.CharField(max_length=100)  # 직업명
     # 1
-    job_lrcl_nm = models.CharField(max_length=100)  # 직업 대분류명
-    job_mdcl_nm = models.CharField(max_length=100)  # 직업 중분류명
-    job_smcl_nm = models.CharField(max_length=100)  # 직업 소분류명
-    job_sum = models.TextField()  # 하는일
-    way = models.TextField()  # 되는길
-    sal = models.TextField()  # 임금
-    job_satis = models.DecimalField()  # 직업만족도(%)
-    job_prospect = models.TextField()  # 일자리전망
-    job_status = models.CharField(max_length=100)  # 일자리현황
-    job_abil = models.TextField()  # 업무수행능력
-    knowldg = models.TextField()  # 지식
-    job_env = models.TextField()  # 업무환경
-    job_chr = models.TextField()  # 성격
-    job_intrst = models.TextField()  # 흥미
-    job_vals = models.TextField()  # 직업가치관
-    job_actv_imprtncs = models.TextField()  # 업무활동 중요도
-    job_actv_lvls = models.TextField()  # 업무활동 수준
+    job_lrcl_nm = models.CharField(max_length=100, blank=True, null=True)  # 직업 대분류명
+    job_mdcl_nm = models.CharField(max_length=100, blank=True, null=True)  # 직업 중분류명
+    job_smcl_nm = models.CharField(max_length=100, blank=True, null=True)  # 직업 소분류명
+    job_sum = models.TextField(blank=True, null=True)  # 하는일
+    way = models.TextField(blank=True, null=True)  # 되는길
+    sal = models.TextField(blank=True, null=True)  # 임금
+    job_satis = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)  # 직업만족도(%)
+    job_prospect = models.TextField(blank=True, null=True)  # 일자리전망
+    job_status = models.CharField(max_length=100, blank=True, null=True)  # 일자리현황
+    job_abil = models.TextField(blank=True, null=True)  # 업무수행능력
+    knowldg = models.TextField(blank=True, null=True)  # 지식
+    job_env = models.TextField(blank=True, null=True)  # 업무환경
+    job_chr = models.TextField(blank=True, null=True)  # 성격
+    job_intrst = models.TextField(blank=True, null=True)  # 흥미
+    job_vals = models.TextField(blank=True, null=True)  # 직업가치관
+    job_actv_imprtncs = models.TextField(blank=True, null=True)  # 업무활동 중요도
+    job_actv_lvls = models.TextField(blank=True, null=True)  # 업무활동 수준
     # 2
-    exec_job = models.TextField()  # 수행직무
+    exec_job = models.TextField(blank=True, null=True)  # 수행직무
     # 3
-    techn_know = models.TextField()  # 필수 기술 및 지식
+    techn_know = models.TextField(blank=True, null=True)  # 필수 기술 및 지식
     # 아래 두행은 리스트로 들어올 수도 있어서 확인 필요
-    keco_cd = models.CharField(max_length=100)  # 한국고용직업분류(KECO)코드
-    keco_nm = models.CharField(max_length=100)  # 한국고용직업분류(KECO)코드명
-    # 4 - 없음
-    # 5 - 없음
-    # 6 - 없음
-    # 7 - 없음
+    keco_cd = models.CharField(max_length=100, blank=True, null=True)  # 한국고용직업분류(KECO)코드
+    keco_nm = models.CharField(max_length=100, blank=True, null=True)  # 한국고용직업분류(KECO)코드명
+    # 4, 5, 6, 7 - 없음
 
 
 # 1
 class RelatedMajor(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
     major_cd = models.IntegerField()  # 관련전공코드
     major_nm = models.CharField(max_length=100)  # 관련전공명
 
 
 # 1
 class RelatedCertification(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
     cert_nm = models.TextField()  # 관련자격증명
 
 
 # 1
 class RelatedJob(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
     rel_job_cd = models.CharField(max_length=100, primary_key=True)  # 관련직업코드
 
 
 # 3
 class EducationBackground(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
     edubg_mgradu_undr = models.IntegerField()  # 학력분포 (%) : 중졸이하
     edubg_hgradu = models.IntegerField()  # 학력분포 (%) : 고졸
     edubg_cgradu_undr = models.IntegerField()  # 학력분포 (%) : 전문대졸
@@ -114,7 +111,7 @@ class EducationBackground(models.Model):
 
 # 3
 class SchoolDistribution(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
     cult_lang_dpt = models.IntegerField()  # 전공학과분포 (%): 인문계열
     soc_dpt = models.IntegerField()  # 전공학과분포 (%): 사회계열
     edu_dpt = models.IntegerField()  # 전공학과분포 (%): 교육계열
@@ -126,76 +123,94 @@ class SchoolDistribution(models.Model):
 
 # 4
 class JobProspect(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
     job_prospect_nm = models.CharField(max_length=100)  # 일자리전망(예 :많이 늘어남, 늘어남 등)
-    job_prospect_ratio = models.DecimalField()  # 일자리전망률
+    job_prospect_ratio = models.DecimalField(max_digits=5, decimal_places=2)  # 일자리전망률
     job_prospect_inq_yr = models.IntegerField()  # 조사년도
 
 
 # 5
 class JobAbilityComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    within_job_abl_status_cmpr = models.DecimalField()  # 업무수행능력 중요도: 중요도(5점 만점)
-    acoss_job_abl_status = models.DecimalField()  # 업무수행능력 중요도: 중요도(0:낮음 ~ 100:높음)
-    within_job_abl_lvl_status_cmpr = models.DecimalField()  # 업무수행능력수준 : 중요도(7점 만점)
-    accoss_job_abl_lvl_status = models.DecimalField()  # 업무수행능력 수준: 중요도(0:낮음 ~ 100:높음)
+    job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
+    within_job_abl_status_cmpr = models.DecimalField(
+        max_digits=5, decimal_places=2
+    )  # 업무수행능력 중요도: 중요도(5점 만점)
+    acoss_job_abl_status = models.DecimalField(
+        max_digits=5, decimal_places=2
+    )  # 업무수행능력 중요도: 중요도(0:낮음 ~ 100:높음)
+    within_job_abl_lvl_status_cmpr = models.DecimalField(
+        max_digits=5, decimal_places=2
+    )  # 업무수행능력수준 : 중요도(7점 만점)
+    accoss_job_abl_lvl_status = models.DecimalField(
+        max_digits=5, decimal_places=2
+    )  # 업무수행능력 수준: 중요도(0:낮음 ~ 100:높음)
     job_abl_nm = models.TextField()  # 업무수행능력 중요도: 업무수행능력
     job_abl_cont = models.TextField()  # 업무수행능력 중요도: 설명
 
 
 # 5
 class KnowledgeComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    within_knwldg_status_cmpr = models.DecimalField()  # 지식중요도: 중요도(5점 만점)
-    across_knwldg_status = models.DecimalField()  # 지식중요도: 중요도(0:낮음 ~ 100:높음)
-    within_knwldg_lvl_status_cmpr = models.DecimalField()  # 지식수준: 중요도(7점 만점)
-    across_knwldg_lvl_status = models.DecimalField()  # 지식수준: 중요도(0:낮음 ~ 100:높음)
+    job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
+    within_knwldg_status_cmpr = models.DecimalField(max_digits=5, decimal_places=2)  # 지식중요도: 중요도(5점 만점)
+    across_knwldg_status = models.DecimalField(max_digits=5, decimal_places=2)  # 지식중요도: 중요도(0:낮음 ~ 100:높음)
+    within_knwldg_lvl_status_cmpr = models.DecimalField(max_digits=5, decimal_places=2)  # 지식수준: 중요도(7점 만점)
+    across_knwldg_lvl_status = models.DecimalField(
+        max_digits=5, decimal_places=2
+    )  # 지식수준: 중요도(0:낮음 ~ 100:높음)
     knwldg_nm = models.TextField()  # 지식중요도: 업무수행능력
     knwldg_cont = models.TextField()  # 지식중요도: 설명
 
 
 # 5
 class JobEnvironmentComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    within_job_env_status_cmpr = models.DecimalField()  # 업무환경: 중요도(5점 만점)
-    across_job_env_status = models.DecimalField()  # 업무환경: 중요도(0:낮음 ~ 100:높음)
+    job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
+    within_job_env_status_cmpr = models.DecimalField(max_digits=5, decimal_places=2)  # 업무환경: 중요도(5점 만점)
+    across_job_env_status = models.DecimalField(max_digits=5, decimal_places=2)  # 업무환경: 중요도(0:낮음 ~ 100:높음)
     job_env_nm = models.TextField()  # 업무환경: 업무수행능력
     job_env_cont = models.TextField()  # 업무환경: 설명
 
 
 # 6
 class JobCharacterComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    within_job_chr_status_cmpr = models.DecimalField()  # 성격: 중요도(5점 만점)
-    across_ob_chr_status = models.DecimalField()  # 성격: 중요도(0:낮음 ~ 100:높음)
+    job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
+    within_job_chr_status_cmpr = models.DecimalField(max_digits=5, decimal_places=2)  # 성격: 중요도(5점 만점)
+    across_ob_chr_status = models.DecimalField(max_digits=5, decimal_places=2)  # 성격: 중요도(0:낮음 ~ 100:높음)
     job_chr_nm = models.TextField()  # 성격: 업무수행능력
     job_chr_cont = models.TextField()  # 성격: 설명
 
 
 # 6
 class JobInterestComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    within_intrst_status_cmpr = models.DecimalField()  # 흥미: 중요도(5점 만점)
-    across_intrst_status = models.DecimalField()  # 흥미: 중요도(0:낮음 ~ 100:높음)
+    job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
+    within_intrst_status_cmpr = models.DecimalField(max_digits=5, decimal_places=2)  # 흥미: 중요도(5점 만점)
+    across_intrst_status = models.DecimalField(max_digits=5, decimal_places=2)  # 흥미: 중요도(0:낮음 ~ 100:높음)
     intrst_nm = models.TextField()  # 흥미: 업무수행능력
     intrst_cont = models.TextField()  # 흥미: 설명
 
 
 # 6
 class JobValuesComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    within_vals_status_cmpr = models.DecimalField()  # 가치관: 중요도(5점 만점)
-    across_vals_status = models.DecimalField()  # 가치관: 중요도(0:낮음 ~ 100:높음)
+    job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
+    within_vals_status_cmpr = models.DecimalField(max_digits=5, decimal_places=2)  # 가치관: 중요도(5점 만점)
+    across_vals_status = models.DecimalField(max_digits=5, decimal_places=2)  # 가치관: 중요도(0:낮음 ~ 100:높음)
     vals_nm = models.TextField()  # 가치관: 업무수행능력
     vals_cont = models.TextField()  # 가치관: 설명
 
 
 # 7
 class JobActivityComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    within_job_actv_imprtnc_status_cmpr = models.DecimalField()  # 업무활동 중요도: 중요도(5점 만점)
-    across_job_actv_imprtnc_status = models.DecimalField()  # 업무활동 중요도: 중요도(0:낮음 ~ 100:높음)
-    within_job_actv_lvl_status_cmpr = models.DecimalField()  # 업무활동 수준: 수준(7점 만점)
-    across_job_actv_imprtnc_status = models.DecimalField()  # 	업무활동 수준: 수준(0:낮음 ~ 100:높음)
+    job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
+    within_job_actv_imprtnc_status_cmpr = models.DecimalField(
+        max_digits=5, decimal_places=2
+    )  # 업무활동 중요도: 중요도(5점 만점)
+    across_job_actv_imprtnc_status = models.DecimalField(
+        max_digits=5, decimal_places=2
+    )  # 업무활동 중요도: 중요도(0:낮음 ~ 100:높음)
+    within_job_actv_lvl_status_cmpr = models.DecimalField(
+        max_digits=5, decimal_places=2
+    )  # 업무활동 수준: 수준(7점 만점)
+    across_job_actv_imprtnc_status = models.DecimalField(
+        max_digits=5, decimal_places=2
+    )  # 	업무활동 수준: 수준(0:낮음 ~ 100:높음)
     job_actv_imprtnc_nm = models.TextField()  # 업무활동 중요도: 업무활동명
     job_actv_imprtnc_cont = models.TextField()  # 업무활동 중요도: 설명

@@ -1,14 +1,17 @@
 import json
 import os
 
+# import sys
+# from pathlib import Path
+# import django
 # BASE_DIR = Path(__file__).resolve().parent.parent  # backend
 # sys.path.append(str(BASE_DIR))
 # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruit_insight.settings")
+# django.setup()
 import requests
 import xmltodict
 
-# django.setup()
-from job_postings.models import JobPostingDetail, JobPostingList, OccupationType
+from job_postings.models import Job, JobPostingDetail, JobPostingList, OccupationType
 
 
 WORK24_API_KEY = os.getenv("WORK24_API_KEY")
@@ -230,9 +233,9 @@ def call_api_job_list():
     data = xmltodict.parse(xml_text)
     # json_data = json.dumps(data, ensure_ascii=False, indent=2)
     # print(json_data)
-    with open("job_list.json", "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
-    # return data
+    # with open("job_list.json", "w", encoding="utf-8") as f:
+    #     json.dump(data, f, ensure_ascii=False, indent=4)
+    return data
 
 
 def call_api_job_detail(job_cd, dtl_gb):
@@ -256,8 +259,28 @@ def call_api_job_detail(job_cd, dtl_gb):
     # return data
 
 
-# call_api_job_list()
-call_api_job_detail("K000000969", 3)
+def save_job_list():
+    res = call_api_job_list()
+    posts = res.get("jobsList").get("jobList")
+
+    saved = 0
+    # print(res.keys())
+    for post in posts:
+        obj, created = Job.objects.update_or_create(
+            job_cd=post["jobCd"],
+            defaults={
+                "job_clcd": post["jobClcd"],
+                "job_clcd_nm": post["jobClcdNM"],
+                "job_nm": post["jobNm"],
+            },
+        )
+        if created:
+            saved += 1
+    print(f"신규 저장 {saved}건 / 전체 {len(posts)}건 처리")
+
+
+# save_job_list()
+# call_api_job_detail("K000000969", 3)
 
 # for i in "1234567":
 #     call_api_job_detail("K000000833", i)
