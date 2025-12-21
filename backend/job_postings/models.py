@@ -157,17 +157,10 @@ class KnowledgeComparison(models.Model):
 # 5
 class WithinJobEnvironmentComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    job_env_status_cmpr = models.DecimalField()  # 업무환경: 중요도(5점 만점)
+    within_job_env_status_cmpr = models.DecimalField()  # 업무환경: 중요도(5점 만점)
+    across_job_env_status = models.DecimalField()  # 업무환경: 중요도(0:낮음 ~ 100:높음)
     job_env_nm_cmpr = models.TextField()  # 업무환경: 업무수행능력
     job_env_cont_cmpr = models.TextField()  # 업무환경: 설명
-
-
-# 5
-class AcrossJobEnvironmentComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    job_env_status = models.DecimalField()  # 업무환경: 중요도(0:낮음 ~ 100:높음)
-    job_env_nm = models.TextField()  # 업무환경: 업무수행능력
-    job_env_cont = models.TextField()  # 업무환경: 설명
 
 
 # 6
