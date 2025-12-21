@@ -155,7 +155,7 @@ class KnowledgeComparison(models.Model):
 
 
 # 5
-class WithinJobEnvironmentComparison(models.Model):
+class JobEnvironmentComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
     within_job_env_status_cmpr = models.DecimalField()  # 업무환경: 중요도(5점 만점)
     across_job_env_status = models.DecimalField()  # 업무환경: 중요도(0:낮음 ~ 100:높음)
@@ -164,19 +164,12 @@ class WithinJobEnvironmentComparison(models.Model):
 
 
 # 6
-class WithinJobCharacterComparison(models.Model):
+class JobCharacterComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    job_chr_status_cmpr = models.DecimalField()  # 성격: 중요도(5점 만점)
+    within_job_chr_status_cmpr = models.DecimalField()  # 성격: 중요도(5점 만점)
+    across_ob_chr_status = models.DecimalField()  # 성격: 중요도(0:낮음 ~ 100:높음)
     job_chr_nm_cmpr = models.TextField()  # 성격: 업무수행능력
     job_chr_cont_cmpr = models.TextField()  # 성격: 설명
-
-
-# 6
-class AcrossJobCharacterComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    job_chr_status = models.DecimalField()  # 성격: 중요도(0:낮음 ~ 100:높음)
-    job_chr_nm = models.TextField()  # 성격: 업무수행능력
-    job_chr_cont = models.TextField()  # 성격: 설명
 
 
 # 6
