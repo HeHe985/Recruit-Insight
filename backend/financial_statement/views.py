@@ -63,7 +63,7 @@ def get_corp_code(request):
     # # 여기부터 dart에서 API 호출 진행 
     # # -> 너무 자주 호출하면 거부당하기 때문에 필요 시 주석 처리할 것
     crtfc_key = DART_API_KEY
-    # TODO: params 형태로 바꾸기
+
     get_url = f'https://opendart.fss.or.kr/api/corpCode.xml'
 
     params = {
@@ -252,6 +252,19 @@ def get_data(request):
         print('호출 오류')
         return redirect('financial_statement:index')
 
+    # api 결과 json 파일로 저장------------------------------------------
+    print('json파일 작성 시작')
+    api_data_dir = os.path.join(settings.BASE_DIR, 'api_data')
+    os.makedirs(api_data_dir, exist_ok=True)
+
+    file_name = f"{data['list'][0].get('corp_code')}{data['list'][0].get('bsns_year')}{data['list'][0].get('reprt_code')}.json"
+    json_path = os.path.join(api_data_dir, file_name)
+
+    with open(json_path, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
+    print('json파일 저장 완료')
+    # ---------------------------------------------------------
+
     # # 데이터 DB 저장
     print("DB저장====================================")
     obj_list = []
@@ -273,6 +286,7 @@ def get_data(request):
         'thstrm_nm' : data['list'][0].get('thstrm_nm')
         # 위의 코드들은 모든 행이 동일하니까 제일 앞에 있는 데이터 이용
     }
+
     for item in data['list']:
         base_year = int(item.get('bsns_year'))
         # corp_code = item.get('corp_code')
@@ -282,7 +296,6 @@ def get_data(request):
         sj_div = sj_dict.get(item.get('sj_div'))  # 딕셔너리에서 같은 값으로 찾아서 객체 저장
         currency = item.get('currency')
         reprt_code = item.get('reprt_code')
-        fin_dict.setdefault
 
         # 당기 데이터
         if 'thstrm_amount' in item:
@@ -352,6 +365,7 @@ def get_data(request):
 
 
     # 재무비율 계산----------------------------------------------------------------------------------------
+    ratio_list = []
     # 자본 구성(15) (CapitalStructure)
     # 자기자본 비율 (capital adequacy ratio)
     """
@@ -361,7 +375,7 @@ def get_data(request):
     """
     capital_adequacy_ratio = fin_dict['ifrs-full_Equity'] / fin_dict['ifrs-full_Assets']
     # print(capital_adequacy_ratio, 'capital')
-    models.FinancialRatio.objects.create(
+    ratio_list.append(models.FinancialRatio(
         bsns_year=fin_dict.get('bsns_year'),
         ratio_id='capital_adequacy_ratio',
         ratio_nm='자기자본비율',
@@ -371,7 +385,7 @@ def get_data(request):
         thstrm_nm=fin_dict.get('thstrm_nm'),
         unit='%',
         corp_code=fin_dict.get('corp_code'),
-    )
+    ))
 
     # 유동성(15) (Liquidity)
     # 유동비율 (current ratio) - 15
@@ -383,7 +397,7 @@ def get_data(request):
         유동비율의 문제점은 재고자산의 현금화 속도 및 현금화 가능성이 기업마다 다르기 때문에
         일률적으로 적용하는 데 무리가 있다는 것임
     """
-    models.FinancialRatio.objects.create(
+    ratio_list.append(models.FinancialRatio(
         bsns_year=fin_dict.get('bsns_year'),
         ratio_id='current_ration',
         ratio_nm='유동비율',
@@ -393,7 +407,7 @@ def get_data(request):
         thstrm_nm=fin_dict.get('thstrm_nm'),
         unit='%',
         corp_code=fin_dict.get('corp_code'),
-    )
+    ))
 
 
     # 수익성(10) (Profitability)
@@ -407,7 +421,7 @@ def get_data(request):
         return은 영업이익 / 당기순이익 둘 다 될 수 있으나
         별도의 정의가 되어 있지 않다면 영업이익으로 간주해도 됨
     """
-    models.FinancialRatio.objects.create(
+    ratio_list.append(models.FinancialRatio(
         bsns_year=fin_dict.get('bsns_year'),
         ratio_id='ROA',
         ratio_nm='총자본영업이익률',
@@ -417,7 +431,7 @@ def get_data(request):
         thstrm_nm=fin_dict.get('thstrm_nm'),
         unit='%',
         corp_code=fin_dict.get('corp_code'),
-    )
+    ))
 
     
 
@@ -429,7 +443,7 @@ def get_data(request):
         자기자본순이익률 < 주주의 요구수익률 -> 기업의 가치 감소
         => 기업이 조달한 자기자본의 가치를 유지하기 위해 필요한 수익률 의미
     """
-    models.FinancialRatio.objects.create(
+    ratio_list.append(models.FinancialRatio(
         bsns_year=fin_dict.get('bsns_year'),
         ratio_id='ROE',
         ratio_nm='자기자본순이익률',
@@ -439,7 +453,7 @@ def get_data(request):
         thstrm_nm=fin_dict.get('thstrm_nm'),
         unit='%',
         corp_code=fin_dict.get('corp_code'),
-    )
+    ))
 
 
     # 총자본수익률 (ROI, Return on Investment)
@@ -449,7 +463,7 @@ def get_data(request):
         주주와 채권자가 투자한 자본에 대해 벌어들이는 수익성
         듀폰 시스템에서 매출수익성과 총자본회전속도가 결합된 비율로, 재무통제수단으로 이용함
     """
-    models.FinancialRatio.objects.create(
+    ratio_list.append(models.FinancialRatio(
         bsns_year=fin_dict.get('bsns_year'),
         ratio_id='ROI',
         ratio_nm='총자본수익률',
@@ -459,14 +473,14 @@ def get_data(request):
         thstrm_nm=fin_dict.get('thstrm_nm'),
         unit='%',
         corp_code=fin_dict.get('corp_code'),
-    )
+    ))
     
     # 매출액영업이익률 (Sales operating profit margin)
     sales_operating_profit_margin = fin_dict['dart_OperatingIncomeLoss'] / fin_dict['ifrs-full_Revenue']
     """
         영업이익 / 매출액
     """
-    models.FinancialRatio.objects.create(
+    ratio_list.append(models.FinancialRatio(
         bsns_year=fin_dict.get('bsns_year'),
         ratio_id='sales_operating_profit_margin',
         ratio_nm='매출액영업이익률',
@@ -476,7 +490,7 @@ def get_data(request):
         thstrm_nm=fin_dict.get('thstrm_nm'),
         unit='%',
         corp_code=fin_dict.get('corp_code'),
-    )
+    ))
 
     # 활동성(5) (Efficiency)
     # 총자산회전율 (Total Assets Turnover)
@@ -487,7 +501,7 @@ def get_data(request):
         기업이 보유하고 있는 총자산들을 얼마나 효과적으로 활용하고 있는지 측정
         기업의 총자산이 1년에 몇 번 회전했는가 의미
     """
-    models.FinancialRatio.objects.create(
+    ratio_list.append(models.FinancialRatio(
         bsns_year=fin_dict.get('bsns_year'),
         ratio_id='total_assets_turnover',
         ratio_nm='총자산회전율',
@@ -497,12 +511,12 @@ def get_data(request):
         thstrm_nm=fin_dict.get('thstrm_nm'),
         unit='회',
         corp_code=fin_dict.get('corp_code'),
-    )
+    ))
 
 
     # 매출채권회전율 (Receivables Turnover)
     receivables_turnover = fin_dict['ifrs-full_Revenue'] / fin_dict['ifrs-full_CurrentTradeReceivables']
-    # 매출채권 없는 곳도 있기 때문에, 예외처리 꼭 하기
+    # 매출채권 없는 곳도 있기 때문에, 예외처리 꼭 하기 -> SK하이닉스
     """
         매출액 / 매출채권
         매출채권회전율이 높다 -> 매출채권 관리가 잘 되고 있음
@@ -511,7 +525,7 @@ def get_data(request):
         매출채권 : (실무적으로) 한 달에도 몇 번씩 거래하는 기업에서는 거래할 때마다 돈이 이동하는 것이 아니고
             채권(돈을 받을 권리)로 기록했다가, 서로 약속한 특정한 날에 돈이 이동함
     """
-    models.FinancialRatio.objects.create(
+    ratio_list.append(models.FinancialRatio(
         bsns_year=fin_dict.get('bsns_year'),
         ratio_id='receivables_turnover',
         ratio_nm='총자산회전율',
@@ -521,12 +535,13 @@ def get_data(request):
         thstrm_nm=fin_dict.get('thstrm_nm'),
         unit='회',
         corp_code=fin_dict.get('corp_code'),
-    )
+    ))
 
     # TODO
     # 성장성(5) (Growth)
     # 이 부분은 총자산, 매출액 부분만 확인하면 되니까 별도로 계산
     # 총자본증가율 (total capital growth rate)
+    # total_capital_growth_rate = 
     """
         (당기말 총자산 / 전기말 총자산) - 1
     """
@@ -534,9 +549,11 @@ def get_data(request):
     """
         (당기 매출액 / 전기 매출액) - 1 
     """
+
+    models.FinancialRatio.objects.bulk_create(ratio_list, ignore_conflicts=True)
     # -----------------------------------------------------------------------------------------------------------
 
-    pprint(fin_dict)
+    # pprint(ratio_list)
     return redirect('financial_statement:index')
 
 def dump(request):
