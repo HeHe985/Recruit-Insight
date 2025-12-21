@@ -156,8 +156,13 @@ class WithinJobAbilityLevelComparison(models.Model):
     job_abl_lvl_cont_cmpr = models.TextField()  # 업무수행능력 수준: 설명
 
 
-# class RelatedMajor(models.Model):
-#     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+class AcrossJobAbilityLevelComparison(models.Model):
+    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    job_abl_lvl_status = models.DecimalField()  # 업무수행능력 수준: 중요도(0:낮음 ~ 100:높음)
+    job_abl_lvl_nm = models.TextField()  # 업무수행능력 수준: 업무수행능력
+    job_abl_lvl_cont = models.TextField()  # 업무수행능력 수준: 설명
+
+
 # class RelatedMajor(models.Model):
 #     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
 # class RelatedMajor(models.Model):
