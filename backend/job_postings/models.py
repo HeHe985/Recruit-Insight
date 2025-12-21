@@ -50,86 +50,83 @@ class JobList(models.Model):
     job_cd = models.CharField(max_length=100, primary_key=True)  # 직업분류코드
     job_clcd = models.CharField(max_length=100)  # 직업분류명
     job_clcd_nm = models.CharField(max_length=100)  # 직업코드
-    job_cm = models.CharField(max_length=100)  # 직업명
+    job_nm = models.CharField(max_length=100)  # 직업명
     # 1
-    job_lrcl_nm = models.CharField(max_length=100)
-    job_mdcl_nm = models.CharField(max_length=100)
-    job_smcl_nm = models.CharField(max_length=100)
-    job_sum = models.TextField()
-    way = models.TextField()
-    sal = models.TextField()
-    job_satis = models.DecimalField()
-    job_prospect = models.TextField()
-    job_status = models.CharField(max_length=100)
-    job_abil = models.TextField()
-    knowldg = models.TextField()
-    job_env = models.TextField()
-    job_chr = models.TextField()
-    job_intrst = models.TextField()
-    job_vals = models.TextField()
-    job_actv_imprtncs = models.TextField()
-    job_actv_lvls = models.TextField()
+    job_lrcl_nm = models.CharField(max_length=100)  # 직업 대분류명
+    job_mdcl_nm = models.CharField(max_length=100)  # 직업 중분류명
+    job_smcl_nm = models.CharField(max_length=100)  # 직업 소분류명
+    job_sum = models.TextField()  # 하는일
+    way = models.TextField()  # 되는길
+    sal = models.TextField()  # 임금
+    job_satis = models.DecimalField()  # 직업만족도(%)
+    job_prospect = models.TextField()  # 일자리전망
+    job_status = models.CharField(max_length=100)  # 일자리현황
+    job_abil = models.TextField()  # 업무수행능력
+    knowldg = models.TextField()  # 지식
+    job_env = models.TextField()  # 업무환경
+    job_chr = models.TextField()  # 성격
+    job_intrst = models.TextField()  # 흥미
+    job_vals = models.TextField()  # 직업가치관
+    job_actv_imprtncs = models.TextField()  # 업무활동 중요도
+    job_actv_lvls = models.TextField()  # 업무활동 수준
     # 2
-
+    exec_job = models.TextField()  # 수행직무
     # 3
-
-    # 4
-
-    # 5
-
-    # 6
-
-    # 7
+    techn_know = models.TextField()  # 필수 기술 및 지식
+    # 4 - 없음
+    # 5 - 없음
+    # 6 - 없음
+    # 7 - 없음
 
 
-# class JobDetail(models.Model):
-#     jobCd: "K000001059"
-"""
-    # -----1--------
-    "relMajorList": [
-        {
-            "majorCd": "1",
-            "majorNm": "경영학과"
-        },
-        {
-            "majorCd": "7",
-            "majorNm": "세무·회계학과"
-        }
-    ],
-    "relCertList": [
-        {
-            "certNm": "ERP정보관리사[물류/생산/인사/회계](국가공인 민간)"
-        },
-        {
-            "certNm": "전산세무1급 전산세무2급 전산회계1급 전산회계2급"
-        }
-    ],
-    
-    "relJobList": [
-        {
-            "jobCd": "K000000919",
-            "jobNm": "마케팅·광고·홍보관리자"
-        },
-        {
-            "jobCd": "K000001081",
-            "jobNm": "정부행정관리자"
-        },
-        {
-            "jobCd": "K000001210",
-            "jobNm": "금융관리자"
-        },
-        {
-            "jobCd": "K000007471",
-            "jobNm": "보험관리자"
-    # -----2--------
+# 1
+class RelatedMajor(models.Model):
+    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    major_cd = models.IntegerField()  # 관련전공코드
+    major_nm = models.CharField(max_length=100)  # 관련전공명
 
-    # -----3--------
 
-    # -----4--------
+# 1
+class RelatedCertification(models.Model):
+    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    cert_nm = models.TextField()  # 관련자격증명
 
-    # -----5--------
 
-    # -----6--------
+# 1
+class RelatedJob(models.Model):
+    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    rel_job_cd = models.CharField(max_length=100, primary_key=True)  # 관련직업코드
 
-    # -----7--------
-"""
+
+# 3
+class EducationBackground(models.Model):
+    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    edubg_mgradu_undr = models.IntegerField()  # 학력분포 (%) : 중졸이하
+    edubg_hgradu = models.IntegerField()  # 학력분포 (%) : 고졸
+    edubg_cgradu_undr = models.IntegerField()  # 학력분포 (%) : 전문대졸
+    edubg_ugradu = models.IntegerField()  # 학력분포 (%) : 대졸
+    edubg_ggradu = models.IntegerField()  # 학력분포 (%) : 대학원졸
+    edubg_dgradu = models.IntegerField()  # 학력분포 (%) : 박사졸
+
+
+class SchoolDistribution(models.Model):
+    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    cult_lang_dpt = models.IntegerField()  # 전공학과분포 (%): 인문계열
+    soc_dpt = models.IntegerField()  # 전공학과분포 (%): 사회계열
+    edu_dpt = models.IntegerField()  # 전공학과분포 (%): 교육계열
+    engnr_dpt = models.IntegerField()  # 전공학과분포 (%): 공학계열
+    natrl_dpt = models.IntegerField()  # 전공학과분포 (%): 자연계열
+    medi_dpt = models.IntegerField()  # 전공학과분포 (%): 의학계열
+    artphy_dpt = models.IntegerField()  # 전공학과분포 (%): 예체능계열
+
+
+# class RelatedMajor(models.Model):
+#     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+
+
+# class RelatedMajor(models.Model):
+#     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+
+
+# class RelatedMajor(models.Model):
+#     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
