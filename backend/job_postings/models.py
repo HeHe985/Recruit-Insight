@@ -43,3 +43,93 @@ class JobPostingDetail(models.Model):
     recr_psncnt = models.IntegerField(blank=True, null=True)  # 모집인원수
     emp_recr_memo_cont = models.TextField(blank=True, null=True)  # 비고
     work_region_nm = models.CharField(max_length=100, blank=True, null=True)  # 근무지
+
+
+class JobList(models.Model):
+    # list
+    job_cd = models.CharField(max_length=100, primary_key=True)  # 직업분류코드
+    job_clcd = models.CharField(max_length=100)  # 직업분류명
+    job_clcd_nm = models.CharField(max_length=100)  # 직업코드
+    job_cm = models.CharField(max_length=100)  # 직업명
+    # 1
+    job_lrcl_nm = models.CharField(max_length=100)
+    job_mdcl_nm = models.CharField(max_length=100)
+    job_smcl_nm = models.CharField(max_length=100)
+    job_sum = models.TextField()
+    way = models.TextField()
+    sal = models.TextField()
+    job_satis = models.DecimalField()
+    job_prospect = models.TextField()
+    job_status = models.CharField(max_length=100)
+    job_abil = models.TextField()
+    knowldg = models.TextField()
+    job_env = models.TextField()
+    job_chr = models.TextField()
+    job_intrst = models.TextField()
+    job_vals = models.TextField()
+    job_actv_imprtncs = models.TextField()
+    job_actv_lvls = models.TextField()
+    # 2
+
+    # 3
+
+    # 4
+
+    # 5
+
+    # 6
+
+    # 7
+
+
+# class JobDetail(models.Model):
+#     jobCd: "K000001059"
+"""
+    # -----1--------
+    "relMajorList": [
+        {
+            "majorCd": "1",
+            "majorNm": "경영학과"
+        },
+        {
+            "majorCd": "7",
+            "majorNm": "세무·회계학과"
+        }
+    ],
+    "relCertList": [
+        {
+            "certNm": "ERP정보관리사[물류/생산/인사/회계](국가공인 민간)"
+        },
+        {
+            "certNm": "전산세무1급 전산세무2급 전산회계1급 전산회계2급"
+        }
+    ],
+    
+    "relJobList": [
+        {
+            "jobCd": "K000000919",
+            "jobNm": "마케팅·광고·홍보관리자"
+        },
+        {
+            "jobCd": "K000001081",
+            "jobNm": "정부행정관리자"
+        },
+        {
+            "jobCd": "K000001210",
+            "jobNm": "금융관리자"
+        },
+        {
+            "jobCd": "K000007471",
+            "jobNm": "보험관리자"
+    # -----2--------
+
+    # -----3--------
+
+    # -----4--------
+
+    # -----5--------
+
+    # -----6--------
+
+    # -----7--------
+"""

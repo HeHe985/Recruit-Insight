@@ -1,0 +1,42 @@
+{
+    "salProspect": {
+        "jobCd": "K000001059",
+        "jobLrclNm": "경영·사무·금융·보험직",
+        "jobMdclNm": "행정·경영·금융·보험 관리자",
+        "jobSmclNm": "경영지원관리자",
+        "sal": "조사년도:2023년, 임금 하위(25%) 6000만원, 평균(50%) 7650만원, 상위(25%) 10000만원",
+        "jobSatis": "73.2",
+        "jobProspect": "향후 5년간 행정 및 경영지원 관련 서비스 관리자의 고용은 현 상태를 유지할 것으로 전망된다. 행정 및 경영지원 인력은 일정 규모 이상의 기업에서 반드시 필요하다. 따라서 규모가 축소되더라도 인력의 구성은 기본적으로 운영된다. 다만, 인건비 절약 측면에서 인건비 부담이 되는 중간관리자의 인력을 최소화하려는 경향은 이들의 고용에 부정적인 영향을 미칠 수 있다.",
+        "jobSumProspect": [
+            {
+                "jobProspectNm": "증가",
+                "jobProspectRatio": "2",
+                "jobProspectInqYr": "2023"
+            },
+            {
+                "jobProspectNm": "다소 증가",
+                "jobProspectRatio": "11",
+                "jobProspectInqYr": "2023"
+            },
+            {
+                "jobProspectNm": "유지",
+                "jobProspectRatio": "41",
+                "jobProspectInqYr": "2023"
+            },
+            {
+                "jobProspectNm": "다소 감소",
+                "jobProspectRatio": "39",
+                "jobProspectInqYr": "2023"
+            },
+            {
+                "jobProspectNm": "감소",
+                "jobProspectRatio": "7",
+                "jobProspectInqYr": "2023"
+            }
+        ],
+        "jobStatus": {
+            "jobCd": "K000001059",
+            "jobNm": "경영지원관리자"
+        }
+    }
+}

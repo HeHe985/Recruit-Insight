@@ -1,0 +1,370 @@
+{
+    "chrIntrVals": {
+        "jobCd": "K000001059",
+        "jobLrclNm": "경영·사무·금융·보험직",
+        "jobMdclNm": "행정·경영·금융·보험 관리자",
+        "jobSmclNm": "경영지원관리자",
+        "jobChrCmpr": [
+            {
+                "jobChrStatusCmpr": "4.4",
+                "jobChrNmCmpr": "정직성",
+                "jobChrContCmpr": "솔직하고 도덕적이다"
+            },
+            {
+                "jobChrStatusCmpr": "4.3",
+                "jobChrNmCmpr": "신뢰성",
+                "jobChrContCmpr": "믿을 수 있고, 자신이 맡은 책무를 완수한다"
+            },
+            {
+                "jobChrStatusCmpr": "4.2",
+                "jobChrNmCmpr": "꼼꼼함",
+                "jobChrContCmpr": "사소한 부분까지도 주의 깊고 업무를 철저히 완수한다"
+            },
+            {
+                "jobChrStatusCmpr": "4.2",
+                "jobChrNmCmpr": "책임과 진취성",
+                "jobChrContCmpr": "책임을 기꺼이 받아들이고 도전하려 한다"
+            },
+            {
+                "jobChrStatusCmpr": "4.2",
+                "jobChrNmCmpr": "자기통제",
+                "jobChrContCmpr": "매우 어려운 상황에서도 공격적 행동을 보이지 않고 분노를 통제하며 심리적 평정을 유지한다"
+            },
+            {
+                "jobChrStatusCmpr": "4.2",
+                "jobChrNmCmpr": "스트레스 감내성",
+                "jobChrContCmpr": "비판을 받아들이고, 고도의 스트레스 상황에서도 효과적으로 대처한다"
+            },
+            {
+                "jobChrStatusCmpr": "4.2",
+                "jobChrNmCmpr": "리더십",
+                "jobChrContCmpr": "타인을 리드하고 다른 사람들에게 의견을 제시하거나 방향을 설정해준다"
+            },
+            {
+                "jobChrStatusCmpr": "4.2",
+                "jobChrNmCmpr": "협조",
+                "jobChrContCmpr": "다른 사람들과 즐거운 관계를 유지하며 협조적 태도를 보인다"
+            },
+            {
+                "jobChrStatusCmpr": "4.1",
+                "jobChrNmCmpr": "분석적 사고",
+                "jobChrContCmpr": "문제에 대한 답을 구하기 위해 정보를 분석하거나 논리를 사용한다"
+            },
+            {
+                "jobChrStatusCmpr": "4.0",
+                "jobChrNmCmpr": "인내",
+                "jobChrContCmpr": "장애가 있어도 포기하지 않고 계속 참고 견딘다"
+            },
+            {
+                "jobChrStatusCmpr": "4.0",
+                "jobChrNmCmpr": "사회성",
+                "jobChrContCmpr": "혼자 일하기 보다는 사람들과 일하는 것을 좋아하며 타인들과 개인적인 유대관계를 형성한다"
+            },
+            {
+                "jobChrStatusCmpr": "4.0",
+                "jobChrNmCmpr": "성취/노력",
+                "jobChrContCmpr": "도전적인 목표를 설정한 후에 이를 달성하기 위해 노력한다"
+            },
+            {
+                "jobChrStatusCmpr": "3.9",
+                "jobChrNmCmpr": "적응성/융통성",
+                "jobChrContCmpr": "변화와 가지각색의 다양성에 대하여 개방적이다"
+            },
+            {
+                "jobChrStatusCmpr": "3.6",
+                "jobChrNmCmpr": "타인에 대한 배려",
+                "jobChrContCmpr": "다른 사람들의 욕구나 느낌에 민감하며 타인을 이해하고 도와주려 한다"
+            },
+            {
+                "jobChrStatusCmpr": "3.6",
+                "jobChrNmCmpr": "독립성",
+                "jobChrContCmpr": "자신의 방식대로 일을 하는 방법을 개발하며 관리 감독이 없이도 스스로 일하는 방향을 설정하고 타인에게 의지하지 않는다"
+            },
+            {
+                "jobChrStatusCmpr": "3.5",
+                "jobChrNmCmpr": "혁신",
+                "jobChrContCmpr": "새로운 아이디어를 산출하거나 어떤 문제를 해결하기 위해 기발한 아이디어나 대안을 생각해낸다"
+            }
+        ],
+        "jobChr": [
+            {
+                "jobChrStatus": "78",
+                "jobChrNm": "정직성",
+                "jobChrCont": "솔직하고 도덕적이다"
+            },
+            {
+                "jobChrStatus": "77",
+                "jobChrNm": "리더십",
+                "jobChrCont": "타인을 리드하고 다른 사람들에게 의견을 제시하거나 방향을 설정해준다"
+            },
+            {
+                "jobChrStatus": "74",
+                "jobChrNm": "자기통제",
+                "jobChrCont": "매우 어려운 상황에서도 공격적 행동을 보이지 않고 분노를 통제하며 심리적 평정을 유지한다"
+            },
+            {
+                "jobChrStatus": "69",
+                "jobChrNm": "협조",
+                "jobChrCont": "다른 사람들과 즐거운 관계를 유지하며 협조적 태도를 보인다"
+            },
+            {
+                "jobChrStatus": "68",
+                "jobChrNm": "분석적 사고",
+                "jobChrCont": "문제에 대한 답을 구하기 위해 정보를 분석하거나 논리를 사용한다"
+            },
+            {
+                "jobChrStatus": "68",
+                "jobChrNm": "스트레스 감내성",
+                "jobChrCont": "비판을 받아들이고, 고도의 스트레스 상황에서도 효과적으로 대처한다"
+            },
+            {
+                "jobChrStatus": "67",
+                "jobChrNm": "신뢰성",
+                "jobChrCont": "믿을 수 있고, 자신이 맡은 책무를 완수한다"
+            },
+            {
+                "jobChrStatus": "66",
+                "jobChrNm": "사회성",
+                "jobChrCont": "혼자 일하기 보다는 사람들과 일하는 것을 좋아하며 타인들과 개인적인 유대관계를 형성한다"
+            },
+            {
+                "jobChrStatus": "63",
+                "jobChrNm": "혁신",
+                "jobChrCont": "새로운 아이디어를 산출하거나 어떤 문제를 해결하기 위해 기발한 아이디어나 대안을 생각해낸다"
+            },
+            {
+                "jobChrStatus": "63",
+                "jobChrNm": "적응성/융통성",
+                "jobChrCont": "변화와 가지각색의 다양성에 대하여 개방적이다"
+            },
+            {
+                "jobChrStatus": "62",
+                "jobChrNm": "독립성",
+                "jobChrCont": "자신의 방식대로 일을 하는 방법을 개발하며 관리 감독이 없이도 스스로 일하는 방향을 설정하고 타인에게 의지하지 않는다"
+            },
+            {
+                "jobChrStatus": "61",
+                "jobChrNm": "책임과 진취성",
+                "jobChrCont": "책임을 기꺼이 받아들이고 도전하려 한다"
+            },
+            {
+                "jobChrStatus": "60",
+                "jobChrNm": "인내",
+                "jobChrCont": "장애가 있어도 포기하지 않고 계속 참고 견딘다"
+            },
+            {
+                "jobChrStatus": "56",
+                "jobChrNm": "꼼꼼함",
+                "jobChrCont": "사소한 부분까지도 주의 깊고 업무를 철저히 완수한다"
+            },
+            {
+                "jobChrStatus": "56",
+                "jobChrNm": "성취/노력",
+                "jobChrCont": "도전적인 목표를 설정한 후에 이를 달성하기 위해 노력한다"
+            },
+            {
+                "jobChrStatus": "50",
+                "jobChrNm": "타인에 대한 배려",
+                "jobChrCont": "다른 사람들의 욕구나 느낌에 민감하며 타인을 이해하고 도와주려 한다"
+            }
+        ],
+        "jobIntrstCmpr": [
+            {
+                "intrstStatusCmpr": "3.9",
+                "intrstNmCmpr": "진취형(Enterprising)",
+                "intrstContCmpr": "조직적인 목표나 경제적인 이익을 얻기 위한 다른 사람과의 상호작용 활동을 선호하고, 관찰적이고, 상징적이며, 체계적인 활동을 싫어하는 경향이 있다. 이러한 경향성은 리더십, 대인관계 능력 및 설득적인 능력을 획득하게 하는 반면에 과학적인 능력에서 결함을 보여준다."
+            },
+            {
+                "intrstStatusCmpr": "3.7",
+                "intrstNmCmpr": "사회형(Social)",
+                "intrstContCmpr": "다른 사람들을 훈련시키고, 발달시키고, 치료해주기 위한 활동들을 선호하고, 자료나 도구 혹은 기계를 포함하는 명확하고 체계적인 활동을 싫어하는 경향이 있다. 이러한 경향성은 사회적 및 교육적 능력에서의 능력을 획득하게 하는 반면에 조작, 기계, 농경, 전기 및 기술적인 능력들에서는 결함을 보여준다"
+            },
+            {
+                "intrstStatusCmpr": "3.5",
+                "intrstNmCmpr": "현실형(Realistic)",
+                "intrstContCmpr": "사물, 도구, 기계 및 동물들에 대한 명확하고 질서정연하며 체계적인 조작을 필요로 하는 활동들을 선호하고, 교육적이거나 치료적 활동을 싫어하는 경향이 있다. 이러한 경향성은 조작, 기계, 농경, 전기 및 기술적인 능력들을 획득하게 하는 반면에 사회적 능력 및 교육적 능력에서는 결함을 보여주게 된다."
+            },
+            {
+                "intrstStatusCmpr": "3.5",
+                "intrstNmCmpr": "관습형(Conventional)",
+                "intrstContCmpr": "자료에 대한 명확하고, 질서정연하며 체계적인 조작을 필요로 하는 활동들을 선호하고, 모호하고, 자유스러우며, 탐색적이고, 체계적이지 않은 활동들을 싫어하는 경향이 있다. 이러한 경향성은 사무적이고 계산적인 능력을 획득하게 하는 반면에 예술적인 능력에서는 결함을보여준다."
+            },
+            {
+                "intrstStatusCmpr": "3.1",
+                "intrstNmCmpr": "탐구형(Investigative)",
+                "intrstContCmpr": "물리적, 생물학적 혹은 문화적 현상들에 대해 호기심을 가지고 관찰하는 것을 즐기며, 상징적이고 체계적이고 창조적인 활동을 요하는 조사나 연구 활동을 선호하고 설득적이고 사회적이며 반복적인 활동을 혐오하게 한다. 이러한 행동경향성은 과학적이고 수학적인 능력을 갖게 하는 반면에 설득적 능력에서는 결함이 나타난다."
+            },
+            {
+                "intrstStatusCmpr": "2.1",
+                "intrstNmCmpr": "예술형(Artistic)",
+                "intrstContCmpr": "예술적 형태를 창조해내는 신체적, 언어적 활동이나 자유스러우며 체계화되지 않은 활동들을 선호하고 분명하고 체계적이고 질서정연한 활동들을 싫어하는 경향이 있다. 이러한 행동경향성은 예술적인 능력을 획득하게 하는 반면에 사무적인 능력의 결함을 보여준다."
+            }
+        ],
+        "jobIntrst": [
+            {
+                "intrstStatus": "86",
+                "intrstNm": "진취형(Enterprising)",
+                "intrstCont": "조직적인 목표나 경제적인 이익을 얻기 위한 다른 사람과의 상호작용 활동을 선호하고, 관찰적이고, 상징적이며, 체계적인 활동을 싫어하는 경향이 있다. 이러한 경향성은 리더십, 대인관계 능력 및 설득적인 능력을 획득하게 하는 반면에 과학적인 능력에서 결함을 보여준다."
+            },
+            {
+                "intrstStatus": "63",
+                "intrstNm": "사회형(Social)",
+                "intrstCont": "다른 사람들을 훈련시키고, 발달시키고, 치료해주기 위한 활동들을 선호하고, 자료나 도구 혹은 기계를 포함하는 명확하고 체계적인 활동을 싫어하는 경향이 있다. 이러한 경향성은 사회적 및 교육적 능력에서의 능력을 획득하게 하는 반면에 조작, 기계, 농경, 전기 및 기술적인 능력들에서는 결함을 보여준다"
+            },
+            {
+                "intrstStatus": "45",
+                "intrstNm": "현실형(Realistic)",
+                "intrstCont": "사물, 도구, 기계 및 동물들에 대한 명확하고 질서정연하며 체계적인 조작을 필요로 하는 활동들을 선호하고, 교육적이거나 치료적 활동을 싫어하는 경향이 있다. 이러한 경향성은 조작, 기계, 농경, 전기 및 기술적인 능력들을 획득하게 하는 반면에 사회적 능력 및 교육적 능력에서는 결함을 보여주게 된다."
+            },
+            {
+                "intrstStatus": "45",
+                "intrstNm": "관습형(Conventional)",
+                "intrstCont": "자료에 대한 명확하고, 질서정연하며 체계적인 조작을 필요로 하는 활동들을 선호하고, 모호하고, 자유스러우며, 탐색적이고, 체계적이지 않은 활동들을 싫어하는 경향이 있다. 이러한 경향성은 사무적이고 계산적인 능력을 획득하게 하는 반면에 예술적인 능력에서는 결함을보여준다."
+            },
+            {
+                "intrstStatus": "14",
+                "intrstNm": "탐구형(Investigative)",
+                "intrstCont": "물리적, 생물학적 혹은 문화적 현상들에 대해 호기심을 가지고 관찰하는 것을 즐기며, 상징적이고 체계적이고 창조적인 활동을 요하는 조사나 연구 활동을 선호하고 설득적이고 사회적이며 반복적인 활동을 혐오하게 한다. 이러한 행동경향성은 과학적이고 수학적인 능력을 갖게 하는 반면에 설득적 능력에서는 결함이 나타난다."
+            },
+            {
+                "intrstStatus": "0",
+                "intrstNm": "예술형(Artistic)",
+                "intrstCont": "예술적 형태를 창조해내는 신체적, 언어적 활동이나 자유스러우며 체계화되지 않은 활동들을 선호하고 분명하고 체계적이고 질서정연한 활동들을 싫어하는 경향이 있다. 이러한 행동경향성은 예술적인 능력을 획득하게 하는 반면에 사무적인 능력의 결함을 보여준다."
+            }
+        ],
+        "jobValsCmpr": [
+            {
+                "valsStatusCmpr": "4.0",
+                "valsNmCmpr": "인정",
+                "valsContCmpr": "타인에게 인정받을 수 있다."
+            },
+            {
+                "valsStatusCmpr": "3.9",
+                "valsNmCmpr": "지적 추구",
+                "valsContCmpr": "새로운 지식을 얻을 수 있다."
+            },
+            {
+                "valsStatusCmpr": "3.8",
+                "valsNmCmpr": "성취",
+                "valsContCmpr": "자신이 스스로 목표를 세우고 달성할 수 있다."
+            },
+            {
+                "valsStatusCmpr": "3.8",
+                "valsNmCmpr": "자율",
+                "valsContCmpr": "자율적으로 업무를 해나갈 수 있다."
+            },
+            {
+                "valsStatusCmpr": "3.6",
+                "valsNmCmpr": "고용안정",
+                "valsContCmpr": "고용이 안정되어 있어서 정년까지 일할 수 있다."
+            },
+            {
+                "valsStatusCmpr": "3.6",
+                "valsNmCmpr": "신체활동",
+                "valsContCmpr": "업무시 신체활동을 많이 하지 않아도 된다."
+            },
+            {
+                "valsStatusCmpr": "3.5",
+                "valsNmCmpr": "경제적 보상",
+                "valsContCmpr": "금전적 보상이 충분하다."
+            },
+            {
+                "valsStatusCmpr": "3.5",
+                "valsNmCmpr": "이타",
+                "valsContCmpr": "남을 위해 봉사할 수 있다."
+            },
+            {
+                "valsStatusCmpr": "3.3",
+                "valsNmCmpr": "타인에 대한 영향",
+                "valsContCmpr": "타인에 대해 영향력을 발휘할 수 있다."
+            },
+            {
+                "valsStatusCmpr": "3.2",
+                "valsNmCmpr": "애국",
+                "valsContCmpr": "국가를 위해 도움이 될 수 있다."
+            },
+            {
+                "valsStatusCmpr": "3.0",
+                "valsNmCmpr": "개인지향",
+                "valsContCmpr": "여러 사람과 어울려 일하기보다는 혼자 일할 수 있다."
+            },
+            {
+                "valsStatusCmpr": "2.9",
+                "valsNmCmpr": "심신의 안녕",
+                "valsContCmpr": "심신의 여유를 가질 수 있다."
+            },
+            {
+                "valsStatusCmpr": "2.8",
+                "valsNmCmpr": "다양성",
+                "valsContCmpr": "업무가 정형화되지 않고 변화가 많다."
+            }
+        ],
+        "jobVals": [
+            {
+                "valsStatus": "89",
+                "valsNm": "타인에 대한 영향",
+                "valsCont": "타인에 대해 영향력을 발휘할 수 있다."
+            },
+            {
+                "valsStatus": "87",
+                "valsNm": "자율",
+                "valsCont": "자율적으로 업무를 해나갈 수 있다."
+            },
+            {
+                "valsStatus": "87",
+                "valsNm": "인정",
+                "valsCont": "타인에게 인정받을 수 있다."
+            },
+            {
+                "valsStatus": "83",
+                "valsNm": "신체활동",
+                "valsCont": "업무시 신체활동을 많이 하지 않아도 된다."
+            },
+            {
+                "valsStatus": "77",
+                "valsNm": "경제적 보상",
+                "valsCont": "금전적 보상이 충분하다."
+            },
+            {
+                "valsStatus": "69",
+                "valsNm": "고용안정",
+                "valsCont": "고용이 안정되어 있어서 정년까지 일할 수 있다."
+            },
+            {
+                "valsStatus": "67",
+                "valsNm": "성취",
+                "valsCont": "자신이 스스로 목표를 세우고 달성할 수 있다."
+            },
+            {
+                "valsStatus": "53",
+                "valsNm": "이타",
+                "valsCont": "남을 위해 봉사할 수 있다."
+            },
+            {
+                "valsStatus": "51",
+                "valsNm": "지적 추구",
+                "valsCont": "새로운 지식을 얻을 수 있다."
+            },
+            {
+                "valsStatus": "51",
+                "valsNm": "애국",
+                "valsCont": "국가를 위해 도움이 될 수 있다."
+            },
+            {
+                "valsStatus": "38",
+                "valsNm": "심신의 안녕",
+                "valsCont": "심신의 여유를 가질 수 있다."
+            },
+            {
+                "valsStatus": "28",
+                "valsNm": "개인지향",
+                "valsCont": "여러 사람과 어울려 일하기보다는 혼자 일할 수 있다."
+            },
+            {
+                "valsStatus": "12",
+                "valsNm": "다양성",
+                "valsCont": "업무가 정형화되지 않고 변화가 많다."
+            }
+        ]
+    }
+}

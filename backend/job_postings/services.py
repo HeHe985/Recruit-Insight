@@ -1,19 +1,15 @@
+import json
 import os
-import sys
-from pathlib import Path
 
-import django
+# BASE_DIR = Path(__file__).resolve().parent.parent  # backend
+# sys.path.append(str(BASE_DIR))
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruit_insight.settings")
+# django.setup()
 import requests
 import xmltodict
 
 from job_postings.models import JobPostingDetail, JobPostingList, OccupationType
 
-
-BASE_DIR = Path(__file__).resolve().parent.parent  # backend
-sys.path.append(str(BASE_DIR))
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruit_insight.settings")
-django.setup()
 
 WORK24_API_KEY = os.getenv("WORK24_API_KEY")
 URL = "https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do"
@@ -218,5 +214,51 @@ def build_recruitment_process(raw_data):
     return " - ".join(recruitment_process)
 
 
-save_job_posting_list()
-save_job_posting_detail()
+# save_job_posting_list()
+# save_job_posting_detail()
+
+WORK24_JOB_API_KEY = os.getenv("WORK24_JOB_API_KEY")
+JOB_URL = "https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo212L01.do"
+
+
+def call_api_job_list():
+    params = {"authKey": WORK24_JOB_API_KEY, "returnType": "XML", "target": "JOBCD"}
+
+    res = requests.get(JOB_URL, params=params)
+    xml_text = res.text
+
+    data = xmltodict.parse(xml_text)
+    # json_data = json.dumps(data, ensure_ascii=False, indent=2)
+    # print(json_data)
+    with open("job_list.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+    # return data
+
+
+def call_api_job_detail(job_cd, dtl_gb):
+    params = {
+        "authKey": WORK24_JOB_API_KEY,
+        "returnType": "XML",
+        "target": "JOBDTL",
+        "jobGb": "1",
+        "jobCd": job_cd,
+        "dtlGb": dtl_gb,
+    }
+
+    res = requests.get(JOB_URL, params=params)
+    xml_text = res.text
+
+    data = xmltodict.parse(xml_text)
+    # json_data = json.dumps(data, ensure_ascii=False, indent=4)
+    # print(json_data)
+    with open(f"job_detail{dtl_gb}.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+    # return data
+
+
+# call_api_job_list()
+# call_api_job_detail("K000001059", 1)
+
+for i in "1234567":
+    call_api_job_detail("K000001059", i)
+    print("------------------------")
