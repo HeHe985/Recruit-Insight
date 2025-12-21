@@ -191,32 +191,11 @@ class JobValuesComparison(models.Model):
 
 
 # 7
-class WithinJobActivityComparison(models.Model):
+class JobActivityComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    job_actv_imprtnc_status_cmpr = models.DecimalField()  # 업무활동 중요도: 중요도(5점 만점)
-    job_actv_imprtnc_nm_cmpr = models.TextField()  # 업무활동 중요도: 업무활동명
-    job_actv_imprtnc_cont_cmpr = models.TextField()  # 업무활동 중요도: 설명
-
-
-# 7
-class AcrossJobActivityComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    job_actv_imprtnc_status = models.DecimalField()  # 업무활동 중요도: 중요도(0:낮음 ~ 100:높음)
+    within_job_actv_imprtnc_status_cmpr = models.DecimalField()  # 업무활동 중요도: 중요도(5점 만점)
+    across_job_actv_imprtnc_status = models.DecimalField()  # 업무활동 중요도: 중요도(0:낮음 ~ 100:높음)
+    within_job_actv_lvl_status_cmpr = models.DecimalField()  # 업무활동 수준: 수준(7점 만점)
+    across_job_actv_imprtnc_status = models.DecimalField()  # 	업무활동 수준: 수준(0:낮음 ~ 100:높음)
     job_actv_imprtnc_nm = models.TextField()  # 업무활동 중요도: 업무활동명
     job_actv_imprtnc_cont = models.TextField()  # 업무활동 중요도: 설명
-
-
-# 7
-class WithinJobActivityLevelComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    job_actv_lvl_status_cmpr = models.DecimalField()  # 업무활동 수준: 수준(7점 만점)
-    job_actv_lvl_nm_cmpr = models.TextField()  # 업무활동 수준: 업무활동명
-    job_actv_lvl_cont_cmpr = models.TextField()  # 업무활동 수준: 설명
-
-
-# 7
-class AcrossJobActivityLevelComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    job_actv_imprtnc_status = models.DecimalField()  # 	업무활동 수준: 수준(0:낮음 ~ 100:높음)
-    job_actv_imprtnc_nm = models.TextField()  # 업무활동 수준: 업무활동명
-    job_actv_imprtnc_cont = models.TextField()  # 업무활동 수준: 설명
