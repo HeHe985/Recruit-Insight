@@ -133,7 +133,7 @@ class JobProspect(models.Model):
 
 
 # 5
-class WithinJobAbilityComparison(models.Model):
+class JobAbilityComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
     within_job_abl_status_cmpr = models.DecimalField()  # 업무수행능력 중요도: 중요도(5점 만점)
     acoss_job_abl_status = models.DecimalField()  # 업무수행능력 중요도: 중요도(0:낮음 ~ 100:높음)
@@ -144,35 +144,14 @@ class WithinJobAbilityComparison(models.Model):
 
 
 # 5
-class WithinKnowledgeComparison(models.Model):
+class KnowledgeComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    knwldg_status_cmpr = models.DecimalField()  # 지식중요도: 중요도(5점 만점)
+    within_knwldg_status_cmpr = models.DecimalField()  # 지식중요도: 중요도(5점 만점)
+    across_knwldg_status = models.DecimalField()  # 지식중요도: 중요도(0:낮음 ~ 100:높음)
+    within_knwldg_lvl_status_cmpr = models.DecimalField()  # 지식수준: 중요도(7점 만점)
+    across_knwldg_lvl_status = models.DecimalField()  # 지식수준: 중요도(0:낮음 ~ 100:높음)
     knwldg_nm_cmpr = models.TextField()  # 지식중요도: 업무수행능력
     knwldg_cont_cmpr = models.TextField()  # 지식중요도: 설명
-
-
-# 5
-class AcrossKnowledgeComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    knwldg_status = models.DecimalField()  # 지식중요도: 중요도(0:낮음 ~ 100:높음)
-    knwldg_nm = models.TextField()  # 지식중요도: 업무수행능력
-    knwldg_cont = models.TextField()  # 지식중요도: 설명
-
-
-# 5
-class WithinKnowledgeLevelComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    knwldg_lvl_status_cmpr = models.DecimalField()  # 지식수준: 중요도(7점 만점)
-    knwldg_lvl_nm_cmpr = models.TextField()  # 지식수준: 업무수행능력
-    knwldg_lvl_cont_cmpr = models.TextField()  # 지식수준: 설명
-
-
-# 5
-class AcrossKnowledgeLevelComparison(models.Model):
-    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
-    knwldg_lvl_status = models.DecimalField()  # 지식수준: 중요도(0:낮음 ~ 100:높음)
-    knwldg_lvl_nm = models.TextField()  # 지식수준: 업무수행능력
-    knwldg_lvl_cont = models.TextField()  # 지식수준: 설명
 
 
 # 5
