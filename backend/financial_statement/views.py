@@ -25,6 +25,20 @@ DART_API_KEY = os.getenv('DART_API_KEY')
 def index(request):
     return render(request, 'financial_statement/index.html')
 
+def sj(request):
+    """
+    SjDiv 채우는 함수
+    SjDiv : 재무제표 구분
+    """
+    models.SjDiv.objects.create(sj_div='BS', sj_nm='재무상태표')
+    models.SjDiv.objects.create(sj_div='IS', sj_nm='손익계산서')
+    models.SjDiv.objects.create(sj_div='CIS', sj_nm='포괄손익계산서')
+    models.SjDiv.objects.create(sj_div='CF', sj_nm='현금흐름표')
+    models.SjDiv.objects.create(sj_div='SCE', sj_nm='자본변동표')
+    
+    return redirect("financial_statement:index")
+
+
 
 # 나중에 로그인 제한 추가하기
 def get_corp_code(request):
@@ -242,6 +256,15 @@ def get_data(request):
     print("DB저장====================================")
     obj_list = []
 
+    # 외래키 저장을 위한 변수 및 딕셔너리 생성
+    sj_dict = {
+        'BS' : models.SjDiv.objects.get(sj_div='BS'),
+        'IS' : models.SjDiv.objects.get(sj_div='IS'),
+        'CIS' : models.SjDiv.objects.get(sj_div='CIS'),
+        'CF' : models.SjDiv.objects.get(sj_div='CF'),
+        'SCE' : models.SjDiv.objects.get(sj_div='SCE'),
+    }
+
     # 재무 비율 계산 위한 딕셔너리
     fin_dict = {
         'bsns_year': data['list'][0].get('bsns_year'),
@@ -255,7 +278,7 @@ def get_data(request):
         account_id = item.get('account_id')
         account_nm = item.get('account_nm')
         account_detail = item.get('account_detail')
-        sj_div = item.get('sj_div')
+        sj_div = sj_dict.get(item.get('sj_div'))  # 딕셔너리에서 같은 값으로 찾아서 객체 저장
         currency = item.get('currency')
         reprt_code = item.get('reprt_code')
         fin_dict.setdefault
@@ -346,11 +369,11 @@ def get_data(request):
         회사 전체 재산 중 빚 제외한 남은 돈이 얼마나 되는지
     """
     capital_adequacy_ratio = fin_dict['ifrs-full_Equity'] / fin_dict['ifrs-full_Assets']
-    print(capital_adequacy_ratio, 'capital')
+    # print(capital_adequacy_ratio, 'capital')
 
     # 유동성(15)
     # 유동비율 (current ratio) - 15
-    
+    current_ration = fin_dict['ifrs-full_CurrentLiabilities'] / fin_dict['ifrs-full_Equity']
     """
         유동부채 / 자본
         일반적으로 100% 이하라면 단기지급능력 부족함
@@ -361,20 +384,27 @@ def get_data(request):
 
     # 수익성(10)
     # 총자본영업이익률(ROA, Return on Assets)
+    ROA = fin_dict['dart_OperatingIncomeLoss'] / fin_dict['ifrs-full_Assets']
+    # 당기순이익 버전
+    # ROA = fin_dict['ifrs-full_ProfitLoss'] / fin_dict['ifrs-full_Assets']
     """
         영업이익 / 총자산(평균잔액)
         총자본 = 주주자본(자본) + 타인자본(부채)
         return은 영업이익 / 당기순이익 둘 다 될 수 있으나
         별도의 정의가 되어 있지 않다면 영업이익으로 간주해도 됨
     """
+
     # 자기자본순이익률(ROE, Return On Equity)
+    ROE = fin_dict['dart_OperatingIncomeLoss'] / fin_dict['ifrs-full_Equity']
     """
         (당기)순이익 / 자기자본(평균잔액)
         자기자본순이익률 > 주주의 요구수익률 -> 기업가치 성장
         자기자본순이익률 < 주주의 요구수익률 -> 기업의 가치 감소
         => 기업이 조달한 자기자본의 가치를 유지하기 위해 필요한 수익률 의미
     """
+
     # 총자본수익률 (ROI, Return on Investment)
+    ROI = fin_dict['dart_OperatingIncomeLoss'] / fin_dict['ifrs-full_Assets']
     """
         당기순이익 / 총자본(평균잔액)
         주주와 채권자가 투자한 자본에 대해 벌어들이는 수익성
@@ -382,18 +412,25 @@ def get_data(request):
     """
     
     # 매출액영업이익률 (Sales operating profit margin)
+    sales_operating_profit_margin = fin_dict['dart_OperatingIncomeLoss'] / fin_dict['ifrs-full_Revenue']
     """
         영업이익 / 매출액
     """
+
+
     # 활동성(5)
     # 총자산회전율 (Total Assets Turnover)
+    total_assets_turnover = fin_dict['ifrs-full_Revenue'] / fin_dict['ifrs-full_Assets']
     """
         매출액 / 총자산
         총자산 = 총자본 (크기 동일)
         기업이 보유하고 있는 총자산들을 얼마나 효과적으로 활용하고 있는지 측정
         기업의 총자산이 1년에 몇 번 회전했는가 의미
     """
+
     # 매출채권회전율 (Receivables Turnover)
+    receivables_turnover = fin_dict['ifrs-full_Revenue'] / fin_dict['ifrs-full_CurrentTradeReceivables']
+    # 매출채권 없는 곳도 있기 때문에, 예외처리 꼭 하기
     """
         매출액 / 매출채권
         매출채권회전율이 높다 -> 매출채권 관리가 잘 되고 있음
@@ -402,6 +439,8 @@ def get_data(request):
         매출채권 : (실무적으로) 한 달에도 몇 번씩 거래하는 기업에서는 거래할 때마다 돈이 이동하는 것이 아니고
             채권(돈을 받을 권리)로 기록했다가, 서로 약속한 특정한 날에 돈이 이동함
     """
+    
+    
     # 성장성(5)
     # 총자본증가율 (total capital growth rate)
     """
