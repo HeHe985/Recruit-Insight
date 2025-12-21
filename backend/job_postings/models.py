@@ -197,15 +197,21 @@ class AcrossKnowledgeLevelComparison(models.Model):
 
 
 # 5
-class WithinJobsEnvironmentComparison(models.Model):
+class WithinJobEnvironmentComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
     job_env_status_cmpr = models.DecimalField()  # 업무환경: 중요도(5점 만점)
     job_env_nm_cmpr = models.TextField()  # 업무환경: 업무수행능력
     job_env_cont_cmpr = models.TextField()  # 업무환경: 설명
 
 
-# class RelatedMajor(models.Model):
-#     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+# 5
+class AcrossJobEnvironmentComparison(models.Model):
+    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    job_env_status = models.DecimalField()  # 업무환경: 중요도(0:낮음 ~ 100:높음)
+    job_env_nm = models.TextField()  # 업무환경: 업무수행능력
+    job_env_cont = models.TextField()  # 업무환경: 설명
+
+
 # class RelatedMajor(models.Model):
 #     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
 # class RelatedMajor(models.Model):
