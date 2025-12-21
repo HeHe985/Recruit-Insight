@@ -133,12 +133,30 @@ class JobProspect(models.Model):
 
 
 # 5
-class WithInJobAbilityComparison(models.Model):
+class WithinJobAbilityComparison(models.Model):
     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
     job_abl_status_cmpr = models.DecimalField()  # 업무수행능력 중요도: 중요도(5점 만점)
     job_abl_nm_cmpr = models.TextField()  # 업무수행능력 중요도: 업무수행능력
     job_abl_cont_cmpr = models.TextField()  # 업무수행능력 중요도: 설명
 
 
+# 5
+class AcrossJobAbilityComparison(models.Model):
+    job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+    job_abl_status = models.DecimalField()  # 업무수행능력 중요도: 중요도(0:낮음 ~ 100:높음)
+    job_abl_nm = models.TextField()  # 업무수행능력 중요도: 업무수행능력
+    job_abl_cont = models.TextField()  # 업무수행능력 중요도 : 설명
+
+
+# class RelatedMajor(models.Model):
+#     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+# class RelatedMajor(models.Model):
+#     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+# class RelatedMajor(models.Model):
+#     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+# class RelatedMajor(models.Model):
+#     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
+# class RelatedMajor(models.Model):
+#     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
 # class RelatedMajor(models.Model):
 #     job_cd = models.ForeignKey(JobList, on_delete=models.CASCADE)
