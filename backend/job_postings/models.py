@@ -59,16 +59,7 @@ class Job(models.Model):
     way = models.TextField(blank=True, null=True)  # 되는길
     sal = models.TextField(blank=True, null=True)  # 임금
     job_satis = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)  # 직업만족도(%)
-    job_prospect = models.TextField(blank=True, null=True)  # 일자리전망
     job_status = models.CharField(max_length=100, blank=True, null=True)  # 일자리현황
-    job_abil = models.TextField(blank=True, null=True)  # 업무수행능력
-    knowldg = models.TextField(blank=True, null=True)  # 지식
-    job_env = models.TextField(blank=True, null=True)  # 업무환경
-    job_chr = models.TextField(blank=True, null=True)  # 성격
-    job_intrst = models.TextField(blank=True, null=True)  # 흥미
-    job_vals = models.TextField(blank=True, null=True)  # 직업가치관
-    job_actv_imprtncs = models.TextField(blank=True, null=True)  # 업무활동 중요도
-    job_actv_lvls = models.TextField(blank=True, null=True)  # 업무활동 수준
     # 2
     exec_job = models.TextField(blank=True, null=True)  # 수행직무
     # 3
@@ -89,13 +80,13 @@ class RelatedMajor(models.Model):
 # 1
 class RelatedCertification(models.Model):
     job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
-    cert_nm = models.TextField()  # 관련자격증명
+    cert_nm = models.TextField(blank=True, null=True)  # 관련자격증명
 
 
 # 1
 class RelatedJob(models.Model):
     job_cd = models.ForeignKey(Job, on_delete=models.CASCADE)
-    rel_job_cd = models.CharField(max_length=100, primary_key=True)  # 관련직업코드
+    rel_job_cd = models.CharField(max_length=100)  # 관련직업코드
 
 
 # 3

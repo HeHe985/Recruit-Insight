@@ -3,7 +3,6 @@ import os
 
 # import sys
 # from pathlib import Path
-# import django
 # BASE_DIR = Path(__file__).resolve().parent.parent  # backend
 # sys.path.append(str(BASE_DIR))
 # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "recruit_insight.settings")
@@ -11,7 +10,15 @@ import os
 import requests
 import xmltodict
 
-from job_postings.models import Job, JobPostingDetail, JobPostingList, OccupationType
+from job_postings.models import (
+    Job,
+    JobPostingDetail,
+    JobPostingList,
+    OccupationType,
+    RelatedCertification,
+    RelatedJob,
+    RelatedMajor,
+)
 
 
 WORK24_API_KEY = os.getenv("WORK24_API_KEY")
@@ -252,11 +259,11 @@ def call_api_job_detail(job_cd, dtl_gb):
     xml_text = res.text
 
     data = xmltodict.parse(xml_text)
-    json_data = json.dumps(data, ensure_ascii=False, indent=4)
-    print(json_data)
+    # json_data = json.dumps(data, ensure_ascii=False, indent=4)
+    # print(json_data)
     # with open(f"job_detail{dtl_gb}.json", "w", encoding="utf-8") as f:
     #     json.dump(data, f, ensure_ascii=False, indent=4)
-    # return data
+    return data
 
 
 def save_job_list():
@@ -279,7 +286,79 @@ def save_job_list():
     print(f"신규 저장 {saved}건 / 전체 {len(posts)}건 처리")
 
 
+def save_job_detail_summary():
+    posts = Job.objects.all()
+    saved = 0
+
+    for post in posts:
+        jobcd = post.job_cd
+        res = call_api_job_detail(jobcd, 1)
+        res_data = res.get("jobSum")
+        if not res_data:
+            continue
+        # post = JobPostingList.objects.get(pk=empseqno)
+
+        # Job 테이블 업데이트
+        post.job_lrcl_nm = res_data["jobLrclNm"]
+        post.job_mdcl_nm = res_data["jobMdclNm"]
+        post.job_smcl_nm = res_data["jobSmclNm"]
+        post.job_sum = res_data["jobSum"]
+        post.way = res_data["way"]
+        # 전처리후 필드 분리 필요: sal
+        post.sal = res_data["sal"]
+        post.job_satis = float(res_data["jobSatis"])
+        post.job_status = res_data["jobStatus"]
+
+        post.save()
+
+    # RelatedMajor 테이블 저장
+    # "K000001059"
+    with open("job_detail1.json", encoding="utf-8") as f:
+        res = json.load(f)
+    res_data = res.get("jobSum")
+    majors = res_data.get("relMajorList")
+    # jobs = jobs if isinstance(jobs, list) else [jobs]
+    jobcd = "K000001059"
+    post = Job.objects.get(pk=jobcd)
+    for major in majors:
+        obj, created = RelatedMajor.objects.update_or_create(
+            job_cd=post,
+            major_cd=major.get("majorCd"),
+            defaults={
+                "major_nm": major.get("majorNm"),
+            },
+        )
+        if created:
+            saved += 1
+
+    certifications = res_data.get("relCertList")
+    for certification in certifications:
+        if not certification:
+            continue
+        # RelatedCertification 테이블 저장
+        obj, created = RelatedCertification.objects.update_or_create(
+            job_cd=post,
+            cert_nm=certification.get("certNm"),
+        )
+        if created:
+            saved += 1
+    jobs = res_data.get("relJobList")
+    if isinstance(jobs, dict):
+        jobs = [jobs]
+    for job in jobs:
+        if not job:
+            continue
+        # RelatedJob 테이블 저장
+        obj, created = RelatedJob.objects.update_or_create(
+            job_cd=post,
+            rel_job_cd=job.get("jobCd"),
+        )
+        if created:
+            saved += 1
+
+
 # save_job_list()
+save_job_detail_summary()
 # call_api_job_detail("K000000969", 3)
 
 # for i in "1234567":
