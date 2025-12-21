@@ -1,7 +1,7 @@
 import json
 import os
 
-# import sys
+# import sys, django
 # from pathlib import Path
 # BASE_DIR = Path(__file__).resolve().parent.parent  # backend
 # sys.path.append(str(BASE_DIR))
@@ -357,8 +357,28 @@ def save_job_detail_summary():
             saved += 1
 
 
+def save_job_detail_jobs_do():
+    # posts = Job.objects.all()
+    # for post in posts:
+    # 전체 순회로 바꿔야 함
+    # post.job_cd
+    jobcd = "K000001059"
+    post = Job.objects.get(pk=jobcd)
+    with open("job_detail2.json", encoding="utf-8") as f:
+        res = json.load(f)
+    # res = call_api_job_detail(jobcd, 2)
+    res_data = res.get("jobsDo")
+    # if not res_data:
+    #     continue
+
+    # Job 테이블 업데이트
+    post.exec_job = res_data["execJob"]
+    post.save()
+
+
+save_job_detail_jobs_do()
 # save_job_list()
-save_job_detail_summary()
+# save_job_detail_summary()
 # call_api_job_detail("K000000969", 3)
 
 # for i in "1234567":
