@@ -268,8 +268,9 @@ def get_data(request):
     # 재무 비율 계산 위한 딕셔너리
     fin_dict = {
         'bsns_year': data['list'][0].get('bsns_year'),
-        'corp_code': corp_code,
+        'corp_code': corp,  # 객체
         'reprt_code' : data['list'][0].get('reprt_code'),
+        'thstrm_nm' : data['list'][0].get('thstrm_nm')
         # 위의 코드들은 모든 행이 동일하니까 제일 앞에 있는 데이터 이용
     }
     for item in data['list']:
@@ -351,18 +352,8 @@ def get_data(request):
 
 
     # 재무비율 계산----------------------------------------------------------------------------------------
-    # 현재 데이터 프레임은 세로로 긴 형태 -> 가로로 넓은 형태로 바꾸기
-    # pivot 이용
-    # index : 기준이 되는 컬럼(회사, 연도 등)
-    # columns : 열로 올리고 싶은 컬럼(account_id 등)
-    # values : 그 칸에 채울 값(금액)
-    # df_wide = dart_data.pivot(index=['corp_code'], columns='account_id', values='thstrm_amount')
-    # print(df_wide)
-
-    
-    # 자본 구성(15)
+    # 자본 구성(15) (CapitalStructure)
     # 자기자본 비율 (capital adequacy ratio)
-    # capital_adequacy_ratio = dart_data['account_id']
     """
         자기자본 / 총자산 * 100
         기업의 재무 상태가 얼마나 안전하고 튼튼한지 나타냄
@@ -370,8 +361,19 @@ def get_data(request):
     """
     capital_adequacy_ratio = fin_dict['ifrs-full_Equity'] / fin_dict['ifrs-full_Assets']
     # print(capital_adequacy_ratio, 'capital')
+    models.FinancialRatio.objects.create(
+        bsns_year=fin_dict.get('bsns_year'),
+        ratio_id='capital_adequacy_ratio',
+        ratio_nm='자기자본비율',
+        reprt_code=fin_dict.get('reprt_code'),
+        category='capital_structure',
+        thstrm_amount=capital_adequacy_ratio,
+        thstrm_nm=fin_dict.get('thstrm_nm'),
+        unit='%',
+        corp_code=fin_dict.get('corp_code'),
+    )
 
-    # 유동성(15)
+    # 유동성(15) (Liquidity)
     # 유동비율 (current ratio) - 15
     current_ration = fin_dict['ifrs-full_CurrentLiabilities'] / fin_dict['ifrs-full_Equity']
     """
@@ -381,8 +383,20 @@ def get_data(request):
         유동비율의 문제점은 재고자산의 현금화 속도 및 현금화 가능성이 기업마다 다르기 때문에
         일률적으로 적용하는 데 무리가 있다는 것임
     """
+    models.FinancialRatio.objects.create(
+        bsns_year=fin_dict.get('bsns_year'),
+        ratio_id='current_ration',
+        ratio_nm='유동비율',
+        reprt_code=fin_dict.get('reprt_code'),
+        category='Liquidity',
+        thstrm_amount=current_ration,
+        thstrm_nm=fin_dict.get('thstrm_nm'),
+        unit='%',
+        corp_code=fin_dict.get('corp_code'),
+    )
 
-    # 수익성(10)
+
+    # 수익성(10) (Profitability)
     # 총자본영업이익률(ROA, Return on Assets)
     ROA = fin_dict['dart_OperatingIncomeLoss'] / fin_dict['ifrs-full_Assets']
     # 당기순이익 버전
@@ -393,6 +407,19 @@ def get_data(request):
         return은 영업이익 / 당기순이익 둘 다 될 수 있으나
         별도의 정의가 되어 있지 않다면 영업이익으로 간주해도 됨
     """
+    models.FinancialRatio.objects.create(
+        bsns_year=fin_dict.get('bsns_year'),
+        ratio_id='ROA',
+        ratio_nm='총자본영업이익률',
+        reprt_code=fin_dict.get('reprt_code'),
+        category='Profitability',
+        thstrm_amount=ROA,
+        thstrm_nm=fin_dict.get('thstrm_nm'),
+        unit='%',
+        corp_code=fin_dict.get('corp_code'),
+    )
+
+    
 
     # 자기자본순이익률(ROE, Return On Equity)
     ROE = fin_dict['dart_OperatingIncomeLoss'] / fin_dict['ifrs-full_Equity']
@@ -402,6 +429,18 @@ def get_data(request):
         자기자본순이익률 < 주주의 요구수익률 -> 기업의 가치 감소
         => 기업이 조달한 자기자본의 가치를 유지하기 위해 필요한 수익률 의미
     """
+    models.FinancialRatio.objects.create(
+        bsns_year=fin_dict.get('bsns_year'),
+        ratio_id='ROE',
+        ratio_nm='자기자본순이익률',
+        reprt_code=fin_dict.get('reprt_code'),
+        category='Profitability',
+        thstrm_amount=ROE,
+        thstrm_nm=fin_dict.get('thstrm_nm'),
+        unit='%',
+        corp_code=fin_dict.get('corp_code'),
+    )
+
 
     # 총자본수익률 (ROI, Return on Investment)
     ROI = fin_dict['dart_OperatingIncomeLoss'] / fin_dict['ifrs-full_Assets']
@@ -410,15 +449,36 @@ def get_data(request):
         주주와 채권자가 투자한 자본에 대해 벌어들이는 수익성
         듀폰 시스템에서 매출수익성과 총자본회전속도가 결합된 비율로, 재무통제수단으로 이용함
     """
+    models.FinancialRatio.objects.create(
+        bsns_year=fin_dict.get('bsns_year'),
+        ratio_id='ROI',
+        ratio_nm='총자본수익률',
+        reprt_code=fin_dict.get('reprt_code'),
+        category='Profitability',
+        thstrm_amount=ROI,
+        thstrm_nm=fin_dict.get('thstrm_nm'),
+        unit='%',
+        corp_code=fin_dict.get('corp_code'),
+    )
     
     # 매출액영업이익률 (Sales operating profit margin)
     sales_operating_profit_margin = fin_dict['dart_OperatingIncomeLoss'] / fin_dict['ifrs-full_Revenue']
     """
         영업이익 / 매출액
     """
+    models.FinancialRatio.objects.create(
+        bsns_year=fin_dict.get('bsns_year'),
+        ratio_id='sales_operating_profit_margin',
+        ratio_nm='매출액영업이익률',
+        reprt_code=fin_dict.get('reprt_code'),
+        category='Profitability',
+        thstrm_amount=sales_operating_profit_margin,
+        thstrm_nm=fin_dict.get('thstrm_nm'),
+        unit='%',
+        corp_code=fin_dict.get('corp_code'),
+    )
 
-
-    # 활동성(5)
+    # 활동성(5) (Efficiency)
     # 총자산회전율 (Total Assets Turnover)
     total_assets_turnover = fin_dict['ifrs-full_Revenue'] / fin_dict['ifrs-full_Assets']
     """
@@ -427,6 +487,18 @@ def get_data(request):
         기업이 보유하고 있는 총자산들을 얼마나 효과적으로 활용하고 있는지 측정
         기업의 총자산이 1년에 몇 번 회전했는가 의미
     """
+    models.FinancialRatio.objects.create(
+        bsns_year=fin_dict.get('bsns_year'),
+        ratio_id='total_assets_turnover',
+        ratio_nm='총자산회전율',
+        reprt_code=fin_dict.get('reprt_code'),
+        category='Efficiency',
+        thstrm_amount=total_assets_turnover,
+        thstrm_nm=fin_dict.get('thstrm_nm'),
+        unit='회',
+        corp_code=fin_dict.get('corp_code'),
+    )
+
 
     # 매출채권회전율 (Receivables Turnover)
     receivables_turnover = fin_dict['ifrs-full_Revenue'] / fin_dict['ifrs-full_CurrentTradeReceivables']
@@ -439,9 +511,21 @@ def get_data(request):
         매출채권 : (실무적으로) 한 달에도 몇 번씩 거래하는 기업에서는 거래할 때마다 돈이 이동하는 것이 아니고
             채권(돈을 받을 권리)로 기록했다가, 서로 약속한 특정한 날에 돈이 이동함
     """
-    
-    
-    # 성장성(5)
+    models.FinancialRatio.objects.create(
+        bsns_year=fin_dict.get('bsns_year'),
+        ratio_id='receivables_turnover',
+        ratio_nm='총자산회전율',
+        reprt_code=fin_dict.get('reprt_code'),
+        category='Efficiency',
+        thstrm_amount=receivables_turnover,
+        thstrm_nm=fin_dict.get('thstrm_nm'),
+        unit='회',
+        corp_code=fin_dict.get('corp_code'),
+    )
+
+    # TODO
+    # 성장성(5) (Growth)
+    # 이 부분은 총자산, 매출액 부분만 확인하면 되니까 별도로 계산
     # 총자본증가율 (total capital growth rate)
     """
         (당기말 총자산 / 전기말 총자산) - 1
@@ -454,3 +538,6 @@ def get_data(request):
 
     pprint(fin_dict)
     return redirect('financial_statement:index')
+
+def dump(request):
+    pass

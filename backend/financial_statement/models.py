@@ -45,8 +45,6 @@ class FinancialRatio(models.Model):
     ratio_nm = models.CharField(max_length=50)
     reprt_code = models.CharField(max_length=5)  # 어떤 보고서 바탕으로 계산된 것인지
     category = models.CharField(max_length=10)  # 어떤 지표에 해당하는지
-    #외래키로 수정
-    sj_div = models.ForeignKey("SjDiv", on_delete=models.CASCADE, db_column="sj_div", related_name="financial_ratio")
     
     # DecimalField
     # max_digits : 저장 자릿수
