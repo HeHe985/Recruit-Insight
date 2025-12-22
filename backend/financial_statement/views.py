@@ -287,7 +287,7 @@ def get_data(corp, bsns_year, reprt_code):
         account_id = item.get("account_id")
 
         account_id = account_id.replace("ifrs_", "ifrs-full_")
-        print(account_id)
+        # print(account_id)
 
         account_nm = item.get("account_nm")
         account_detail = item.get("account_detail")
@@ -382,13 +382,14 @@ def get_data(corp, bsns_year, reprt_code):
         revenue = fin_dict[0].get("ifrs-full_Revenue")  # 매출액
         current_trade_receivables = fin_dict[0].get("ifrs-full_CurrentTradeReceivables")  # 매출채권
 
-        print(equity)
-        print(assets)
-        print(current_liabilities)
-        print(operating_income_loss)
-        print(profitloss)
-        print(revenue)
-        print(current_trade_receivables)
+        # print(equity)
+        # print(assets)
+        # print(current_liabilities)
+        # print(operating_income_loss)
+        # print(profitloss)
+        # print(revenue)
+        # print(current_trade_receivables)
+        
         # 자본 구성(15) (CapitalStructure)
         # 자기자본 비율 (capital adequacy ratio)
         if equity is not None and assets is not None and assets != 0:
@@ -676,19 +677,29 @@ def financial_detail(request):
 
     except models.CorpCode.DoesNotExist:
         print("오류:", corp_name, "을 찾을 수 없습니다.")
-        return redirect("financial_statement:index")
+        return Response({'message' : '회사 이름을 찾을 수 없습니다'}, status.HTTP_404_NOT_FOUND)
 
     bsns_year = request.GET.get("bsns_year")
     reprt_code = request.GET.get("reprt_code", "11011")
 
+    print(corp_code, bsns_year, reprt_code)
+    
     financial_data = models.FinancialData.objects.filter(
-        corp_code=corp_code, bsns_year=bsns_year, reprt_code=reprt_code
+        corp_code=corp_code.strip(),
+        bsns_year=int(bsns_year), 
+        reprt_code=reprt_code.strip()
     )
 
     if financial_data.exists() is not True:
         # 데이터가 존재X
+        print('데이터 없음', financial_data)
         get_data(corp, bsns_year, reprt_code)
+        financial_data = models.FinancialData.objects.filter(
+            corp_code=corp_code, bsns_year=bsns_year, reprt_code=reprt_code
+        )
+        print('데이터 조회', financial_data)
 
+    print('데이터 있음', financial_data)
     serializer = FinancialDataSerializer(financial_data, many=True)
 
     return Response(serializer.data)

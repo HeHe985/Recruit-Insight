@@ -17,7 +17,7 @@ urlpatterns = [
     # corp list api 호출
     path("corp_list/", views.corp_list),
     # 재무제표 상세
-    # path('financial_detail/', views.financial_detail)
+    path('financial_detail/', views.financial_detail)
 ]
 
 # urlpatterns = [
