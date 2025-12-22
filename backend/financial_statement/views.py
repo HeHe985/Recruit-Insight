@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 
 from . import models
 from .amount_clean import amount_clean
+from .services.financial_services import call_dart_fnltt_singl_acnt_all
 
 
 # env 파일의 DART API키 저장
@@ -176,65 +177,43 @@ def get_data(request):
     """
     start = time.time()
     # 1. DART API 데이터 호출 =====================================
-    # get 호출인 경우
-    if request.method == "GET":
-        # 예외처리를 하지 않으면, 오타 발생 시 오류 발생
-        try:
-            # 회사 코드 찾기
-            corp_name = request.GET.get("corp_name")
-            print(corp_name)
-            corp = models.CorpCode.objects.get(corp_name=corp_name)
-            # 새로 알게된 것 : 필드 명시하고 이렇게 넣으면 해당 컬럼에서 찾음
-            corp_code = corp.corp_code
-            print("corp_code", corp_code)
-
-            # API 호출하기
-            crtfc_key = DART_API_KEY
-            bsns_year = request.GET.get("bsns_year")
-            reprt_code = request.GET.get("reprt_code", "11011")
-            # 11013: 1분기 보고소 / 11012 : 반기 보고서 / 11014 : 3분기 보고서 / 11011 : 사업보고서(default)
-            # 새로 알게 된 것 : 두번째 인자를 주면, 값이 없는 경우 default 값을 얻을 수 있음
-            # -> 안 들어가는데??
-            fs_div = "OFS"  # OFS : 재무제표
-
-            # URL을 직접 f-string으로 만들기보다 params를 사용하는 것이 더 안전하고 깔끔함
-            params = {
-                "crtfc_key": crtfc_key,
-                "corp_code": corp_code,
-                "bsns_year": bsns_year,
-                "reprt_code": reprt_code,
-                "fs_div": fs_div,
-            }
-            print(params)
-
-            get_url = "https://opendart.fss.or.kr/api/fnlttSinglAcntAll.json"
-
-            response = requests.get(get_url, params=params)
-            # print(response.json())
-
-        except models.CorpCode.DoesNotExist:
-            print("오류:", corp_name, "을 찾을 수 없습니다.")
-            return redirect("financial_statement:index")
-    else:
+    # get 호출이 아니라면 바로 return
+    if request.method != "GET":
         print("잘못된 호출입니다.")
         return redirect("financial_statement:index")
+    # get 호출인 경우
 
-    # 데이터 정상 호출 여부 확인
-    if response.status_code == 200:
-        data = response.json()
-        # print(data)
-        if data["status"] == "000":
-            # 정상 호출됨
-            print("정상")
+    # DART API 호출
+    # 예외처리를 하지 않으면, 오타 발생 시 오류 발생
+    try:
+        # 회사 코드 찾기
+        corp_name = request.GET.get("corp_name")  # 회사 이름
+        corp = models.CorpCode.objects.get(corp_name=corp_name)  # 회사 객체
+        corp_code = corp.corp_code  # 회사 번호
 
-        else:
-            # 재무제표를 저장할 수 없음
-            print(data["status"], data["message"])
-            return redirect("financial_statment:index")
-    else:
-        print("호출 오류")
+        # API 호출하기
+        crtfc_key = DART_API_KEY
+        bsns_year = request.GET.get("bsns_year")
+        reprt_code = request.GET.get("reprt_code", "11011")
+        fs_div = "OFS"  # OFS : 재무제표
+
+        response = call_dart_fnltt_singl_acnt_all(crtfc_key, bsns_year, reprt_code, fs_div, corp_code)
+
+    except models.CorpCode.DoesNotExist:
+        print("오류:", corp_name, "을 찾을 수 없습니다.")
         return redirect("financial_statement:index")
 
+    if response.status_code != 200:
+        print("호출 오류:", response.status_code)
+        return redirect("financial_statement:index")
+
+    data = response.json()
+
+    if data["status"] != "000":
+        print("재무제표 호출 실패:", data)
+        return redirect("financial_statment:index")
+
+    # 정상 호출
     # api 결과 json 파일로 저장------------------------------------------
     print("json파일 작성 시작")
     api_data_dir = os.path.join(settings.BASE_DIR, "api_data")
@@ -386,8 +365,6 @@ def get_data(request):
 
     for i in range(3):
         # 변수 선언
-        # 재무제표 구분
-
         equity = fin_dict[0].get("ifrs-full_Equity")  # 자본
         assets = fin_dict[0].get("ifrs-full_Assets")  # 자산
         current_liabilities = fin_dict[0].get("ifrs-full_CurrentLiabilities")  # 유동부채
