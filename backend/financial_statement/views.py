@@ -8,12 +8,9 @@ import xmltodict
 from django.conf import settings
 from django.shortcuts import redirect, render
 from dotenv import load_dotenv
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 
 from . import models
 from .amount_clean import amount_clean
-from .serializers import CorpListSerializer
 from .services.financial_services import call_dart_fnltt_singl_acnt_all
 
 
@@ -161,7 +158,8 @@ def get_corp_code(request):
     return redirect("financial_statement:index")
 
 
-def get_data(corp, bsns_year, reprt_code):
+# def get_data(corp, bsns_year, reprt_code):
+def get_data(request):
     """
     특정 기업 재무제표 데이터를 호출하는 함수
 
@@ -177,32 +175,32 @@ def get_data(corp, bsns_year, reprt_code):
     4. DB 저장
     """
     start = time.time()
-    # # 1. DART API 데이터 호출 =====================================
-    # # get 호출이 아니라면 바로 return
-    # if request.method != "GET":
-    #     print("잘못된 호출입니다.")
-    #     return redirect("financial_statement:index")
-    # # get 호출인 경우
+    # 1. DART API 데이터 호출 =====================================
+    # get 호출이 아니라면 바로 return
+    if request.method != "GET":
+        print("잘못된 호출입니다.")
+        return redirect("financial_statement:index")
+    # get 호출인 경우
 
-    # # DART API 호출
-    # # 예외처리를 하지 않으면, 오타 발생 시 오류 발생
-    # try:
-    #     # 회사 코드 찾기
-    #     corp_name = request.GET.get("corp_name")  # 회사 이름
-    #     corp = models.CorpCode.objects.get(corp_name=corp_name)  # 회사 객체
-    #     corp_code = corp.corp_code  # 회사 번호
+    # DART API 호출
+    # 예외처리를 하지 않으면, 오타 발생 시 오류 발생
+    try:
+        # 회사 코드 찾기
+        corp_name = request.GET.get("corp_name")  # 회사 이름
+        corp = models.CorpCode.objects.get(corp_name=corp_name)  # 회사 객체
+        corp_code = corp.corp_code  # 회사 번호
 
-    # except models.CorpCode.DoesNotExist:
-    #     print("오류:", corp_name, "을 찾을 수 없습니다.")
-    #     return redirect("financial_statement:index")
+    except models.CorpCode.DoesNotExist:
+        print("오류:", corp_name, "을 찾을 수 없습니다.")
+        return redirect("financial_statement:index")
 
-    # bsns_year = request.GET.get("bsns_year")
-    # reprt_code = request.GET.get("reprt_code", "11011")
+    bsns_year = request.GET.get("bsns_year")
+    reprt_code = request.GET.get("reprt_code", "11011")
 
     # API 호출하기
     crtfc_key = DART_API_KEY
     fs_div = "OFS"  # OFS : 재무제표
-    corp_code = corp.corp_code
+    # corp_code = corp.corp_code
 
     response = call_dart_fnltt_singl_acnt_all(crtfc_key, bsns_year, reprt_code, fs_div, corp_code)
 
@@ -642,17 +640,17 @@ def dump(request):
     pass
 
 
-@api_view(["GET"])
-def corp_list(request):
-    """
-    전체 회사 리스트 조회
-    """
-    # 전체 회사 조회
-    corps = models.CorpCode.objects.all()
-    # 직렬화 진행
-    serializer = CorpListSerializer(corps, many=True)
-    # serializer 덩어리에서 json만 추출(.data 속성)
-    return Response(serializer.data)
+# @api_view(["GET"])
+# def corp_list(request):
+#     """
+#     전체 회사 리스트 조회
+#     """
+#     # 전체 회사 조회
+#     corps = models.CorpCode.objects.all()
+#     # 직렬화 진행
+#     serializer = CorpListSerializer(corps, many=True)
+#     # serializer 덩어리에서 json만 추출(.data 속성)
+#     return Response(serializer.data)
 
 
 # @api_view(['GET'])
