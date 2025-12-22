@@ -10,10 +10,11 @@ from django.shortcuts import redirect, render
 from dotenv import load_dotenv
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 
 from . import models
 from .amount_clean import amount_clean
-from .serializers import CorpListSerializer
+from .serializers import CorpListSerializer, FinancialDataSerializer
 from .services.financial_services import call_dart_fnltt_singl_acnt_all
 
 
@@ -26,7 +27,7 @@ DART_API_KEY = os.getenv("DART_API_KEY")
 def index(request):
     return render(request, "financial_statement/index.html")
 
-
+@api_view(['GET'])
 def sj(request):
     """
     SjDiv 채우는 함수
@@ -42,10 +43,12 @@ def sj(request):
 
     models.SjDiv.objects.bulk_create(sj_list, ignore_conflicts=True)
 
-    return redirect("financial_statement:index")
+    return Response({'message' : '저장되었습니다'}, status=status.HTTP_201_CREATED)
+    # return redirect("financial_statement:index")
 
 
 # 나중에 로그인 제한 추가하기
+@api_view(['GET'])
 def get_corp_code(request):
     """
     기업 번호와 기업 이름을 DB에 저장하는 함수
@@ -157,8 +160,8 @@ def get_corp_code(request):
     end = time.time()  # 끝나는 시간 저장
 
     print("걸린 시간:", end - start)  # 소요 시간 계산
-
-    return redirect("financial_statement:index")
+    return Response({'message' : '저장되었습니다'}, status=status.HTTP_201_CREATED)
+    # return redirect("financial_statement:index")
 
 
 def get_data(corp, bsns_year, reprt_code):
@@ -209,14 +212,14 @@ def get_data(corp, bsns_year, reprt_code):
 
     if response.status_code != 200:
         print("호출 오류:", response.status_code)
-        return None
+        return Response({'message' : '호출 오류 발생'}, status.HTTP_502_BAD_GATEWAY)
         # return redirect("financial_statement:index")
 
     data = response.json()
 
     if data["status"] != "000":
         print("재무제표 호출 실패:", data)
-        return None
+        return Response({'message' : '재무제표 호출 실패'}, status.HTTP_404_NOT_FOUND)
         # return redirect("financial_statment:index")
 
     # 정상 호출
@@ -682,15 +685,10 @@ def financial_detail(request):
         corp_code=corp_code, bsns_year=bsns_year, reprt_code=reprt_code
     )
 
-    if financial_data.exists():
-        # 데이터가 존재
-        # TODO
-        # 리턴 : 데이터 반환
-        pass
-    # 데이터 없음
-    # TODO
-    get_data(corp, bsns_year, reprt_code)
+    if financial_data.exists() is not True:
+        # 데이터가 존재X
+        get_data(corp, bsns_year, reprt_code)
 
+    serializer = FinancialDataSerializer(financial_data, many=True)
 
-# TODO
-# 재무제표 데이터 조회해서 반환하는 함수 -> 위의 TODO 2개에 각각 넣기
+    return Response(serializer.data)
