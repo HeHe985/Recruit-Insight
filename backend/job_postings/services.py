@@ -39,7 +39,13 @@ def call_api_list(startpage, display):
     Returns:
         dict: xmltodict로 파싱된 공채속보 목록 데이터
     """
-    params = {"authKey": WORK24_API_KEY, "callTp": "L", "returnType": "XML", "startPage": startpage, "display": display}
+    params = {
+        "authKey": WORK24_API_KEY,
+        "callTp": "L",
+        "returnType": "XML",
+        "startPage": startpage,
+        "display": display,
+    }
 
     res = requests.get(URL, params=params)
     xml_text = res.text
@@ -63,7 +69,12 @@ def call_api_detail(empseqno):
     Returns:
         dict: xmltodict로 파싱된 공채속보 상세 데이터
     """
-    params = {"authKey": WORK24_API_KEY, "callTp": "D", "returnType": "XML", "empSeqno": empseqno}
+    params = {
+        "authKey": WORK24_API_KEY,
+        "callTp": "D",
+        "returnType": "XML",
+        "empSeqno": empseqno,
+    }
 
     res = requests.get(URL, params=params)
     xml_text = res.text
@@ -357,26 +368,16 @@ def save_job_detail_summary():
             saved += 1
 
 
-def save_job_detail_jobs_do():
-    # posts = Job.objects.all()
-    # for post in posts:
-    # 전체 순회로 바꿔야 함
-    # post.job_cd
-    jobcd = "K000001059"
+def save_job_detail_jobs_do(jobcd):
     post = Job.objects.get(pk=jobcd)
-    with open("job_detail2.json", encoding="utf-8") as f:
-        res = json.load(f)
-    # res = call_api_job_detail(jobcd, 2)
+    res = call_api_job_detail(jobcd, 2)
     res_data = res.get("jobsDo")
-    # if not res_data:
-    #     continue
-
     # Job 테이블 업데이트
     post.exec_job = res_data["execJob"]
     post.save()
 
 
-save_job_detail_jobs_do()
+save_job_detail_jobs_do("K000001059")
 # save_job_list()
 # save_job_detail_summary()
 # call_api_job_detail("K000000969", 3)
