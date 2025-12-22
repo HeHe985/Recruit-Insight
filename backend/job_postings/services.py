@@ -1,4 +1,3 @@
-import json
 import os
 
 # import sys, django
@@ -9,6 +8,7 @@ import os
 # django.setup()
 import requests
 import xmltodict
+from dotenv import load_dotenv
 
 from job_postings.models import (
     Job,
@@ -20,6 +20,8 @@ from job_postings.models import (
     RelatedMajor,
 )
 
+
+load_dotenv()
 
 WORK24_API_KEY = os.getenv("WORK24_API_KEY")
 URL = "https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do"
@@ -299,7 +301,6 @@ def save_job_list():
 
 def save_job_detail_summary():
     posts = Job.objects.all()
-    saved = 0
 
     for post in posts:
         jobcd = post.job_cd
@@ -307,7 +308,6 @@ def save_job_detail_summary():
         res_data = res.get("jobSum")
         if not res_data:
             continue
-        # post = JobPostingList.objects.get(pk=empseqno)
 
         # Job 테이블 업데이트
         post.job_lrcl_nm = res_data["jobLrclNm"]
@@ -322,18 +322,20 @@ def save_job_detail_summary():
 
         post.save()
 
-    # RelatedMajor 테이블 저장
-    # "K000001059"
-    with open("job_detail1.json", encoding="utf-8") as f:
-        res = json.load(f)
-    res_data = res.get("jobSum")
+
+def save_related_majors(jobcd):
+    saved = 0
+    job = Job.objects.get(pk=jobcd)
+    res = call_api_job_detail(jobcd, 3)
+    res_data = res.get("way")
+    # RelatedMaj or 테이블 저장
     majors = res_data.get("relMajorList")
-    # jobs = jobs if isinstance(jobs, list) else [jobs]
-    jobcd = "K000001059"
-    post = Job.objects.get(pk=jobcd)
+    majors = majors if isinstance(majors, list) else [majors]
     for major in majors:
+        if not major:
+            continue
         obj, created = RelatedMajor.objects.update_or_create(
-            job_cd=post,
+            job_cd=job,
             major_cd=major.get("majorCd"),
             defaults={
                 "major_nm": major.get("majorNm"),
@@ -341,31 +343,57 @@ def save_job_detail_summary():
         )
         if created:
             saved += 1
+    print(f"{saved}건 저장 완료")
 
+
+# save_related_majors("K000001081")
+
+
+def save_related_certifications(jobcd):
+    saved = 0
+    job = Job.objects.get(pk=jobcd)
+    res = call_api_job_detail(jobcd, 3)
+    res_data = res.get("way")
     certifications = res_data.get("relCertList")
+    certifications = certifications if isinstance(certifications, list) else [certifications]
     for certification in certifications:
         if not certification:
             continue
         # RelatedCertification 테이블 저장
         obj, created = RelatedCertification.objects.update_or_create(
-            job_cd=post,
+            job_cd=job,
             cert_nm=certification.get("certNm"),
         )
         if created:
             saved += 1
+
+    print(f"{saved}건 저장 완료")
+
+
+# save_related_certifications("K000001059")
+
+
+def save_related_jobs(jobcd):
+    saved = 0
+    job = Job.objects.get(pk=jobcd)
+    res = call_api_job_detail(jobcd, 2)
+    res_data = res.get("jobsDo")
     jobs = res_data.get("relJobList")
-    if isinstance(jobs, dict):
-        jobs = [jobs]
-    for job in jobs:
-        if not job:
+    jobs = jobs if isinstance(jobs, list) else [jobs]
+    for related_job in jobs:
+        if not related_job:
             continue
         # RelatedJob 테이블 저장
         obj, created = RelatedJob.objects.update_or_create(
-            job_cd=post,
-            rel_job_cd=job.get("jobCd"),
+            job_cd=job,
+            rel_job_cd=related_job.get("jobCd"),
         )
         if created:
             saved += 1
+    print(f"{saved}건 저장 완료")
+
+
+# save_related_jobs("K000001059")
 
 
 def save_job_detail_jobs_do(jobcd):
@@ -375,10 +403,13 @@ def save_job_detail_jobs_do(jobcd):
     # Job 테이블 업데이트
     post.exec_job = res_data["execJob"]
     post.save()
+    post.refresh_from_db()
 
 
 save_job_detail_jobs_do("K000001059")
+
 # save_job_list()
+
 # save_job_detail_summary()
 # call_api_job_detail("K000000969", 3)
 
