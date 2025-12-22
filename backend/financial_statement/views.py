@@ -114,7 +114,7 @@ def get_corp_code(request):
 
     # 2. DB에 저장 =======================================================
     start = time.time()  # 소요 시간 계산하기 위해 추가, 시작한 시간 기록
-    with open(f'{api_data_dir}/CORPCODE.xml', 'r') as corp_xml:
+    with open(f'{api_data_dir}/CORPCODE.xml', 'r', encoding='utf8') as corp_xml:
         xml_string = corp_xml.read()  # xml파일을 읽어옴
 
     corp_dict = xmltodict.parse(xml_string)  # xml파일을 json 형태로 반환(타입은 딕셔너리)
@@ -132,9 +132,14 @@ def get_corp_code(request):
     for item in company_list:  # 반복문 돌면서 객체 저장
         code = item.get('corp_code')
         name = item.get('corp_name')
+        eng_name = item.get('corp_eng_name')
+        stock_code = item.get('stock_code')
+        modify_date = item.get('modify_date')
+
 
         if code and name:  # 회사 코드와 회사 이름이 모두 존재한다면 리스트에 추가
-            obj_list.append(models.CorpCode(corp_code=code, corp_name=name))
+            obj_list.append(models.CorpCode(corp_code=code, corp_name=name, \
+                                            corp_eng_name=eng_name, stock_code=stock_code, modify_date=modify_date))
 
     models.CorpCode.objects.bulk_create(obj_list, batch_size=1000, ignore_conflicts=True)
     print("DB저장 완료")
@@ -162,6 +167,7 @@ def get_data(request):
     3. 재무 비율 계산 (재무비율도 모두 계산해서 DB에 한 번에 저장)
     4. DB 저장
     """
+    start = time.time()
     # 1. DART API 데이터 호출 =====================================
     # get 호출인 경우
     if request.method == 'GET':
@@ -528,7 +534,7 @@ def get_data(request):
     ratio_list.append(models.FinancialRatio(
         bsns_year=fin_dict.get('bsns_year'),
         ratio_id='receivables_turnover',
-        ratio_nm='총자산회전율',
+        ratio_nm='매출채권회전율',
         reprt_code=fin_dict.get('reprt_code'),
         category='Efficiency',
         thstrm_amount=receivables_turnover,
@@ -553,6 +559,8 @@ def get_data(request):
     models.FinancialRatio.objects.bulk_create(ratio_list, ignore_conflicts=True)
     # -----------------------------------------------------------------------------------------------------------
 
+    end = time.time()
+    print(end-start, '초')
     # pprint(ratio_list)
     return redirect('financial_statement:index')
 
