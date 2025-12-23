@@ -23,4 +23,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("finance/", include("financial_statement.urls")),
     # path('api-auth/', include('rest_framework.urls')),
+    path("api/v1/accounts/", include("accounts.urls")),
+    path("api/v1/", include("job_postings.urls")),
 ]
