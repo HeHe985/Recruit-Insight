@@ -85,6 +85,19 @@ def logout(request):
 
 @api_view(["POST"])
 def signup(request):
+    """
+    회원가입 처리 API
+
+    전달받은 회원가입 정보를 검증한 뒤
+    새로운 사용자 계정을 생성
+
+    Args:
+        request (HttpRequest): 회원가입 정보가 담긴 요청 객체
+
+    Returns:
+        Response:
+            - 201 Created: 회원가입 성공 메시지 반환
+    """
     serializer = SignupSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     serializer.save()
@@ -97,6 +110,24 @@ def signup(request):
 @api_view(["POST", "DELETE"])
 @permission_classes([IsAuthenticated])
 def bookmark(request, empseqno):
+    """
+    채용 공고 북마크 추가 및 삭제 API
+
+    URL로 전달받은 채용 공고 식별자(empseqno)를 기준으로
+    로그인한 사용자의 북마크를 추가하거나 삭제
+
+    - POST   : 해당 채용 공고를 북마크에 추가
+    - DELETE : 해당 채용 공고를 북마크에서 삭제
+
+    Args:
+        request (HttpRequest): 인증된 사용자 요청 객체
+        empseqno (int): 채용 공고 고유 식별자(PK)
+
+    Returns:
+        Response:
+            - 201 Created: 북마크 추가 성공
+            - 204 No Content: 북마크 삭제 성공
+    """
     if request.method == "POST":
         Bookmark.objects.get_or_create(
             user=request.user,
@@ -112,6 +143,16 @@ def bookmark(request, empseqno):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def bookmark_list(request):
+    """
+    로그인 사용자의 북마크 채용 공고 목록 조회 API
+
+    사용자가 북마크한 채용 공고 목록을 조회하여
+    JobPostingSerializer 형식으로 반환
+
+    Returns:
+        Response:
+            - 200 OK: 북마크된 채용 공고 목록 반환
+    """
     bookmarks = request.user.bookmarks.all()
     bookmark_list = [bookmark.job_posting for bookmark in bookmarks]
     serializer = JobPostingSerializer(bookmark_list, many=True)
