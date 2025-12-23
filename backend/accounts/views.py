@@ -1,4 +1,5 @@
 # Create your views here.
+from job_postings.serializers import JobPostingSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -6,8 +7,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from accounts.models import Bookmark
-
-from .serializers import LoginSerializer, SignupSerializer
+from accounts.serializers import LoginSerializer, SignupSerializer
 
 
 @api_view(["POST"])
@@ -102,8 +102,17 @@ def bookmark(request, empseqno):
             user=request.user,
             job_posting_id=empseqno,
         )
-        return Response(status=status.HTTP_201_CREATED)
+        return Response({"message": "북마크가 추가되었습니다."}, status=status.HTTP_201_CREATED)
 
     elif request.method == "DELETE":
         Bookmark.objects.get(job_posting=empseqno).delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "북마크가 삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def bookmark_list(request):
+    bookmarks = request.user.bookmarks.all()
+    bookmark_list = [bookmark.job_posting for bookmark in bookmarks]
+    serializer = JobPostingSerializer(bookmark_list, many=True)
+    return Response(serializer.data)
