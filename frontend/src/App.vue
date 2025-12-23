@@ -3,7 +3,7 @@
   <nav>
     <RouterLink :to="{name: 'home'}">Recruit Insight</RouterLink>
      | 
-    <RouterLink :to="{name: 'job_postings'}">채용공고</RouterLink>
+    <RouterLink :to="{name: 'job_postings_list'}">채용공고</RouterLink>
   </nav>
   <RouterView />
 </template>
