@@ -1,8 +1,9 @@
 """
-    DART API를 통해 얻은 amount 값이
-    '' 또는 '-' 또는 ' ' 등 숫자로 변환할 수 없는 경우
-    None로 변환하는 함수
+DART API를 통해 얻은 amount 값이
+'' 또는 '-' 또는 ' ' 등 숫자로 변환할 수 없는 경우
+None로 변환하는 함수
 """
+
 
 def amount_clean(value):
     """
@@ -10,12 +11,12 @@ def amount_clean(value):
     """
     if not value:
         return None
-    
+
     val_str = str(value).strip()  # 공백 제거
-    if val_str == '-' or val_str == '_' or val_str == '':
+    if val_str == "-" or val_str == "_" or val_str == "":
         return None
 
     try:
-        return int(val_str.replace(',', ''))
+        return int(val_str.replace(",", ""))
     except ValueError:
         return None
