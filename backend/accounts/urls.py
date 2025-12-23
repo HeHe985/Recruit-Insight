@@ -7,4 +7,5 @@ urlpatterns = [
     path("login/", views.login),
     path("logout/", views.logout),
     path("signup/", views.signup),
+    path("bookmark/<int:empseqno>/", views.bookmark),
 ]

@@ -3,6 +3,8 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from accounts.models import Bookmark
+
 
 User = get_user_model()
 
@@ -56,3 +58,10 @@ class SignupSerializer(serializers.ModelSerializer):
             **validated_data,
         )
         return user
+
+
+class BookmarkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = (Bookmark,)
+        fields = ("id", "job_posting")
+        read_only_fields = ("id",)
