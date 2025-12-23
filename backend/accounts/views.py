@@ -7,7 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from accounts.models import Bookmark
 
-from .serializers import BookmarkSerializer, LoginSerializer, SignupSerializer
+from .serializers import LoginSerializer, SignupSerializer
 
 
 @api_view(["POST"])
@@ -98,11 +98,12 @@ def signup(request):
 @permission_classes([IsAuthenticated])
 def bookmark(request, empseqno):
     if request.method == "POST":
-        serializer = BookmarkSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(user=request.user)
-        return Response({"is_bookmarked": True}, serializer.data, status=status.HTTP_201_CREATED)
+        Bookmark.objects.get_or_create(
+            user=request.user,
+            job_posting_id=empseqno,
+        )
+        return Response(status=status.HTTP_201_CREATED)
 
     elif request.method == "DELETE":
         Bookmark.objects.get(job_posting=empseqno).delete()
-        return Response({"is_bookmarked": False}, status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)

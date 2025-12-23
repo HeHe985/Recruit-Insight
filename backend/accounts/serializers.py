@@ -62,6 +62,6 @@ class SignupSerializer(serializers.ModelSerializer):
 
 class BookmarkSerializer(serializers.ModelSerializer):
     class Meta:
-        model = (Bookmark,)
+        model = Bookmark
         fields = ("id", "job_posting")
         read_only_fields = ("id",)
