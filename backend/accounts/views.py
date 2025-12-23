@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .serializers import LoginSerializer
+from .serializers import LoginSerializer, SignupSerializer
 
 
 @api_view(["POST"])
@@ -79,3 +79,14 @@ def logout(request):
         return Response({"detail": "유효하지 않은 토큰"}, status=status.HTTP_400_BAD_REQUEST)
 
     return Response({"massage": "로그아웃 완료"}, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+def signup(request):
+    serializer = SignupSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(
+        {"message": "회원가입 성공"},
+        status=status.HTTP_201_CREATED,
+    )

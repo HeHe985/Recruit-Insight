@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>인덱스 페이지</h1>
+  <form action="{% url "financial_statement:get_data" %}" method="GET">
+    <input type="text" id="corp_name" name="corp_name">
+    <input type="text" id="bsns_year" name="bsns_year">
+    <input type="text" id="reprt_code" name="reprt_code">
+    <input type="submit" text="제출">
+  </form>
+  <a href="{% url "financial_statement:get_corp_code" %}">회사코드 DB 저장</a>
+  <a href="{% url "financial_statement:sj" %}">재무제표 종류 DB 저장</a>
+  <hr>
+  <a href="{% url "financial_statement:dump" %}">dump 생성</a>
+</body>
+</html>
