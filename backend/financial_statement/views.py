@@ -214,24 +214,24 @@ def get_data(request):
         print("재무제표 호출 실패:", data)
         return redirect("financial_statment:index")
 
-    # 정상 호출
-    # api 결과 json 파일로 저장------------------------------------------
-    print("json파일 작성 시작")
-    api_data_dir = os.path.join(settings.BASE_DIR, "api_data")
-    os.makedirs(api_data_dir, exist_ok=True)
+    # # 정상 호출
+    # # api 결과 json 파일로 저장------------------------------------------
+    # print("json파일 작성 시작")
+    # api_data_dir = os.path.join(settings.BASE_DIR, "api_data")
+    # os.makedirs(api_data_dir, exist_ok=True)
 
-    code = data["list"][0].get("corp_code")
-    year = data["list"][0].get("bsns_year")
-    reprt = data["list"][0].get("reprt_code")
+    # code = data["list"][0].get("corp_code")
+    # year = data["list"][0].get("bsns_year")
+    # reprt = data["list"][0].get("reprt_code")
 
-    file_name = f"{code}{year}{reprt}.json"
+    # file_name = f"{code}{year}{reprt}.json"
 
-    json_path = os.path.join(api_data_dir, file_name)
+    # json_path = os.path.join(api_data_dir, file_name)
 
-    with open(json_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4, ensure_ascii=False)
-    print("json파일 저장 완료")
-    # ---------------------------------------------------------
+    # with open(json_path, "w", encoding="utf-8") as f:
+    #     json.dump(data, f, indent=4, ensure_ascii=False)
+    # print("json파일 저장 완료")
+    # # ---------------------------------------------------------
 
     # 데이터 DB 저장
     print("DB저장====================================")
@@ -279,7 +279,7 @@ def get_data(request):
         account_id = item.get("account_id")
 
         account_id = account_id.replace("ifrs_", "ifrs-full_")
-        print(account_id)
+        # print(account_id)
 
         account_nm = item.get("account_nm")
         account_detail = item.get("account_detail")
@@ -374,13 +374,13 @@ def get_data(request):
         revenue = fin_dict[0].get("ifrs-full_Revenue")  # 매출액
         current_trade_receivables = fin_dict[0].get("ifrs-full_CurrentTradeReceivables")  # 매출채권
 
-        print(equity)
-        print(assets)
-        print(current_liabilities)
-        print(operating_income_loss)
-        print(profitloss)
-        print(revenue)
-        print(current_trade_receivables)
+        # print(equity)
+        # print(assets)
+        # print(current_liabilities)
+        # print(operating_income_loss)
+        # print(profitloss)
+        # print(revenue)
+        # print(current_trade_receivables)
         # 자본 구성(15) (CapitalStructure)
         # 자기자본 비율 (capital adequacy ratio)
         if equity is not None and assets is not None and assets != 0:
