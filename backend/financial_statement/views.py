@@ -14,7 +14,7 @@ from rest_framework.response import Response
 
 from . import models
 from .amount_clean import amount_clean
-from .serializers import CorpListSerializer, FinancialDataSerializer
+from .serializers import CorpListSerializer, FinancialDataSerializer, FinancialRatioSerializer
 from .services.financial_services import call_dart_fnltt_singl_acnt_all
 
 
@@ -675,6 +675,8 @@ def financial_detail(request):
         corp_name = request.GET.get("corp_name")  # 회사 이름
         corp = models.CorpCode.objects.get(corp_name=corp_name)  # 회사 객체
         corp_code = corp.corp_code  # 회사 번호
+        print("corp", corp_name, corp_code)
+        print(type(corp_code))
 
     except models.CorpCode.DoesNotExist:
         print("오류:", corp_name, "을 찾을 수 없습니다.")
@@ -683,22 +685,71 @@ def financial_detail(request):
     bsns_year = request.GET.get("bsns_year")
     reprt_code = request.GET.get("reprt_code", "11011")
 
-    print(corp_code, bsns_year, reprt_code)
+    # print(corp_code, bsns_year, reprt_code)
 
     financial_data = models.FinancialData.objects.filter(
-        corp_code=corp_code.strip(), bsns_year=int(bsns_year), reprt_code=reprt_code.strip()
+        corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code
     )
+
+    # financial_data_corp_code = models.FinancialData.objects.filter(corp_code=corp)
+    # print('code로 찾기', financial_data_corp_code)
+    # financial_data_year = models.FinancialData.objects.filter(bsns_year=bsns_year)
+    # print('year로 찾기', financial_data_year)
+    # financial_data_reprt = models.FinancialData.objects.filter(reprt_code=reprt_code)
+    # print('reprt로 찾기', financial_data_reprt)
 
     if financial_data.exists() is not True:
         # 데이터가 존재X
         print("데이터 없음", financial_data)
         get_data(corp, bsns_year, reprt_code)
-        financial_data = models.FinancialData.objects.filter(
-            corp_code=corp_code, bsns_year=bsns_year, reprt_code=reprt_code
-        )
+        financial_data = models.FinancialData.objects.filter(corp_code=corp, bsns_year=bsns_year, reprt_code=reprt_code)
         print("데이터 조회", financial_data)
 
     print("데이터 있음", financial_data)
     serializer = FinancialDataSerializer(financial_data, many=True)
 
     return Response(serializer.data)
+
+
+@api_view(["GET"])
+def financial_ratio(request):
+    # 1. DART API 데이터 호출 =====================================
+    try:
+        # 회사 코드 찾기
+        corp_name = request.GET.get("corp_name")  # 회사 이름
+        corp = models.CorpCode.objects.get(corp_name=corp_name)  # 회사 객체
+        corp_code = corp.corp_code  # 회사 번호
+        print("corp", corp_name, corp_code)
+        print(type(corp_code))
+
+    except models.CorpCode.DoesNotExist:
+        print("오류:", corp_name, "을 찾을 수 없습니다.")
+        return Response({"message": "회사 이름을 찾을 수 없습니다"}, status.HTTP_404_NOT_FOUND)
+
+    bsns_year = request.GET.get("bsns_year")
+    reprt_code = request.GET.get("reprt_code", "11011")
+
+    financial_ratio = models.FinancialRatio.objects.filter(
+        corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code
+    )
+
+    if financial_ratio.exists() is not True:
+        # 데이터가 존재X
+        print("데이터 없음", financial_ratio)
+        get_data(corp, bsns_year, reprt_code)
+        financial_ratio = models.FinancialRatio.objects.filter(
+            corp_code=corp, bsns_year=bsns_year, reprt_code=reprt_code
+        )
+        print("데이터 조회", financial_ratio)
+
+    print("데이터 있음", financial_ratio)
+    serializer = FinancialRatioSerializer(financial_ratio, many=True)
+
+    return Response(serializer.data)
+
+
+# TODO
+# 약간 더 생각해봐야 하는 부분
+# 회사 조회 -> 해당 연도 말고 이전에서부터 변화 추이를 보여줘야 할텐데 그러면 몇년치를 한번에 보여줘야 할까?
+# 그리고 그 경우에 과거 정보가 없으면 다시 해당 연도를 호출해야 할까?
+# 일단 하면 좋을 것 같긴 함
