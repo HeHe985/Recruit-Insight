@@ -6,14 +6,15 @@ import zipfile
 import requests
 import xmltodict
 from django.conf import settings
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from dotenv import load_dotenv
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from . import models
 from .amount_clean import amount_clean
-from .serializers import CorpListSerializer
+from .serializers import CorpListSerializer, FinancialDataSerializer
 from .services.financial_services import call_dart_fnltt_singl_acnt_all
 
 
@@ -27,6 +28,7 @@ def index(request):
     return render(request, "financial_statement/index.html")
 
 
+@api_view(["GET"])
 def sj(request):
     """
     SjDiv 채우는 함수
@@ -42,10 +44,12 @@ def sj(request):
 
     models.SjDiv.objects.bulk_create(sj_list, ignore_conflicts=True)
 
-    return redirect("financial_statement:index")
+    return Response({"message": "저장되었습니다"}, status=status.HTTP_201_CREATED)
+    # return redirect("financial_statement:index")
 
 
 # 나중에 로그인 제한 추가하기
+@api_view(["GET"])
 def get_corp_code(request):
     """
     기업 번호와 기업 이름을 DB에 저장하는 함수
@@ -157,8 +161,8 @@ def get_corp_code(request):
     end = time.time()  # 끝나는 시간 저장
 
     print("걸린 시간:", end - start)  # 소요 시간 계산
-
-    return redirect("financial_statement:index")
+    return Response({"message": "저장되었습니다"}, status=status.HTTP_201_CREATED)
+    # return redirect("financial_statement:index")
 
 
 def get_data(corp, bsns_year, reprt_code):
@@ -209,14 +213,14 @@ def get_data(corp, bsns_year, reprt_code):
 
     if response.status_code != 200:
         print("호출 오류:", response.status_code)
-        return None
+        return Response({"message": "호출 오류 발생"}, status.HTTP_502_BAD_GATEWAY)
         # return redirect("financial_statement:index")
 
     data = response.json()
 
     if data["status"] != "000":
         print("재무제표 호출 실패:", data)
-        return None
+        return Response({"message": "재무제표 호출 실패"}, status.HTTP_404_NOT_FOUND)
         # return redirect("financial_statment:index")
 
     # # 정상 호출
@@ -386,6 +390,7 @@ def get_data(corp, bsns_year, reprt_code):
         # print(profitloss)
         # print(revenue)
         # print(current_trade_receivables)
+
         # 자본 구성(15) (CapitalStructure)
         # 자기자본 비율 (capital adequacy ratio)
         if equity is not None and assets is not None and assets != 0:
@@ -673,24 +678,27 @@ def financial_detail(request):
 
     except models.CorpCode.DoesNotExist:
         print("오류:", corp_name, "을 찾을 수 없습니다.")
-        return redirect("financial_statement:index")
+        return Response({"message": "회사 이름을 찾을 수 없습니다"}, status.HTTP_404_NOT_FOUND)
 
     bsns_year = request.GET.get("bsns_year")
     reprt_code = request.GET.get("reprt_code", "11011")
 
+    print(corp_code, bsns_year, reprt_code)
+
     financial_data = models.FinancialData.objects.filter(
-        corp_code=corp_code, bsns_year=bsns_year, reprt_code=reprt_code
+        corp_code=corp_code.strip(), bsns_year=int(bsns_year), reprt_code=reprt_code.strip()
     )
 
-    if financial_data.exists():
-        # 데이터가 존재
-        # TODO
-        # 리턴 : 데이터 반환
-        pass
-    # 데이터 없음
-    # TODO
-    get_data(corp, bsns_year, reprt_code)
+    if financial_data.exists() is not True:
+        # 데이터가 존재X
+        print("데이터 없음", financial_data)
+        get_data(corp, bsns_year, reprt_code)
+        financial_data = models.FinancialData.objects.filter(
+            corp_code=corp_code, bsns_year=bsns_year, reprt_code=reprt_code
+        )
+        print("데이터 조회", financial_data)
 
+    print("데이터 있음", financial_data)
+    serializer = FinancialDataSerializer(financial_data, many=True)
 
-# TODO
-# 재무제표 데이터 조회해서 반환하는 함수 -> 위의 TODO 2개에 각각 넣기
+    return Response(serializer.data)
