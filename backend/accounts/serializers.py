@@ -5,6 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import CoverLetter
 
+
 User = get_user_model()
 
 
@@ -60,8 +61,8 @@ class SignupSerializer(serializers.ModelSerializer):
         )
         return user
 
+
 class CoverLetterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CoverLetter
-        fields = '__all__'
-        
+        fields = "__all__"
