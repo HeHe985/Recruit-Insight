@@ -6,6 +6,8 @@ import LoginView from '@/views/LoginView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAccountsStore } from '@/stores/accounts'
 import SignupView from '@/views/SignupView.vue'
+import MyPageView from '@/views/MyPageView.vue'
+import BookmarkView from '@/views/BookmarkView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,7 +28,7 @@ const router = createRouter({
           component: JobPostingListView
         },
         {
-          path: ':id',
+          path: 'detail/:id',
           name: 'job_posting_detail',
           component: JobPostingDetailView
         }
@@ -41,7 +43,19 @@ const router = createRouter({
       path: '/accounts/signup',
       name: 'signup',
       component: SignupView
-    }
+    },
+    {
+      path: '/mypage',
+      name: 'mypage',
+      component: MyPageView,
+      children: [
+        {
+          path: '/bookmark/list',
+          name: 'bookmark',
+          component: BookmarkView
+        },
+      ],
+    },
   ],
 })
 

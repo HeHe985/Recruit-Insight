@@ -30,3 +30,10 @@ export const logoutAPI = (refresh) => {
     { refresh }
   )
 }
+
+
+export const bookmarkListAPI = () => {
+  return axios.get(
+    "http://localhost:8000/api/v1/accounts/bookmark/list/"
+  )
+}

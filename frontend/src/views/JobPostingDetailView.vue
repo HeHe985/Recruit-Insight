@@ -67,12 +67,12 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const post = ref({})
-
 onMounted(async () => {
   const empSeqno = route.params.id
+  // console.log(empSeqno)
 
   const res = await axios.get(
-    `http://127.0.0.1:8000/api/v1/job_postings/${empSeqno}/`
+    `http://127.0.0.1:8000/api/v1/job_postings/detail/${empSeqno}/`
   )
 
   post.value = res.data

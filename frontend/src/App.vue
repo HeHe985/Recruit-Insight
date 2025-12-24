@@ -8,6 +8,8 @@
     <div v-if="accounts.isAuthenticated">
       <!-- 로그인 했을 때 -->
       <a href="#" @click.prevent="handleLogout">LOGOUT</a>
+       | 
+      <RouterLink :to="{name: 'mypage'}">MY PAGE</RouterLink>
     </div>
     <div v-else>
       <!-- 로그인 안했을 때 -->
