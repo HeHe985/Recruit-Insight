@@ -11,7 +11,7 @@ urlpatterns = [
     # 재무제표 종류 저장
     path("sj/", views.sj),
     # 회사 재무제표 호출
-    path("get_data/", views.get_data),
+    # path("get_data/", views.get_data),
     # json dump 생성
     path("dump/", views.dump),
     # corp list api 호출

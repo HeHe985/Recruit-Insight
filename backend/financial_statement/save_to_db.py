@@ -468,7 +468,7 @@ def get_data(corp, bsns_year, reprt_code):
 
         # 매출액증가율 (sales growth rate)
         last_revenue = fin_dict[i + 1].get("ifrs-full_Revenue")
-        if revenue is not None and last_revenue is not None:
+        if revenue is not None and last_revenue is not None and last_revenue != 0:
             sales_growth_rate = (revenue / last_revenue) - 1
             """
                 (당기 매출액 / 전기 매출액) - 1 
