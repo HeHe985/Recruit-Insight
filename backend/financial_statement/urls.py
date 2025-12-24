@@ -17,9 +17,9 @@ urlpatterns = [
     # corp list api 호출
     path("corp_list/", views.corp_list),
     # 재무제표 상세
-    path("financial_detail/", views.financial_detail),
+    path("financial_detail/<str:corp_code>/", views.financial_detail),
     # 재무제표 비율(분석)
-    path("financial_ratio/", views.financial_ratio),
+    path("financial_ratio/<str:corp_code>/", views.financial_ratio),
     # 기업 이름 검색
     path("target_corp_list/", views.target_corp_list),
 ]

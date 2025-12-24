@@ -6,6 +6,7 @@ import zipfile
 import requests
 import xmltodict
 from django.conf import settings
+from django.db.models import Case, IntegerField, Value, When
 from django.shortcuts import render
 from dotenv import load_dotenv
 from rest_framework import status
@@ -189,6 +190,19 @@ def target_corp_list(request):
     corp_name = request.GET.get("corp_name")  # 검색어가 없으면 안 넘어가게 / 프론트에서 막기
     corps = models.CorpCode.objects.filter(corp_name__icontains=corp_name)
 
+    # 순서 정하기
+    # 정확한 것
+    # 앞에 있는 것 ex: 삼성 검색 -> '삼성'전자 가 르노'삼성' 보다 앞으로 오도록
+    corps = corps.annotate(
+        match_priority=Case(
+            # 1순위
+            When(corp_name__iexact=corp_name, then=Value(0)),
+            When(corp_name__istartswith=corp_name, then=Value(1)),
+            default=Value(2),
+            output_field=IntegerField(),
+        )
+    ).order_by("match_priority", "corp_name")
+
     if corps.exists() is not True:
         # corps가 비어 있다면
         return Response({"message": "조회된 회사가 없습니다."})
@@ -198,7 +212,7 @@ def target_corp_list(request):
 
 
 @api_view(["GET"])
-def financial_detail(request):
+def financial_detail(request, corp_code):
     """
     특정 회사의 재무 데이터 저장 및 반환
 
@@ -229,22 +243,23 @@ def financial_detail(request):
 
     # DART API 호출
     # 예외처리를 하지 않으면, 오타 발생 시 오류 발생
+    print("시작")
     try:
         # 회사 코드 찾기
-        corp_name = request.GET.get("corp_name")  # 회사 이름
-        corp = models.CorpCode.objects.get(corp_name=corp_name)  # 회사 객체
-        corp_code = corp.corp_code  # 회사 번호
-        print("corp", corp_name, corp_code)
-        print(type(corp_code))
+        # corp_code = request.GET.get("corp_code")  # 회사 이름
+        corp = models.CorpCode.objects.get(corp_code=corp_code)  # 회사 객체
+        # corp_code = corp.corp_code  # 회사 번호
+        print("corp", corp.corp_name, corp_code)
+        # print(type(corp_code))
 
     except models.CorpCode.DoesNotExist:
-        print("오류:", corp_name, "을 찾을 수 없습니다.")
+        print("오류:", corp.corp_name, "을 찾을 수 없습니다.")
         return Response({"message": "회사 이름을 찾을 수 없습니다"}, status.HTTP_404_NOT_FOUND)
 
     bsns_year = request.GET.get("bsns_year")
     reprt_code = request.GET.get("reprt_code", "11011")
 
-    # print(corp_code, bsns_year, reprt_code)
+    print(corp_code, bsns_year, reprt_code)
 
     # 당기 데이터
     financial_data = [
@@ -289,7 +304,7 @@ def financial_detail(request):
 
 
 @api_view(["GET"])
-def financial_ratio(request):
+def financial_ratio(request, corp_code):
     """
     특정 회사의 재무 비율 저장 및 반환
 
@@ -300,14 +315,14 @@ def financial_ratio(request):
     # 1. DART API 데이터 호출 =====================================
     try:
         # 회사 코드 찾기
-        corp_name = request.GET.get("corp_name")  # 회사 이름
-        corp = models.CorpCode.objects.get(corp_name=corp_name)  # 회사 객체
-        corp_code = corp.corp_code  # 회사 번호
-        print("corp", corp_name, corp_code)
-        print(type(corp_code))
+        # corp_code = request.GET.get("corp_code")  # 회사 이름
+        corp = models.CorpCode.objects.get(corp_code=corp_code)  # 회사 객체
+        # corp_code = corp.corp_code  # 회사 번호
+        print("corp", corp.corp_name, corp_code)
+        # print(type(corp_code))
 
     except models.CorpCode.DoesNotExist:
-        print("오류:", corp_name, "을 찾을 수 없습니다.")
+        print("오류:", corp.corp_name, "을 찾을 수 없습니다.")
         return Response({"message": "회사 이름을 찾을 수 없습니다"}, status.HTTP_404_NOT_FOUND)
 
     bsns_year = request.GET.get("bsns_year")
