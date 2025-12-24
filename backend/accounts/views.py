@@ -160,7 +160,7 @@ def bookmark_list(request):
 
 
 @api_view(["POST"])
-def cover_letter_create(request):
+def cover_letter_list(request):
     if request.method == "POST":
         serializer = CoverLetterSerializer(data=request.data)
         if serializer.is_valid():
@@ -169,13 +169,6 @@ def cover_letter_create(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def cover_letter_read(request, id):
-    pass
-
-
-def cover_letter_update(request, id):
-    pass
-
-
-def cover_letter_delete(request, id):
+@api_view(["GET", "POST", "DELETE"])
+def cover_letter_detail(request, id):
     pass
