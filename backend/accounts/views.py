@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from accounts.models import Bookmark
-from accounts.serializers import LoginSerializer, SignupSerializer
+from accounts.serializers import CoverLetterSerializer, LoginSerializer, SignupSerializer
 
 
 @api_view(["POST"])
@@ -159,8 +159,14 @@ def bookmark_list(request):
     return Response(serializer.data)
 
 
+@api_view(["POST"])
 def cover_letter_create(request):
-    pass
+    if request.method == "POST":
+        serializer = CoverLetterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def cover_letter_read(request, id):
