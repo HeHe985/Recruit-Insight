@@ -5,6 +5,7 @@ import JobPostingView from '@/views/JobPostingView.vue'
 import LoginView from '@/views/LoginView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAccountsStore } from '@/stores/accounts'
+import SignupView from '@/views/SignupView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,6 +37,11 @@ const router = createRouter({
       name: 'login',
       component: LoginView
     },
+    {
+      path: '/accounts/signup',
+      name: 'signup',
+      component: SignupView
+    }
   ],
 })
 

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { loginAPI } from "@/services/accounts"
+import { loginAPI, logoutAPI } from "@/services/accounts"
 
 export const useAccountsStore = defineStore("accounts", {
   state: () => ({
@@ -23,6 +23,10 @@ export const useAccountsStore = defineStore("accounts", {
     },
 
     logout() {
+      const refresh = this.refresh
+      if (refresh) {
+        logoutAPI(refresh).catch(() => { })
+      }
       this.access = null
       this.refresh = null
 
