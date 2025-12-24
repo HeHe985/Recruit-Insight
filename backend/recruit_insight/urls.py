@@ -24,5 +24,5 @@ urlpatterns = [
     path("finance/", include("financial_statement.urls")),
     # path('api-auth/', include('rest_framework.urls')),
     path("api/v1/accounts/", include("accounts.urls")),
-    path("api/v1/", include("job_postings.urls")),
+    path("api/v1/job_postings/", include("job_postings.urls")),
 ]
