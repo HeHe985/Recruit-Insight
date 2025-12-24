@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from accounts.models import Bookmark
+from accounts.models import Bookmark, CoverLetter
 from accounts.serializers import CoverLetterSerializer, LoginSerializer, SignupSerializer
 
 
@@ -156,6 +156,14 @@ def bookmark_list(request):
     bookmarks = request.user.bookmarks.all()
     bookmark_list = [bookmark.job_posting for bookmark in bookmarks]
     serializer = JobPostingSerializer(bookmark_list, many=True)
+    return Response(serializer.data)
+
+
+# 자기소개서 CRUD ===================================
+@api_view(["GET"])
+def cover_letter_list(request):
+    cover_letters = CoverLetter.objects.all()
+    serializer = CoverLetterSerializer(cover_letters, many=True)
     return Response(serializer.data)
 
 
