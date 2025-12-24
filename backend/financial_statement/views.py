@@ -182,6 +182,22 @@ def corp_list(request):
 
 
 @api_view(["GET"])
+def target_corp_list(request):
+    """
+    특정 회사 리스트 조회
+    """
+    corp_name = request.GET.get("corp_name")  # 검색어가 없으면 안 넘어가게 / 프론트에서 막기
+    corps = models.CorpCode.objects.filter(corp_name__icontains=corp_name)
+
+    if corps.exists() is not True:
+        # corps가 비어 있다면
+        return Response({"message": "조회된 회사가 없습니다."})
+
+    serializer = CorpListSerializer(corps, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
 def financial_detail(request):
     """
     특정 회사의 재무 데이터 저장 및 반환

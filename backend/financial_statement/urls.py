@@ -20,6 +20,8 @@ urlpatterns = [
     path("financial_detail/", views.financial_detail),
     # 재무제표 비율(분석)
     path("financial_ratio/", views.financial_ratio),
+    # 기업 이름 검색
+    path("target_corp_list/", views.target_corp_list),
 ]
 
 # urlpatterns = [
