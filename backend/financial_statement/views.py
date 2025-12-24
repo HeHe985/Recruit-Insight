@@ -195,13 +195,15 @@ def target_corp_list(request):
     # 앞에 있는 것 ex: 삼성 검색 -> '삼성'전자 가 르노'삼성' 보다 앞으로 오도록
     corps = corps.annotate(
         match_priority=Case(
-            # 1순위
+            # 1순위 : 이름 정확히 검색
             When(corp_name__iexact=corp_name, then=Value(0)),
+            # 2순위 : 해당 이름으로 시작
             When(corp_name__istartswith=corp_name, then=Value(1)),
+            # 3순위 : 나머지
             default=Value(2),
             output_field=IntegerField(),
         )
-    ).order_by("match_priority", "corp_name")
+    ).order_by("match_priority", "corp_name")  # 위에서 정한 순위 기준, 나머지는 가나다 순
 
     if corps.exists() is not True:
         # corps가 비어 있다면
