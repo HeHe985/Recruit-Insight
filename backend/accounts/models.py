@@ -42,3 +42,5 @@ class CoverLetter(models.Model):
     category = models.CharField(max_length=1, choices=CATEGORY)  # 카테고리 / 선택형으로 제공
     content = models.TextField()  # 내용
     note = models.TextField()  # 비고
+    created_at = models.DateTimeField(auto_now_add=True)  # 자기소개서 작성 시간
+    updated_at = models.DateTimeField(auto_now=True)  # 자기소개서 수정 시간
