@@ -160,20 +160,23 @@ def bookmark_list(request):
 
 
 # 자기소개서 CRUD ===================================
-@api_view(["POST"])
+@api_view(["GET", "POST"])
 def cover_letter_list(request):
-    if request.method == "POST":
+    if request.method == "GET":
+        cover_letters = CoverLetter.objects.all()
+        serializer = CoverLetterSerializer(cover_letters, many=True)
+        return Response(serializer.data)
+    elif request.method == "POST":
         serializer = CoverLetterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == "GET":
-        cover_letters = CoverLetter.objects.all()
-        serializer = CoverLetterSerializer(cover_letters, many=True)
-        return Response(serializer.data)
 
 
 @api_view(["GET", "POST", "DELETE"])
 def cover_letter_detail(request, id):
-    pass
+    if request.method == "GET":
+        cover_letter = CoverLetter.objects.get(pk=id)
+        serializer = CoverLetterSerializer(cover_letter)
+        return Response(serializer.data)
