@@ -12,6 +12,8 @@ axios.interceptors.request.use((config) => {
   // 공개 API 목록
   const publicUrls = [
     "/api/v1/job_postings",
+    "/api/v1/accounts/signup",
+    "/api/v1/accounts/login",
   ]
 
   const isPublic = publicUrls.some((url) =>
