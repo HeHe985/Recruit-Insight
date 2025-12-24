@@ -12,8 +12,6 @@ urlpatterns = [
     path("sj/", views.sj),
     # 회사 재무제표 호출
     # path("get_data/", views.get_data),
-    # json dump 생성
-    path("dump/", views.dump),
     # corp list api 호출
     path("corp_list/", views.corp_list),
     # 재무제표 상세

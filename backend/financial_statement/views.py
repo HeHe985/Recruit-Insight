@@ -1,11 +1,9 @@
-import json
+import io
 import os
-import time
 import zipfile
 
 import requests
 import xmltodict
-from django.conf import settings
 from django.db.models import Case, IntegerField, Value, When
 from django.shortcuts import render
 from dotenv import load_dotenv
@@ -54,21 +52,11 @@ def get_corp_code(request):
     """
     기업 번호와 기업 이름을 DB에 저장하는 함수
 
-    1. DART API에서 기업 번호와 정식 명칭이 저장된 XML 파일 다운로드
-        - 소스코드와 데이터의 분리를 위해 backend 폴더 안의 api_data 폴더에 저장
-    2. 회사 번호, 회사 이름만 뽑아서 DB에 저장
+    1. DART API에서 기업 번호와 정식 명칭이 저장된 XML 파일 다운로드 및 읽기
+    2. DB에 저장
     """
 
     # 1. XML 파일 다운로드==========================================
-    # zip 파일 저장할 경로
-    api_data_dir = os.path.join(settings.BASE_DIR, "api_data")
-
-    # api_data라는 폴더가 없으면 생성
-    if not os.path.exists(api_data_dir):
-        os.makedirs(api_data_dir)
-
-    zip_file_path = os.path.join(api_data_dir, "corpCode.zip")
-
     # # 여기부터 dart에서 API 호출 진행
     # # -> 너무 자주 호출하면 거부당하기 때문에 필요 시 주석 처리할 것
     crtfc_key = DART_API_KEY
@@ -82,56 +70,23 @@ def get_corp_code(request):
     print("파일 다운로드 중")
     response = requests.get(get_url, params=params)  # API 호출
 
-    if response.status_code == 200:
-        # 데이터 성공적으로 받는 경우
-        with open(zip_file_path, "wb") as f:  # 이진파일 쓰기 모드로 받은 데이터 저장
-            f.write(response.content)
-            # 브라우저에서는 xml로 받은 것을 zip으로 바꿔야 했지만
-            # 여기에서는 파일을 바로 zip으로 작성하여 저장
-        print("다운로드 완료", zip_file_path)
-    else:
-        print("다운로드 실패", response.status_code)
-    # ----------------------------------------------
+    if response.status_code != 200:
+        return Response({"message": "저장실패"}, status.HTTP_502_BAD_GATEWAY)
 
-    # 압축 풀기
-    try:
-        with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
-            zip_ref.extractall(path=api_data_dir)
-            # zipfile 라이브러리의 ZipFile 함수를 이용하여
-            # 파일(경로를 포함해서 제공)을 읽기 전용(r)으로 받아서(zip_ref는 객체 형태임)
-            # extractall(path=압축 풀 위치)을 통해 압축 풀기
-            # print('저장위치', api_data_dir)
-            # print('파일 목록', zip_ref.namelist())
-    except zipfile.BadZipFile:
-        print("올바른 ZIP 파일이 아닙니다")
-
-    # 추후 효율성 등을 고려하여 아래 코드를 적용하는 것을 고려하는 중
-    """
-    # 제미나이 추천 코드----------------------------------------------------
     # 파일로 저장하지 않고, 메모리 상에서 바로 ZIP으로 인식
     with zipfile.ZipFile(io.BytesIO(response.content)) as zip_ref:
-        #압축 파일 내 파일 목록 확인
+        # response.content :
+        # io.BytesIO(response.content) : response.content 파일을 실제 있는 파일인 것처럼 만들어줌
+        # 압축 파일 내 파일 목록 확인
         file_list = zip_ref.namelist()
 
         first_file_name = file_list[0]
         with zip_ref.open(first_file_name) as f:
             # 바로 데이터 읽기
-            xml_string = f.read().decode('utf-8')
-            print(xml_string)
-    # ----------------------------------------------------------------------
-    """
-
-    # 2. DB에 저장 =======================================================
-    start = time.time()  # 소요 시간 계산하기 위해 추가, 시작한 시간 기록
-    with open(f"{api_data_dir}/CORPCODE.xml", encoding="utf8") as corp_xml:
-        xml_string = corp_xml.read()  # xml파일을 읽어옴
+            xml_string = f.read().decode("utf-8")
+            # print(xml_string)
 
     corp_dict = xmltodict.parse(xml_string)  # xml파일을 json 형태로 반환(타입은 딕셔너리)
-
-    # json 파일로 저장 -> 나중에 json 파일을 확인하기 위함
-    with open(f"{api_data_dir}/corp_code.json", "w", encoding="utf-8") as corp_json:
-        json.dump(corp_dict, corp_json, ensure_ascii=False, indent=4)
-        print("json파일 저장")
 
     # API 결과에서 회사 리스트를 추출
     company_list = corp_dict.get("result").get("list")
@@ -158,15 +113,11 @@ def get_corp_code(request):
 
     models.CorpCode.objects.bulk_create(obj_list, batch_size=1000, ignore_conflicts=True)
     print("DB저장 완료")
-    end = time.time()  # 끝나는 시간 저장
+    # end = time.time()  # 끝나는 시간 저장
 
-    print("걸린 시간:", end - start)  # 소요 시간 계산
+    # print("걸린 시간:", end - start)  # 소요 시간 계산
     return Response({"message": "저장되었습니다"}, status=status.HTTP_201_CREATED)
     # return redirect("financial_statement:index")
-
-
-def dump(request):
-    pass
 
 
 @api_view(["GET"])
