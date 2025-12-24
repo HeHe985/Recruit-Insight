@@ -111,7 +111,13 @@ def get_corp_code(request):
                 )
             )
 
-    models.CorpCode.objects.bulk_create(obj_list, batch_size=1000, ignore_conflicts=True)
+    models.CorpCode.objects.bulk_create(
+        obj_list,
+        batch_size=1000,
+        update_conflicts=True,
+        unique_fields=["corp_code"],  # 중복인지 아닌지 판단하는 기준 필드
+        update_fields=["corp_name", "corp_eng_name", "stock_code", "modify_date"],
+    )
     print("DB저장 완료")
     # end = time.time()  # 끝나는 시간 저장
 

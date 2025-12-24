@@ -217,7 +217,13 @@ def get_data(corp, bsns_year, reprt_code):
             fin_dict[2].setdefault(account_id, thstrm_amount)
 
     if obj_list:
-        models.FinancialData.objects.bulk_create(obj_list, ignore_conflicts=True)
+        models.FinancialData.objects.bulk_create(
+            obj_list,
+            ignore_conflicts=True,
+            # update_conflicts=True,
+            # unique_fields=["corp_code", "bsns_year", "account_id", "account_detail"],
+            # update_fields=["account_nm", "thstrm_amount", "currency"]
+        )
         print("데이터 저장")
 
     # 재무비율 계산----------------------------------------------------------------------------------------
