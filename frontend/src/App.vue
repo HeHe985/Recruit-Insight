@@ -4,6 +4,8 @@
     <RouterLink :to="{name: 'home'}">Recruit Insight</RouterLink>
      | 
     <RouterLink :to="{name: 'job_postings_list'}">채용공고</RouterLink>
+     | 
+     <RouterLink :to="{name: 'login'}">LOGIN</RouterLink>
   </nav>
   <RouterView />
 </template>
