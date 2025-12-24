@@ -2,8 +2,6 @@ import os
 import time
 
 from dotenv import load_dotenv
-from rest_framework import status
-from rest_framework.response import Response
 
 from . import models
 from .amount_clean import amount_clean
@@ -63,15 +61,17 @@ def get_data(corp, bsns_year, reprt_code):
 
     if response.status_code != 200:
         print("호출 오류:", response.status_code)
-        return Response({"message": "호출 오류 발생"}, status.HTTP_502_BAD_GATEWAY)
+        # return Response({"message": "호출 오류 발생"}, status.HTTP_502_BAD_GATEWAY)
         # return redirect("financial_statement:index")
+        return False
 
     data = response.json()
 
     if data["status"] != "000":
         print("재무제표 호출 실패:", data)
-        return Response({"message": "재무제표 호출 실패"}, status.HTTP_404_NOT_FOUND)
+        # return Response({"message": "재무제표 호출 실패"}, status.HTTP_404_NOT_FOUND)
         # return redirect("financial_statment:index")
+        return False
 
     # # 정상 호출
     # # api 결과 json 파일로 저장------------------------------------------
@@ -493,5 +493,5 @@ def get_data(corp, bsns_year, reprt_code):
     end = time.time()
     print(end - start, "초")
     # pprint(ratio_list)
-    return None
+    return True
     # return redirect("financial_statement:index")

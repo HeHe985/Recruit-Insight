@@ -183,6 +183,32 @@ def corp_list(request):
 
 @api_view(["GET"])
 def financial_detail(request):
+    """
+    특정 회사의 재무 데이터 저장 및 반환
+
+    회사의 3년치 데이터 반환
+    만약 3년 중 하나라도 데이터가 DB에 없다면, get_data()함수를 통해 3년치 데이터 저장
+
+    리턴 형태
+    {
+        "당기" : [
+            {
+                "id" : 7057,
+                ...
+            }, ...
+        ],
+        "전기" : [
+            {
+                ...
+            }
+        ],
+        "전전기" : [
+            {
+                ...
+            }
+        ]
+    }
+    """
     # 1. DART API 데이터 호출 =====================================
 
     # DART API 호출
@@ -204,32 +230,57 @@ def financial_detail(request):
 
     # print(corp_code, bsns_year, reprt_code)
 
-    financial_data = models.FinancialData.objects.filter(
-        corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code
-    )
+    # 당기 데이터
+    financial_data = [
+        models.FinancialData.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
+        # 전기 데이터(1년 전)
+        models.FinancialData.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
+        # 전전기 데이터(2년 전)
+        models.FinancialData.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
+    ]
 
-    # financial_data_corp_code = models.FinancialData.objects.filter(corp_code=corp)
-    # print('code로 찾기', financial_data_corp_code)
-    # financial_data_year = models.FinancialData.objects.filter(bsns_year=bsns_year)
-    # print('year로 찾기', financial_data_year)
-    # financial_data_reprt = models.FinancialData.objects.filter(reprt_code=reprt_code)
-    # print('reprt로 찾기', financial_data_reprt)
+    # 전기/전전기 데이터가 없다면?
+    # 데이터 존재 여부 저장
+    data_exist_list = [False] * 3
 
-    if financial_data.exists() is not True:
-        # 데이터가 존재X
-        print("데이터 없음", financial_data)
-        get_data(corp, bsns_year, reprt_code)
-        financial_data = models.FinancialData.objects.filter(corp_code=corp, bsns_year=bsns_year, reprt_code=reprt_code)
-        print("데이터 조회", financial_data)
+    serializer_data = []
 
-    print("데이터 있음", financial_data)
-    serializer = FinancialDataSerializer(financial_data, many=True)
+    print(financial_data[0])
+    # 3년 데이터 존재 여부 확인
+    for i in range(3):
+        if financial_data[i].exists() is not True:  # 길이 확인
+            # 데이터가 존재X
+            print("데이터 없음", financial_data[i])
+            saved = get_data(corp, bsns_year, reprt_code)
+            print(bsns_year, "년도 데이터", saved)
+            financial_data[i] = models.FinancialData.objects.filter(
+                corp_code=corp, bsns_year=bsns_year, reprt_code=reprt_code
+            )
+            if financial_data[i].exists() is not True:  # 길이 재확인
+                serializer_data.append({"message": f"{bsns_year}년의 데이터가 없습니다."})
+                continue
+        data_exist_list[i] = True  # 존재한다면 True로 변경
+        serializer = FinancialDataSerializer(financial_data[i], many=True)  # 시리얼라이저 생성
+        serializer_data.append(serializer.data)
 
-    return Response(serializer.data)
+    response_data = {
+        "당기": serializer_data[0],
+        "전기": serializer_data[1],
+        "전전기": serializer_data[2],
+    }
+
+    return Response(response_data)
 
 
 @api_view(["GET"])
 def financial_ratio(request):
+    """
+    특정 회사의 재무 비율 저장 및 반환
+
+    회사의 3년치 재무비율 데이터 반환
+    만약 3년 중 하나라도 데이터가 DB에 없다면, get_data()함수를 통해 3년치 데이터 저장
+    """
+
     # 1. DART API 데이터 호출 =====================================
     try:
         # 회사 코드 찾기
@@ -246,27 +297,45 @@ def financial_ratio(request):
     bsns_year = request.GET.get("bsns_year")
     reprt_code = request.GET.get("reprt_code", "11011")
 
-    financial_ratio = models.FinancialRatio.objects.filter(
-        corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code
-    )
+    # print(corp_code, bsns_year, reprt_code)
 
-    if financial_ratio.exists() is not True:
-        # 데이터가 존재X
-        print("데이터 없음", financial_ratio)
-        get_data(corp, bsns_year, reprt_code)
-        financial_ratio = models.FinancialRatio.objects.filter(
-            corp_code=corp, bsns_year=bsns_year, reprt_code=reprt_code
-        )
-        print("데이터 조회", financial_ratio)
+    # 당기 데이터
+    financial_ratio_data = [
+        models.FinancialRatio.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
+        # 전기 데이터(1년 전)
+        models.FinancialRatio.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
+        # 전전기 데이터(2년 전)
+        models.FinancialRatio.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
+    ]
 
-    print("데이터 있음", financial_ratio)
-    serializer = FinancialRatioSerializer(financial_ratio, many=True)
+    # 전기/전전기 데이터가 없다면?
+    # 데이터 존재 여부 저장
+    data_exist_list = [False] * 3
 
-    return Response(serializer.data)
+    serializer_data = []
 
+    print(financial_ratio_data[0])
+    # 3년 데이터 존재 여부 확인
+    for i in range(3):
+        if financial_ratio_data[i].exists() is not True:  # 길이 확인
+            # 데이터가 존재X
+            print("데이터 없음", financial_ratio_data[i])
+            saved = get_data(corp, bsns_year, reprt_code)
+            print(bsns_year, "년도 데이터", saved)
+            financial_ratio_data[i] = models.FinancialRatio.objects.filter(
+                corp_code=corp, bsns_year=bsns_year, reprt_code=reprt_code
+            )
+            if financial_ratio_data[i].exists() is not True:  # 길이 재확인
+                serializer_data.append({"message": f"{bsns_year}년의 데이터가 없습니다."})
+                continue
+        data_exist_list[i] = True  # 존재한다면 True로 변경
+        serializer = FinancialRatioSerializer(financial_ratio_data[i], many=True)  # 시리얼라이저 생성
+        serializer_data.append(serializer.data)
 
-# TODO
-# 약간 더 생각해봐야 하는 부분
-# 회사 조회 -> 해당 연도 말고 이전에서부터 변화 추이를 보여줘야 할텐데 그러면 몇년치를 한번에 보여줘야 할까?
-# 그리고 그 경우에 과거 정보가 없으면 다시 해당 연도를 호출해야 할까?
-# 일단 하면 좋을 것 같긴 함
+    response_data = {
+        "당기": serializer_data[0],
+        "전기": serializer_data[1],
+        "전전기": serializer_data[2],
+    }
+
+    return Response(response_data)
