@@ -151,3 +151,7 @@ REST_FRAMEWORK = {
 REST_AUTH = {
     "USE_JWT": True,
 }
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]

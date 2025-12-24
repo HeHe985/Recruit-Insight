@@ -33,7 +33,7 @@ def login(request):
     Raises:
         ValidationError: 아이디 또는 비밀번호가 올바르지 않을 경우
     """
-    serializer = LoginSerializer(data=request.data)
+    serializer = LoginSerializer(data=request.data, context={"request": request})
     serializer.is_valid(raise_exception=True)
     return Response(serializer.validated_data)
 

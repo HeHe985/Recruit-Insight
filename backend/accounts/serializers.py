@@ -12,7 +12,9 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
+        request = self.context.get("request")
         user = authenticate(
+            request=request,
             username=data["username"],
             password=data["password"],
         )

@@ -26,8 +26,8 @@
       <h3>{{ job.emp_recr_nm }}</h3>
 
       <p>근무지역: {{ job.work_region_nm }}</p>
-      <p>경력: {{ job.emp_wanted_career_nm }}</p>
-      <p>학력: {{ job.emp_wanted_edu_nm }}</p>
+      <p>경력사항: {{ job.emp_wanted_career_nm }}</p>
+      <p>학력사항: {{ job.emp_wanted_edu_nm }}</p>
 
       <strong>주요 업무</strong>
       <pre>{{ job.job_cont }}</pre>
