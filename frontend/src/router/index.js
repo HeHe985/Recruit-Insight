@@ -6,6 +6,9 @@ import LoginView from '@/views/LoginView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAccountsStore } from '@/stores/accounts'
 
+import MyPageView from '@/views/MyPageView.vue' // 마이페이지 임시 파일
+import CoverLetterView from '@/views/CoverLetterView.vue' // 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
