@@ -157,3 +157,19 @@ def bookmark_list(request):
     bookmark_list = [bookmark.job_posting for bookmark in bookmarks]
     serializer = JobPostingSerializer(bookmark_list, many=True)
     return Response(serializer.data)
+
+
+def cover_letter_create(request):
+    pass
+
+
+def cover_letter_read(request, id):
+    pass
+
+
+def cover_letter_update(request, id):
+    pass
+
+
+def cover_letter_delete(request, id):
+    pass
