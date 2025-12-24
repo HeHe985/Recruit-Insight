@@ -7,6 +7,7 @@ class JobPostingSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobPostingList
         fields = (
+            "emp_seqno",
             "emp_wanted_title",
             "emp_busi_nm",
             "emp_wanted_type_nm",
