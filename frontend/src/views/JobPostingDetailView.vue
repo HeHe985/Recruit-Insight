@@ -79,7 +79,7 @@ onMounted(async () => {
   const empSeqno = route.params.id
 
   const res = await axios.get(
-    `http://127.0.0.1:8000/api/v1/job_postings/detail/${empSeqno}/`,
+    `http://127.0.0.1:8000/api/v1/job_postings/detail/${empSeqno}/`
   )
 
   post.value = res.data

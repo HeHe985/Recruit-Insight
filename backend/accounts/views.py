@@ -6,8 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from accounts.models import Bookmark
-from accounts.serializers import LoginSerializer, SignupSerializer
+from accounts.models import Bookmark, CoverLetter
+from accounts.serializers import CoverLetterSerializer, LoginSerializer, SignupSerializer
 
 
 @api_view(["POST"])
@@ -158,3 +158,35 @@ def bookmark_list(request):
     bookmark_list = [bookmark.job_posting for bookmark in bookmarks]
     serializer = JobPostingSerializer(bookmark_list, many=True, context={"request": request})
     return Response(serializer.data)
+
+
+# 자기소개서 CRUD ===================================
+@api_view(["GET", "POST"])
+def cover_letter_list(request):
+    if request.method == "GET":
+        cover_letters = CoverLetter.objects.all()
+        serializer = CoverLetterSerializer(cover_letters, many=True)
+        return Response(serializer.data)
+    elif request.method == "POST":
+        serializer = CoverLetterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET", "PUT", "DELETE"])
+def cover_letter_detail(request, id):
+    cover_letter = CoverLetter.objects.get(pk=id)
+    if request.method == "GET":
+        serializer = CoverLetterSerializer(cover_letter)
+        return Response(serializer.data)
+    elif request.method == "PUT":
+        serializer = CoverLetterSerializer(cover_letter, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == "DELETE":
+        cover_letter.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

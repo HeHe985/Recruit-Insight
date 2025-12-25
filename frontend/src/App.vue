@@ -1,6 +1,7 @@
 <template>
-  <h1>App View</h1>
-  <nav>
+  <header>
+    <h1>App View</h1>
+    <nav>
     <RouterLink :to="{name: 'home'}">Recruit Insight</RouterLink>
      | 
     <RouterLink :to="{name: 'job_postings_list'}">채용공고</RouterLink>
@@ -17,7 +18,9 @@
       | 
       <RouterLink :to="{name: 'signup'}">SIGNUP</RouterLink>
     </div>
-  </nav>
+    </nav>
+  </header>
+
   <RouterView />
 </template>
 

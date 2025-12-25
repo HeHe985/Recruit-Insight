@@ -7,7 +7,7 @@ class CorpCode(models.Model):
     # 고유 번호, 공시 대상 회사의 고유 번호 8자리
     corp_name = models.CharField(max_length=50, db_index=True)
     # 정식 회사 명칭, 명칭으로 검색할 예정이라 db_index설정 추가
-    corp_eng_name = models.CharField(max_length=100)
+    corp_eng_name = models.CharField(max_length=100, null=True)
     stock_code = models.CharField(max_length=6, null=True)
     modify_date = models.CharField(max_length=8)
 

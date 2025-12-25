@@ -3,6 +3,8 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from .models import CoverLetter
+
 
 User = get_user_model()
 
@@ -58,3 +60,9 @@ class SignupSerializer(serializers.ModelSerializer):
             **validated_data,
         )
         return user
+
+
+class CoverLetterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CoverLetter
+        fields = "__all__"
