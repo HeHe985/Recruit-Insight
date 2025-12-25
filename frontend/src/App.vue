@@ -9,7 +9,7 @@
       <RouterLink :to="{name: 'login'}">LOGIN</RouterLink>
     </nav>
   </header>
-  <RouterLink :to="{name: 'CoverLetterView'}">자기소개서 리스트</RouterLink>
+  <RouterLink :to="{name: 'CoverLetterListView'}">자기소개서 리스트</RouterLink>
   <RouterView />
 </template>
 

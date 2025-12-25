@@ -40,9 +40,14 @@ const router = createRouter({
       component: LoginView
     },
     {
-      path: '/coverletter',
-      name: 'CoverLetterView',
+      path: '/cover-letter',
+      name: 'CoverLetterListView',
       component : CoverLetterListView
+    },
+    {
+      path: '/cover-letter/:id',
+      name: 'CoverLetterDatailView',
+      component: 
     }
   ],
 })
