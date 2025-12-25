@@ -1,9 +1,8 @@
 <template>
   <!-- <div class="company-card" @click="goDetail"> -->
     <div class="info">
-      <span class="id-badge">No. {{ company.id }}</span>
-      
       <h3 class="name">{{ company.corp_name }}</h3> 
+      <hr>
     </div>
     
   <!-- </div> -->

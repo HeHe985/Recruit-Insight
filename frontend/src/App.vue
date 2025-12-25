@@ -18,19 +18,6 @@
       </div>
     </nav>
   </header>
-  <RouterLink :to="{name: 'CompanySearchView'}">회사 검색하기</RouterLink><br>
-  <div>
-    <h1>회사 검색</h1>
-    <div class="search-box">
-      <input 
-        type="text" 
-        v-model="keyword" 
-        @keyup.enter="search" 
-        placeholder="회사명을 입력하세요"
-      >
-      <button @click="search">검색</button>
-    </div>
-  </div>
   <RouterLink :to="{name: 'CoverLetterListView'}">자기소개서 리스트</RouterLink>
 
   <RouterView />
@@ -39,9 +26,7 @@
 <script setup>
 import { RouterView, RouterLink } from 'vue-router';
 import { useAccountsStore } from '@/stores/accounts';
-import { useCompanyStore } from '@/stores/companys.js'
 import { useRouter } from 'vue-router';
-import { ref } from 'vue'
 // import CompanySearchView from '@/components/CompanySearchView.vue'
 
 
@@ -53,16 +38,6 @@ const handleLogout = function() {
   router.push('/accounts/login')
 }
 
-//검색
-const store = useCompanyStore()
-const keyword = ref('')
-
-// 검색 버튼 클릭 시
-const search = function () {
-  store.getCompanys(keyword.value)
-  // 검색 페이지로 이동
-  router.push({ name: 'CompanySearchView' })
-}
 </script>
 
 <style scoped>
