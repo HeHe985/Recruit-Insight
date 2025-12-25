@@ -1,30 +1,53 @@
 <template>
-  <div>
-    <h1>Bookmark View</h1>
-    <p v-if="bookmarks.length === 0">북마크한 공고가 없습니다.</p>
+  <div class="bookmark-view-container">
+  <header class="section-header">
+    <h2 class="title">
+      관심 채용 공고
+    </h2>
+      <span class="count" v-if="bookmarks.length > 0">{{ bookmarks.length }}개의 공고가 북마크되어 있어요!</span>
+  </header>
+  
+    <div v-if="bookmarks.length === 0" class="empty-state">
+      <h3 class="empty-title">아직 찜한 공고가 없어요!</h3>      
+      <RouterLink :to="{name: 'job_postings_list'}" class="btn btn-mint">
+        채용 공고를 둘러보세요!
+      </RouterLink>
+    </div>
+    
+    
+    
+    <!-- <div v-else class="bookmark-grid"> -->
+      <div v-else
+      v-for="b in bookmarks" 
+      :key="b.emp_seqno || b.id" 
+      class="custom-card"
+      >
 
-    <ul v-else>
-      <li v-for="b in bookmarks" :key="b.id">
-        <h3>
+      <div class="job-card ri-card ri-card-hover">
+      	<div class="card-body">
           <RouterLink
-            v-if="b.emp_seqno"
             :to="{
               name: 'job_posting_detail',
               params: { id: b.emp_seqno }
             }"
+            class="title-link"
           >
-            {{ b.emp_wanted_title }}
-          </RouterLink>
-        </h3>
+        <p class="company-name">{{ b.emp_busi_nm }}</p>
 
-        <p>회사명: {{ b.emp_busi_nm }}</p>
-        <p>고용형태: {{ b.emp_wanted_type_nm }}</p>
-        <p>
-          기간:
-          {{ b.emp_wanted_stdt }} ~ {{ b.emp_wanted_endt }}
-        </p>
-      </li>
-    </ul>
+        <h3 class="job-title">
+            {{ b.emp_wanted_title }}
+          </h3>
+          
+          <div class="tags">
+            <span class="badge badge-score">{{ b.emp_wanted_type_nm }}</span>
+            <span class="badge badge-score">{{ b.emp_wanted_stdt }} ~ {{ b.emp_wanted_endt }}
+            </span>
+          </div>
+        </RouterLink>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
