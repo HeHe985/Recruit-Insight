@@ -1,6 +1,8 @@
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 // 데이터 보존 및 사용을 위한 플러그인
 
+import './assets/global.css' // 👈 여기에 추가하세요!
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { useAccountsStore } from '@/stores/accounts'
