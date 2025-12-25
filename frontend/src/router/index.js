@@ -6,8 +6,8 @@ import LoginView from '@/views/LoginView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAccountsStore } from '@/stores/accounts'
 
-import MyPageView from '@/views/MyPageView.vue' // 마이페이지 임시 파일
-import CoverLetterView from '@/views/CoverLetterView.vue' // 
+// import MyPageView from '@/views/MyPageView.vue' // 마이페이지 임시 파일
+import CoverLetterListView from '@/views/CoverLetterListView.vue' // 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +39,11 @@ const router = createRouter({
       name: 'login',
       component: LoginView
     },
+    {
+      path: '/coverletter',
+      name: 'CoverLetterView',
+      component : CoverLetterListView
+    }
   ],
 })
 

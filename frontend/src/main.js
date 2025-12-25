@@ -35,7 +35,7 @@ axios.interceptors.request.use((config) => {
 
 const app = createApp(App)
 
-const pinia = creatPinia()
+const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 app.use(pinia)
 
