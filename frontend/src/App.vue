@@ -18,6 +18,8 @@
       </div>
     </nav>
   </header>
+  <RouterLink :to="{name: 'CompanySearchView'}">회사 검색하기</RouterLink><br>
+
   <RouterLink :to="{name: 'CoverLetterListView'}">자기소개서 리스트</RouterLink>
 
   <RouterView />

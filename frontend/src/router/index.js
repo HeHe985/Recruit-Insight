@@ -10,6 +10,7 @@ import SignupView from '@/views/SignupView.vue'
 // import MyPageView from '@/views/MyPageView.vue' // 마이페이지 임시 파일
 import CoverLetterListView from '@/views/CoverLetterListView.vue'
 import CoverLetterDetailView from '@/views/CoverLetterDetailView.vue'
+import CompanySearchView from '@/views/CompanySearchView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,6 +46,11 @@ const router = createRouter({
       path: '/accounts/signup',
       name: 'signup',
       component: SignupView
+    },
+    {
+      path: '/search',
+      name: 'CompanySearchView',
+      component: CompanySearchView
     },
     {
       path: '/cover-letter',
