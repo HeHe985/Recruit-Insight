@@ -40,24 +40,13 @@ export const bookmarkListAPI = () => {
 
 export const addBookmarkAPI = (empSeqno, accessToken) => {
   return axios.post(
-    `http://localhost:8000/api/v1/accounts/bookmark/${empSeqno}/`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
+    `http://localhost:8000/api/v1/accounts/bookmark/${empSeqno}/`
   )
 }
 
 
 export const deleteBookmarkAPI = (empSeqno, accessToken) => {
   return axios.delete(
-    `http://localhost:8000/api/v1/accounts/bookmark/${empSeqno}/`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
+    `http://localhost:8000/api/v1/accounts/bookmark/${empSeqno}/`
   )
 }

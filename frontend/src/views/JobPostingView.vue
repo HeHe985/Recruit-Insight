@@ -1,7 +1,7 @@
 <template>
   <div>
 		<h1>Job Posting View</h1>
-		<RouterView :key="$route.fullPath" />
+		<RouterView />
   </div>
 </template>
 
