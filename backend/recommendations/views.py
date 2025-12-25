@@ -1,6 +1,5 @@
-from time import time
-
 from job_postings.models import JobPostingDetail  # 채용공고 상세
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -13,7 +12,6 @@ from .services import JobRecommendationService
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def ai_recommend_view(request):
-    start = time()
     # 테스트 데이터
     resume_data = {
         "name": "김싸피",
@@ -122,8 +120,12 @@ def ai_recommend_view(request):
         )
 
         recommendation_list.append(obj)
+    return Response(status=status.HTTP_200_OK)
 
-    serializer = RecommendationSerializer(recommendation_list, many=True)
-    end = time()
-    print(end - start, "초")
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def recommend_list(request):
+    recommends = Recommendation.objects.filter(user=request.user).order_by("-score")[:5]
+    serializer = RecommendationSerializer(recommends, many=True)
     return Response(serializer.data)
