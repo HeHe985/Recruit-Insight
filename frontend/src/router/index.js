@@ -12,8 +12,11 @@ import BookmarkView from '@/views/BookmarkView.vue'
 // import MyPageView from '@/views/MyPageView.vue' // 마이페이지 임시 파일
 import CoverLetterListView from '@/views/CoverLetterListView.vue'
 import CoverLetterDetailView from '@/views/CoverLetterDetailView.vue'
+import CompanySearchView from '@/views/CompanySearchView.vue'
+import CompanyDetailView from '@/views/CompanyDetailView.vue'
 import CoverLetterCreateView from '@/views/CoverLetterCreateView.vue'
 import CoverLetterEditView from '@/views/CoverLetterEditView.vue'
+import AIRecommendationView from '@/views/AIRecommendationView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,6 +55,17 @@ const router = createRouter({
       component: SignupView
     },
     {
+      path: '/search',
+      name: 'CompanySearchView',
+      component: CompanySearchView
+    },
+    {
+      path: '/company/:corpCode',
+      name: 'CompanyDetailView',
+      component: CompanyDetailView,
+      params: true
+    },
+    {
       path: '/mypage',
       name: 'mypage',
       component: MyPageView,
@@ -83,6 +97,12 @@ const router = createRouter({
       name: 'CoverLetterEditView',
       component: CoverLetterEditView
     },
+    {
+      path: '/recommendations/recommend_list',
+      name: 'recommend',
+      component: AIRecommendationView,
+      meta: { requiresAuth: true },
+    },
   ],
 })
 
@@ -93,6 +113,7 @@ router.beforeEach((to, from, next) => {
   // "이동할 페이지"가 로그인이 필요하고, 현재 로그인 안했으면
   if (to.meta.requiresAuth && !accounts.isAuthenticated) {
     // 로그인으로
+    alert("로그인이 필요합니다.")
     next("/accounts/login")
   } else {
     // to로
