@@ -66,3 +66,4 @@ class CoverLetterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CoverLetter
         fields = "__all__"
+        read_only_fields = ("user",)
