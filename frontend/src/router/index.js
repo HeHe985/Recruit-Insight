@@ -11,6 +11,7 @@ import SignupView from '@/views/SignupView.vue'
 import CoverLetterListView from '@/views/CoverLetterListView.vue'
 import CoverLetterDetailView from '@/views/CoverLetterDetailView.vue'
 import CoverLetterCreateView from '@/views/CoverLetterCreateView.vue'
+import CoverLetterEditView from '@/views/CoverLetterEditView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -62,6 +63,11 @@ const router = createRouter({
       path: '/cover-letter/create',
       name: 'CoverLetterCreateView',
       component: CoverLetterCreateView
+    },
+    {
+      path: '/cover-letter/:id/edit',
+      name: 'CoverLetterEditView',
+      component: CoverLetterEditView
     }
   ],
 })
