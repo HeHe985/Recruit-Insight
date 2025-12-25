@@ -30,3 +30,43 @@ export const logoutAPI = (refresh) => {
     { refresh }
   )
 }
+
+
+export const bookmarkListAPI = () => {
+  return axios.get(
+    "http://localhost:8000/api/v1/accounts/bookmark/list/"
+  )
+}
+
+export const addBookmarkAPI = (empSeqno, accessToken) => {
+  return axios.post(
+    `http://localhost:8000/api/v1/accounts/bookmark/${empSeqno}/`
+  )
+}
+
+
+export const deleteBookmarkAPI = (empSeqno, accessToken) => {
+  return axios.delete(
+    `http://localhost:8000/api/v1/accounts/bookmark/${empSeqno}/`
+  )
+}
+
+
+export const BookmarkListAPI = (empSeqno, accessToken) => {
+  return axios.get(
+    `http://localhost:8000/api/v1/accounts/bookmark/list/`
+  )
+}
+
+
+export const RecommendationAPI = () => {
+  return axios.get(
+    `http://localhost:8000/api/v1/recommendations/recommend_list/`
+  )
+}
+
+export const NewRecommendAPI = () => {
+  return axios.post(
+    `http://localhost:8000/api/v1/recommendations/recommend/`
+  )
+}

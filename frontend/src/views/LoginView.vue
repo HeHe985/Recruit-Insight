@@ -7,13 +7,12 @@
       <button type="submit">로그인</button>
     </form>
     <p v-if="error">{{ error }}</p>
-    <RouterLink :to="{name: 'signup'}">SIGNUP</RouterLink>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue"
-import { useRouter, RouterLink } from "vue-router"
+import { useRouter } from "vue-router"
 import { useAccountsStore } from "@/stores/accounts"
 
 const username = ref("")

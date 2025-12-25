@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>자기소개서 리스트</h1>
+    <RouterLink :to="{ name: 'CoverLetterCreateView'}">[Create]</RouterLink>
     <CoverLetterList />
   </div>
 </template>

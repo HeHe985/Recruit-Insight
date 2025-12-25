@@ -44,7 +44,7 @@ def job_posting_detail(request, emp_seqno):
         Response: 직렬화된 채용 공고 채용 상세 정보를 포함하는 Response 객체
     """
     job_posting = JobPostingList.objects.get(pk=emp_seqno)
-    serializer = JobPostingListSerializer(job_posting)
+    serializer = JobPostingListSerializer(job_posting, context={"request": request})
     return Response(serializer.data)
 
 
