@@ -1,0 +1,231 @@
+/* Recruit Insight Design System 
+  - Vibe: Trust & Insight
+  - Based on Tailwind CSS Utility conversion
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* --- Color Palette --- */
+  
+  /* Primary: Deep Ocean Navy (신뢰, 전문성) */
+  --color-navy-800: #1A365D;
+  --color-navy-900: #0F172A;
+  --color-navy-50:  #F0F4F8; /* 배경용 연한 네이비 */
+
+  /* Secondary: Insight Mint (통찰, 긍정, AI) */
+  --color-mint-400: #4FD1C5;
+  --color-mint-500: #38B2AC;
+  --color-mint-600: #319795;
+  --color-mint-50:  #E6FFFA;
+
+  /* Neutrals */
+  --color-slate-50:  #F8FAFC;
+  --color-slate-100: #F1F5F9;
+  --color-slate-200: #E2E8F0;
+  --color-slate-400: #94A3B8;
+  --color-slate-500: #64748B;
+  --color-slate-700: #334155;
+  --color-slate-800: #1E293B;
+  --color-white:     #FFFFFF;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Radius */
+  --radius-lg: 0.5rem;   /* 8px */
+  --radius-xl: 0.75rem;  /* 12px */
+  --radius-2xl: 1rem;    /* 16px */
+  --radius-full: 9999px;
+}
+
+/* --- Base Reset & Typography --- */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-slate-50);
+  color: var(--color-slate-800);
+  margin: 0;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: var(--color-navy-900);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+/* --- Components --- */
+
+/* 1. Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  border-radius: var(--radius-xl);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  gap: 0.5rem;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background-color: var(--color-navy-800);
+  color: var(--color-white);
+  box-shadow: var(--shadow-md);
+}
+.btn-primary:hover {
+  background-color: var(--color-navy-900);
+}
+
+.btn-mint {
+  background-color: var(--color-mint-500);
+  color: var(--color-white);
+}
+.btn-mint:hover {
+  background-color: var(--color-mint-400);
+}
+
+.btn-outline-mint {
+  background-color: var(--color-mint-50);
+  color: var(--color-mint-600);
+  border: 1px solid var(--color-mint-200);
+}
+.btn-outline-mint:hover {
+  background-color: var(--color-mint-100);
+}
+
+/* 2. Cards (핵심 UI) */
+.ri-card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-slate-100);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* 호버 시 살짝 떠오르는 효과 */
+.ri-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--color-mint-200); /* 호버 시 미세한 민트 테두리 */
+}
+
+/* 3. Badges & Tags */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-lg);
+  font-size: 0.75rem; /* 12px */
+  font-weight: 700;
+}
+
+.badge-score {
+  background-color: var(--color-navy-50);
+  color: var(--color-navy-800);
+  border: 1px solid var(--color-slate-200);
+}
+
+.tag {
+  background-color: var(--color-slate-50);
+  color: var(--color-slate-500);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+}
+
+/* 4. Inputs */
+.ri-input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--color-white);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s;
+}
+
+.ri-input::placeholder {
+  color: var(--color-slate-400);
+}
+
+.ri-input:focus {
+  outline: none;
+  background-color: var(--color-white);
+  color: var(--color-navy-900);
+  box-shadow: 0 0 0 4px rgba(56, 178, 172, 0.3); /* Mint ring */
+}
+
+/* 5. Header Styles */
+.ri-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: rgba(26, 54, 93, 0.95); /* Navy-800 + Opacity */
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-white);
+  height: 4rem;
+}
+
+/* 6. AI Insight Box (포인트 영역) */
+.ai-insight-box {
+  background-color: var(--color-navy-800);
+  border-radius: var(--radius-2xl);
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  box-shadow: var(--shadow-xl);
+}
+
+/* 배경 데코레이션 효과 */
+.ai-insight-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16rem;
+  height: 16rem;
+  background-color: var(--color-mint-500);
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.1;
+  transform: translate(30%, -30%);
+}
+
+/* --- Utilities --- */
+.text-mint { color: var(--color-mint-500); }
+.text-navy { color: var(--color-navy-800); }
+.bg-navy { background-color: var(--color-navy-900); }
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-custom {
+  max-width: 80rem; /* 7xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
