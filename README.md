@@ -142,7 +142,7 @@ Recruit Insight는 재무제표 기반 기업 분석과 AI 추천을 결합한 �
 ## 데이터베이스 모델링 (ERD 개요)
 
 - 파일 첨부(recruit_insight.erd)
-
+![erd](erd.png)
 ---
 
 ## 기술적 도전 및 문제 해결
