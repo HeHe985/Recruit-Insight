@@ -6,11 +6,18 @@ import LoginView from '@/views/LoginView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAccountsStore } from '@/stores/accounts'
 import SignupView from '@/views/SignupView.vue'
+import MyPageView from '@/views/MyPageView.vue'
+import BookmarkView from '@/views/BookmarkView.vue'
 
 // import MyPageView from '@/views/MyPageView.vue' // 마이페이지 임시 파일
 import CoverLetterListView from '@/views/CoverLetterListView.vue'
 import CoverLetterDetailView from '@/views/CoverLetterDetailView.vue'
+<<<<<<< HEAD
 import CompanySearchView from '@/views/CompanySearchView.vue'
+=======
+import CoverLetterCreateView from '@/views/CoverLetterCreateView.vue'
+import CoverLetterEditView from '@/views/CoverLetterEditView.vue'
+>>>>>>> 8ec692a7a05d7d35370b272e20b7625773dfb352
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,6 +49,7 @@ const router = createRouter({
       name: 'login',
       component: LoginView
     },
+    // 자기소개서 CRUD ======================
     {
       path: '/accounts/signup',
       name: 'signup',
@@ -53,15 +61,37 @@ const router = createRouter({
       component: CompanySearchView
     },
     {
-      path: '/cover-letter',
-      name: 'CoverLetterListView',
-      component : CoverLetterListView
+      path: '/mypage',
+      name: 'mypage',
+      component: MyPageView,
+      children: [
+        {
+          path: '/bookmark/list',
+          name: 'bookmark',
+          component: BookmarkView
+        },
+        {
+          path: 'cover-letter',
+          name: 'CoverLetterListView',
+          component : CoverLetterListView
+        },
+        {
+          path: 'cover-letter/:id',
+          name: 'CoverLetterDatailView',
+          component: CoverLetterDetailView
+        },      
+      ],
     },
     {
-      path: '/cover-letter/:id',
-      name: 'CoverLetterDatailView',
-      component: CoverLetterDetailView
+      path: '/cover-letter/create',
+      name: 'CoverLetterCreateView',
+      component: CoverLetterCreateView
     },
+    {
+      path: '/cover-letter/:id/edit',
+      name: 'CoverLetterEditView',
+      component: CoverLetterEditView
+    }
   ],
 })
 
