@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from accounts.models import Bookmark
+from accounts.models import Bookmark, CoverLetter
 from accounts.serializers import CoverLetterSerializer, LoginSerializer, SignupSerializer
 
 
@@ -159,7 +159,8 @@ def bookmark_list(request):
     return Response(serializer.data)
 
 
-@api_view(["POST"])
+# 자기소개서 CRUD ===================================
+@api_view(["GET", "POST"])
 def cover_letter_list(request):
     if request.method == "POST":
         serializer = CoverLetterSerializer(data=request.data)
@@ -167,6 +168,10 @@ def cover_letter_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == "GET":
+        cover_letters = CoverLetter.objects.all()
+        serializer = CoverLetterSerializer(cover_letters, many=True)
+        return Response(serializer.data)
 
 
 @api_view(["GET", "POST", "DELETE"])
