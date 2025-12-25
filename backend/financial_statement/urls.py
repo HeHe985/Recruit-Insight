@@ -4,30 +4,32 @@ from . import views
 
 
 app_name = "financial_statement"
-# urlpatterns = [
-#     path("index/", views.index),
-#     # 회사 코드 호출
-#     path("get_corp_code/", views.get_corp_code),
-#     # 재무제표 종류 저장
-#     path("sj/", views.sj),
-#     # 회사 재무제표 호출
-#     path("get_data/", views.get_data),
-#     # json dump 생성
-#     path("dump/", views.dump),
-#     # corp list api 호출
-#     path("corp_list/", views.corp_list),
-#     # 재무제표 상세
-#     # path('financial_detail/', views.financial_detail)
-# ]
-
 urlpatterns = [
-    path("index/", views.index, name="index"),
+    path("index/", views.index),
     # 회사 코드 호출
-    path("get_corp_code/", views.get_corp_code, name="get_corp_code"),
+    path("get_corp_code/", views.get_corp_code),
     # 재무제표 종류 저장
-    path("sj/", views.sj, name="sj"),
+    path("sj/", views.sj),
     # 회사 재무제표 호출
-    path("get_data/", views.get_data, name="get_data"),
-    # json dump 생성
-    path("dump/", views.dump, name="dump"),
+    # path("get_data/", views.get_data),
+    # corp list api 호출
+    path("corp_list/", views.corp_list),
+    # 재무제표 상세
+    path("financial_detail/<str:corp_code>/", views.financial_detail),
+    # 재무제표 비율(분석)
+    path("financial_ratio/<str:corp_code>/", views.financial_ratio),
+    # 기업 이름 검색
+    path("target_corp_list/", views.target_corp_list),
 ]
+
+# urlpatterns = [
+#     path("index/", views.index, name="index"),
+#     # 회사 코드 호출
+#     path("get_corp_code/", views.get_corp_code, name="get_corp_code"),
+#     # 재무제표 종류 저장
+#     path("sj/", views.sj, name="sj"),
+#     # 회사 재무제표 호출
+#     path("get_data/", views.get_data, name="get_data"),
+#     # json dump 생성
+#     path("dump/", views.dump, name="dump"),
+# ]
