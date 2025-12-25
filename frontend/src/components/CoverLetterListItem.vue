@@ -1,8 +1,14 @@
 <template>
   <div>
-    <h5>{{ coverLetter.id }}</h5>
-    <p>{{ coverLetter.title }}</p>
+    <h4>{{ coverLetter.id }}</h4>
+    <h3>{{ coverLetter.question }}</h3>
+    <p>category : {{ coverLetter.category }}</p>
     <p>{{ coverLetter.content }}</p>
+    <ul>
+      <li>메모 : {{ coverLetter.note }}</li>
+      <li>최종 수정 일자 : {{ coverLetter.updated_at }}</li>
+      <li>작성 일자 : {{ coverLetter.created_at }}</li>
+    </ul>
     <hr>
   </div>
 </template>
