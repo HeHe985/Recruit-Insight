@@ -30,7 +30,7 @@
         </div>
 
         <div class="chart-card">
-          <h3>📊 주요 수익성 지표 (ROE/부채비율)</h3>
+          <h3>📊 주요 수익성 지표 (ROE/유동비율)</h3>
           <div class="chart-wrapper">
             <Line v-if="ratioChartData" :data="ratioChartData" :options="ratioChartOptions" />
           </div>
@@ -151,11 +151,11 @@ const ratioChartData = computed(() => {
         data: targetYears.value.map(y => store.getAccountValue(y, 'ratio', '자기자본순이익률')) // ratio 데이터 확인 필요
       },
       {
-        label: '부채비율 (%)',
+        label: '유동비율 (%)',
         borderColor: '#f59e0b',
         borderDash: [5, 5], // 점선
         tension: 0.3,
-        data: targetYears.value.map(y => store.getAccountValue(y, 'ratio', '부채비율'))
+        data: targetYears.value.map(y => store.getAccountValue(y, 'ratio', '유동비율'))
       }
     ]
   }
@@ -182,9 +182,9 @@ const summaryTable = computed(() => {
       values: targetYears.value.map(y => store.getAccountValue(y, 'detail', '당기순이익')) 
     },
     { 
-      label: '부채비율', 
+      label: '유동비율', 
       unit: '%', 
-      values: targetYears.value.map(y => store.getAccountValue(y, 'ratio', '부채비율')) 
+      values: targetYears.value.map(y => store.getAccountValue(y, 'ratio', '유동비율')) 
     }
   ]
 })
