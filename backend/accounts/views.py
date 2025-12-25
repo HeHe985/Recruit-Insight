@@ -174,9 +174,15 @@ def cover_letter_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET", "POST", "DELETE"])
+@api_view(["GET", "PUT", "DELETE"])
 def cover_letter_detail(request, id):
+    cover_letter = CoverLetter.objects.get(pk=id)
     if request.method == "GET":
-        cover_letter = CoverLetter.objects.get(pk=id)
         serializer = CoverLetterSerializer(cover_letter)
         return Response(serializer.data)
+    elif request.method == "PUT":
+        serializer = CoverLetterSerializer(cover_letter, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
