@@ -13,6 +13,7 @@ import BookmarkView from '@/views/BookmarkView.vue'
 import CoverLetterListView from '@/views/CoverLetterListView.vue'
 import CoverLetterDetailView from '@/views/CoverLetterDetailView.vue'
 import CompanySearchView from '@/views/CompanySearchView.vue'
+import CompanyDetailView from '@/views/CompanyDetailView.vue'
 import CoverLetterCreateView from '@/views/CoverLetterCreateView.vue'
 import CoverLetterEditView from '@/views/CoverLetterEditView.vue'
 import AIRecommendationView from '@/views/AIRecommendationView.vue'
@@ -57,6 +58,12 @@ const router = createRouter({
       path: '/search',
       name: 'CompanySearchView',
       component: CompanySearchView
+    },
+    {
+      path: '/company/:corpCode',
+      name: 'CompanyDetailView',
+      component: CompanyDetailView,
+      params: true
     },
     {
       path: '/mypage',
