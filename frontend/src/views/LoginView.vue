@@ -1,12 +1,48 @@
 <template>
-  <div>
-    <h1>Login View</h1>
-    <form @submit.prevent="handleLogin">
-      <input v-model="username" placeholder="아이디" />
-      <input v-model="password" type="password" />
-      <button type="submit">로그인</button>
-    </form>
-    <p v-if="error">{{ error }}</p>
+  <div class="auth-page bg-navy">
+    <div class="auth-container">
+
+      <div class="text-center mb-8">
+        <h1 class="page-title">로그인</h1>
+        <p class="page-subtitle">공채 소식과 기업 분석을 한 곳에서 받아 보세요</p>
+      </div>
+
+      <form @submit.prevent="handleLogin" class="login-form">
+        <div class="form-group">
+          <label for="username" class="sr-only">아이디</label>
+          <input 
+            id="username"
+            v-model="username" 
+            type="text" 
+            class="ri-input" 
+            placeholder="아이디를 입력하세요" 
+            required
+          />    
+        </div>
+        <div class="form-group">>
+        <label for="password" class="sr-only">비밀번호</label>
+          <input 
+            id="password"
+            v-model="password" 
+            type="password" 
+            class="ri-input" 
+            placeholder="비밀번호를 입력하세요" 
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-mint btn-full">로그인</button>
+        <p v-if="error" class="error-message">
+          <span class="icon">⚠️</span> {{ error }}
+        </p>
+      </form>
+
+      <div class="auth-link">
+        아직 계정이 없으신가요? 
+        <RouterLink :to="{name: 'signup'}" class="text-mint hover-underline">
+          회원가입 하기
+        </RouterLink>
+      </div>
+    </div>
   </div>
 </template>
 
