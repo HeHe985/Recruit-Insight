@@ -136,3 +136,43 @@ CREATE TABLE accounts_recommendation (
         ON DELETE CASCADE,
     UNIQUE KEY unique_user_job (user_id, job_id)
 );
+
+CREATE TABLE cover_letter (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+    user_id BIGINT NOT NULL,
+    question VARCHAR(100) NOT NULL,
+    category CHAR(1) NOT NULL,
+    content TEXT NOT NULL,
+    note TEXT NOT NULL,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_cover_letter_user
+        FOREIGN KEY (user_id)
+        REFERENCES user (id)
+        ON DELETE CASCADE
+);
+
+ALTER TABLE cover_letter
+ADD CONSTRAINT chk_cover_letter_category
+CHECK (category IN ('1','2','3','4','5','6','7','8','9'));
+
+CREATE TABLE auth_user (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+    password VARCHAR(128) NOT NULL,
+    last_login DATETIME NULL,
+
+    is_superuser BOOLEAN NOT NULL DEFAULT FALSE,
+    username VARCHAR(150) NOT NULL UNIQUE,
+    first_name VARCHAR(150) NOT NULL DEFAULT '',
+    last_name VARCHAR(150) NOT NULL DEFAULT '',
+    email VARCHAR(254) NOT NULL DEFAULT '',
+
+    is_staff BOOLEAN NOT NULL DEFAULT FALSE,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    date_joined DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

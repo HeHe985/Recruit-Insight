@@ -6,6 +6,12 @@ Recruit Insight는 재무제표 기반 기업 분석과 AI 추천을 결합한 �
 
 ---
 
+## 실행 방법
+1. 마이그레이션 진행
+2. loaddata (recruit.json)
+3. 백/프론트 서버 실행
+
+
 ## 핵심 가치 (Core Values)
 
 - Trust: 재무 건전성과 성장성을 수치 기반으로 검증
