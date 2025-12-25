@@ -9,18 +9,20 @@
       <li>최종 수정 일자 : {{ coverLetter.updated_at }}</li>
       <li>작성 일자 : {{ coverLetter.created_at }}</li>
     </ul>
-
+    <button @click="router.push({ name: 'CoverLetterEditView' , params: { id: route.params.id}})">수정</button>
   </div>
 </template>
 
 <script setup>
   import axios from 'axios'
   import { onMounted, ref } from 'vue'
-  import { useRoute } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import { useCoverLetterStore } from '@/stores/coverletters.js'
+import CoverLetterEditView from './CoverLetterEditView.vue'
 
   const store = useCoverLetterStore()
   const route = useRoute()
+  const router = useRouter()
   const coverLetter = ref(null)
 
   onMounted(() => {

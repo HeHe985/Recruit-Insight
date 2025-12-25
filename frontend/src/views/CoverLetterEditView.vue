@@ -16,7 +16,7 @@
       <textarea id="content" v-model.trim="content"></textarea><br>
       <label for="note">메모 : </label>
       <textarea id="note" v-model.trim="note"></textarea><br>
-      <input type="submit">
+      <input type="submit" text="수정완료">
     </form>
   </div>
 </template>
@@ -51,7 +51,7 @@
   onMounted(() => {
     // 현재 글 가져오기
     const coverLetterId = route.params.id
-
+    
     // 서버에 내용 요청
     axios({
       method: 'get',
@@ -60,7 +60,7 @@
     .then((res) => {
       // 받아 온 데이터를 변수에 넣어 보여주기
       question.value = res.data.question
-      category.value = res.data.category
+      selectedOption.value = res.data.category
       content.value = res.data.content
       note.value = res.data.note
     })
@@ -71,7 +71,7 @@
   const updateCoverLetter = function () {
     axios({
       method: 'put',
-      url: `${store.API_URL}/api/v1/accounts/cover_letters//`,
+      url: `${store.API_URL}/api/v1/accounts/cover_letters/${route.params.id}/`,
       data: {
         question: question.value,
         category: selectedOption.value,
@@ -79,9 +79,8 @@
         note: note.value
       }
     })
-    .then((res) => {
-      const id = res.data.id
-      router.push({name: 'CoverLetterDatailView', params: { id: id}})
+    .then(() => {
+      router.push({name: 'CoverLetterDatailView', params: { id: route.params.id }})
     })
     .catch(err => console.log(err))
   }
