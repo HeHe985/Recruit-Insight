@@ -11,11 +11,11 @@
           :key="option.value"
           :value="option.value"
           >{{ option.text }}</option>
-      </select>
+      </select><br>
       <label for="content">답변 : </label>
       <textarea id="content" v-model.trim="content"></textarea><br>
       <label for="note">메모 : </label>
-      <textarea id="note" v-model.trim="note"></textarea>
+      <textarea id="note" v-model.trim="note"></textarea><br>
       <input type="submit">
     </form>
   </div>
@@ -23,6 +23,9 @@
 
 <script setup>
   import { ref } from 'vue'
+  import axios from 'axios'
+  import { useCoverLetterStore } from '@/stores/coverletters'
+  import { useRouter } from 'vue-router'
 
   const question = ref(null)
   // 드롭다운 메뉴
@@ -40,6 +43,26 @@
   ])
   const content = ref(null)
   const note = ref(null)
+
+  const store = useCoverLetterStore()
+  const router = useRouter()
+
+  const createCoverLetter = function () {
+    axios({
+      method: 'post',
+      url: `${store.API_URL}/api/v1/accounts/cover_letters/create`,
+      data: {
+        question: question.value,
+        category: selectedOption.value,
+        content: content.value,
+        note: note.value
+      }
+    })
+    .then(() => {
+      router.push({name: 'CoverLetterCreateView'})
+    })
+    .catch(err => console.log(err))
+  }
 </script>
 
 <style scoped>
