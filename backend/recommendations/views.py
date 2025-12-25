@@ -9,7 +9,7 @@ from .serializers import RecommendationSerializer
 from .services import JobRecommendationService
 
 
-@api_view(["GET"])
+@api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def ai_recommend_view(request):
     # 테스트 데이터

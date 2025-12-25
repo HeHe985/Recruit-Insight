@@ -64,3 +64,9 @@ export const RecommendationAPI = () => {
     `http://localhost:8000/api/v1/recommendations/recommend_list/`
   )
 }
+
+export const NewRecommendAPI = () => {
+  return axios.post(
+    `http://localhost:8000/api/v1/recommendations/recommend/`
+  )
+}

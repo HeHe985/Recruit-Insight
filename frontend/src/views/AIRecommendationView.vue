@@ -1,6 +1,8 @@
 <template>
 	<div>
 		<h1>AI Recommendation View</h1>
+		<button @click="newRecommend">새로 추천 받기</button>
+		<h1 v-if="loading">🔍 AI가 데이터를 분석 중입니다...</h1>
 		<ul>
       <li v-for="recommend in recommends" :key="recommend.id">
         <h3>
@@ -24,14 +26,25 @@
 <script setup>
 import { ref, onMounted } from "vue"
 import axios from "axios"
-import { RecommendationAPI } from "@/services/accounts"
-
+import { RecommendationAPI, NewRecommendAPI } from "@/services/accounts"
+const loading = ref(false)
 const recommends = ref([])
 
-onMounted(async () => {
+const fetchRecommendations = async () => {
   const res = await RecommendationAPI()
   recommends.value = res.data
+}
+
+onMounted(async () => {
+  fetchRecommendations()
 })
+
+const newRecommend = async () => {
+	loading.value = true
+	await NewRecommendAPI()
+	fetchRecommendations()
+	loading.value = false
+}
 </script>
 
 <style scoped>
