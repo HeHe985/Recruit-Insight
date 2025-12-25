@@ -1,25 +1,32 @@
 <template>
-  <header>
-    <h1>App View</h1>
-    <nav>
-    <RouterLink :to="{name: 'home'}"><img>Insight</RouterLink>
-     | 
-    <RouterLink :to="{name: 'job_postings_list'}">채용공고</RouterLink>
-     | 
-    <RouterLink :to="{name: 'recommend'}">AI 추천</RouterLink>
-    <div v-if="accounts.isAuthenticated">
-      <!-- 로그인 했을 때 -->
-      <a href="#" @click.prevent="handleLogout">LOGOUT</a>
-       | 
-      <RouterLink :to="{name: 'mypage'}">MY PAGE</RouterLink>
-    </div>
-    <div v-else>
-      <!-- 로그인 안했을 때 -->
-      <RouterLink :to="{name: 'login'}">LOGIN</RouterLink>
+  <header class="ri-header">
+    <div class="container-custom header-inner">
+      <div class="logo-area">
+        <RouterLink :to="{name: 'home'}" class="logo-link">
+          <span class="logo-text">Recruit Insight</span>
+        </RouterLink>
+      </div>
+
+      <nav class="main-nav" flex-center>
+      <RouterLink :to="{name: 'job_postings_list'}" class="nav-item">채용공고</RouterLink>
       | 
-      <RouterLink :to="{name: 'signup'}">SIGNUP</RouterLink>
+      <RouterLink :to="{name: 'recommend'}" class="nav-item">AI 추천</RouterLink>
+      </nav>
+
+      <div v-if="accounts.isAuthenticated" class="auth-nav">
+        <!-- 로그인 했을 때 -->
+        <a class="nav-item" href="#" @click.prevent="handleLogout">LOGOUT</a>
+        | 
+        <RouterLink :to="{name: 'mypage'}" class="nav-item">MY PAGE</RouterLink>
+      </div>
+      <div v-else>
+        <!-- 로그인 안했을 때 -->
+        <RouterLink :to="{name: 'login'}" class="nav-item">LOGIN</RouterLink>
+        | 
+        <RouterLink :to="{name: 'signup'}" class="nav-item">SIGNUP</RouterLink>
+      </div>
+
     </div>
-    </nav>
   </header>
 
   <RouterView />

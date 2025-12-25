@@ -229,3 +229,66 @@ a {
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+/* App.vue */
+/* 헤더 내부 레이아웃: 양끝 정렬 및 수직 중앙 정렬 */
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%; /* ri-header의 높이(4rem)를 가득 채움 */
+}
+
+/* 로고 스타일 */
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--color-white);
+}
+
+.logo-text {
+  letter-spacing: -0.5px;
+}
+
+/* 네비게이션 링크 스타일 */
+.main-nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-item {
+  color: var(--color-slate-200);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.nav-item:hover,
+.router-link-active { /* 현재 보고 있는 페이지 강조 */
+  color: var(--color-white);
+  font-weight: 700;
+}
+
+/* 우측 인증 메뉴 */
+.auth-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* 버튼 사이즈 미세 조정 (헤더용) */
+.btn-sm {
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  border-radius: var(--radius-lg);
+}
+
+/* 모바일 반응형 대응 (필요시 추가) */
+@media (max-width: 768px) {
+  .main-nav {
+    display: none; /* 모바일에서는 일단 숨김 (추후 햄버거 메뉴 구현 필요) */
+  }
+}
