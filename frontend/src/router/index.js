@@ -11,6 +11,7 @@ import SignupView from '@/views/SignupView.vue'
 import CoverLetterListView from '@/views/CoverLetterListView.vue'
 import CoverLetterDetailView from '@/views/CoverLetterDetailView.vue'
 import CompanySearchView from '@/views/CompanySearchView.vue'
+import CompanyDetailView from '@/views/CompanyDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,8 +55,8 @@ const router = createRouter({
     },
     {
       path: '/company-detail/:corpCode',
-      name: 'CompanyDataView',
-      component: CompanyDataView,
+      name: 'CompanyDetailView',
+      component: CompanyDetailView,
       props: true
     },
     {
