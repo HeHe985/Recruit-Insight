@@ -160,7 +160,7 @@ def bookmark_list(request):
 
 
 # 자기소개서 CRUD ===================================
-@api_view(["POST"])
+@api_view(["GET", "POST"])
 def cover_letter_list(request):
     if request.method == "POST":
         serializer = CoverLetterSerializer(data=request.data)
