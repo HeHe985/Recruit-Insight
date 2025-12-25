@@ -1,13 +1,17 @@
 <template>
-  <div>
-    <h4>{{ coverLetter.id }}</h4>
-    <h3>
-      <RouterLink 
-        :to="{name: 'CoverLetterDetailView', params: { id : coverLetter.id } }"
-      >{{ coverLetter.question }}</RouterLink>
+  <div class="cl-card" @click="goDetail">
+    <RouterLink 
+      :to="{name: 'CoverLetterDetailView', params: { id : coverLetter.id } }"
+    >
+    <div class="card-top">
+      <span class="date">작성일: {{ formatDate(coverLetter.created_at) }}</span>
+      <span class="id-badge">No. {{ coverLetter.id }}</span>
+    </div>
+    <h3 class="cl-title">
+      {{ coverLetter.question }}
     </h3>
-    <p>작성 일자 : {{ coverLetter.created_at }}</p>
-    <hr>
+    </RouterLink>
+    
   </div>
 </template>
 
@@ -16,6 +20,13 @@
   defineProps({
     coverLetter: Object
   })
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '-'
+    // 서버에서 오는 날짜 형식이 ISO라면 Date 객체 변환
+    const date = new Date(dateString)
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+  }
 </script>
 
 <style scoped>

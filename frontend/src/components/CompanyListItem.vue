@@ -1,11 +1,14 @@
 <template>
-  <div class="info">
-    <h3 class="name">
-      <RouterLink :to="{ name: 'CompanyDetailView', params: { corpCode: company.corp_code } }">
-      {{ company.corp_name }}
-      </RouterLink>
-    </h3> 
-    <hr>
+  <div class="company-card" @click="goDetail">
+    
+    <div class="card-icon">
+      🏢
+    </div>
+    
+    <div class="card-info">
+      <h3 class="company-name">{{ company.corp_name }}</h3>
+      <p class="company-code">Code: {{ company.corp_code }}</p>
+    </div>
   </div>
 </template>
 
@@ -18,6 +21,10 @@ const router = useRouter()
 const props = defineProps({
   company: Object
 })
+
+const goDetail = () => {
+  router.push({ name: 'CompanyDetailView', params: { corpCode: props.company.corp_code } })
+}
 
 </script>
 

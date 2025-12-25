@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <h1>검색 결과</h1>
+  <div class="search-view-container">
+    <div class="header-section">
+      <h1 class="page-title">기업 검색 결과</h1>
+    </div>
+    
     <CompanyList />
   </div>
 </template>

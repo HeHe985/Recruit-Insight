@@ -1,7 +1,11 @@
 <template>
   <div class="analysis-container">
-    <header class="header">
-      <h1>🏢 기업 재무 상세 분석</h1>
+    <header class="detail-header">
+      <div class="header-top">
+        <span class="badge-code" v-if="route.params.corpCode">CODE {{ route.params.corpCode }}</span>
+        <h1 class="corp-name">재무 분석 리포트</h1>
+      </div>
+      <!-- <h1>🏢 기업 재무 상세 분석</h1> -->
       <p v-if="targetYears.length > 0">
         분석 대상: 최근 {{ targetYears.length }}개년 ({{ targetYears.join(', ') }})
       </p>

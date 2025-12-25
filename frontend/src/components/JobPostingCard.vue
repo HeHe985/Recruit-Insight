@@ -1,20 +1,25 @@
 <template>
-	<div class="card">
-		<RouterLink
-		:to="{
-			name: 'job_posting_detail',
-			params: { id: job.emp_seqno }
-		}"
-  >
-		<h3 class="title">{{ job.emp_wanted_title }}</h3>
+	<div class="job-card ri-card ri-card-hover">
+		<div class="card-body">
+			<RouterLink
+			:to="{
+				name: 'job_posting_detail',
+				params: { id: job.emp_seqno }
+			}"
+			class="title-link"
+			>
+			<div class="company-name">
+        {{ job.emp_busi_nm }}
+      </div>
+			<h3 class="job-title">{{ job.emp_wanted_title }}</h3>
+			
+			<div class="tags">
+				<span class="badge badge-score">{{ job.emp_wanted_type_nm }}</span>
+				<span class="badge badge-score">
+					{{ job.emp_wanted_stdt }} ~ {{ job.emp_wanted_endt }}
+				</span>
+			</div>
 		</RouterLink>
-		<p class="company">{{ job.emp_busi_nm }}</p>
-
-		<div class="meta">
-			<span class="type">{{ job.emp_wanted_type_nm }}</span>
-			<span class="period">
-				{{ job.emp_wanted_stdt }} ~ {{ job.emp_wanted_endt }}
-			</span>
 		</div>
 </div>
 </template>

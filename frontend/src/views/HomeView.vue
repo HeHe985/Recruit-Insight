@@ -1,31 +1,49 @@
 <template>
-	<div>
-  	<h1>Home View</h1>
-
-			<div class="search-section">
-				<h1>회사 검색</h1>
-				<div class="search-box">
-					<input 
-						type="text" 
-						v-model="keyword" 
-						@keyup.enter="search" 
-						placeholder="회사명을 입력하세요"
-					>
-					<button @click="search">검색</button>
-				</div>
-		</div>
-
-
-		<h2>추천 채용 공고</h2>
+	<div class="home-view">
 		
-		<div>
-			<JobPostingCard
-			v-for="job in jobs"
-			:key="job.emp_seqno"
-			:job="job"
-			/>
-		</div>
-  </div>
+		<section class="hero-section">
+			<div class="container-custom hero-content">
+				<h1 class="main-title"><span class="text-white">공채 소식과 </span>
+					<span class="text-mint">기업 분석을 </span><br>
+					동시에 제공합니다</h1>
+				<p class="sub-title">
+          고용 24와 DART의 정보를 모아 믿을 수 있는 정보를 제공합니다.
+        </p>
+				<div class="search-wrapper">
+					<div class="search-box">
+						<div class="search-box">
+							<input 
+								type="text" 
+								v-model="keyword" 
+								@keyup.enter="search"
+								class="hero-input" 
+								placeholder="회사명을 입력하세요"
+							/>
+							<button @click="search" class="btn btn-mint search-btn">검색</button>
+						</div>
+					</div>
+				</div>
+				</div>
+			</section>
+
+			<section class="recommend-section">
+      <div class="container-custom">
+        
+        <div class="section-header">
+          <h2 class="section-title">✨ Recruit Insight Pick</h2>
+          <p class="section-desc">추천 채용 공고</p>
+        </div>
+
+				<div v-if="jobs.length > 0" class="job-grid">
+					<JobPostingCard
+					v-for="job in jobs"
+					:key="job.emp_seqno"
+					:job="job"
+					/>
+				</div>
+			</div>
+		</section>
+	</div>
 </template>
 
 <script setup>

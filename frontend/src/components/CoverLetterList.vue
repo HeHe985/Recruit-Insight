@@ -1,11 +1,16 @@
 <template>
-  <div>
-    <h3>Cover Letter List</h3>
-    <CoverLetterListItem 
-      v-for="coverLetter in coverLetters"
-      :key="coverLetter.id"
-      :coverLetter="coverLetter"
-    />
+<div class="list-container">
+    <div v-if="coverLetters.length > 0" class="cl-grid">
+      <CoverLetterListItem 
+        v-for="coverLetter in coverLetters"
+        :key="coverLetter.id"
+        :coverLetter="coverLetter"
+      />
+    </div>
+
+    <div v-else class="empty-state">
+      <p>작성된 자기소개서가 없습니다.</p>
+    </div>
   </div>
 </template>
 
