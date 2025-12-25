@@ -25,7 +25,7 @@ onMounted(async () => {
 		const res = await axios.get(
 			"http://localhost:8000/api/v1/job_postings/recommend/"
     )
-		console.log("res.data:", res.data)
+		// console.log("res.data:", res.data)
     jobs.value = res.data
   } catch (err) {
     console.error("추천 공고 조회 실패", err)

@@ -22,15 +22,12 @@ axios.interceptors.request.use((config) => {
 
 const app = createApp(App)
 
-app.use(createPinia())
-
-const accounts = useAccountsStore()
-
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 app.use(pinia)
 
-// app.use(createPinia())
+const accounts = useAccountsStore()
+
 app.use(router)
 
 app.mount('#app')

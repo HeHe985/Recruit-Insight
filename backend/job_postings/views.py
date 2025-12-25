@@ -49,10 +49,6 @@ def job_posting_detail(request, emp_seqno):
 
 
 @api_view(["GET"])
-def search(request):
-    pass
-
-
 def job_postings_recommend(request):
     """
     추천 채용 공고 조회 (앞에서부터 3개)
