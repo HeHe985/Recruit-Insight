@@ -1,7 +1,16 @@
 <template>
-  <div>
-    <h1>자기소개서 리스트</h1>
-    <RouterLink :to="{ name: 'CoverLetterCreateView'}">[Create]</RouterLink>
+<div class="cl-view-container">
+    
+    <header class="view-header">
+      <div class="header-text">
+        <h2 class="title">자기소개서 리스트</h2>
+      </div>
+
+    <RouterLink :to="{ name: 'CoverLetterCreateView'}" class="btn btn-mint btn-icon">
+      <span class="plus-icon">+</span> 자기소개서 추가
+    </RouterLink>
+    </header>
+    
     <CoverLetterList />
   </div>
 </template>

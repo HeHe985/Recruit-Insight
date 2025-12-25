@@ -16,8 +16,8 @@
     
     
     
-    <!-- <div v-else class="bookmark-grid"> -->
-      <div v-else
+    <div v-else class="job-grid">
+      <div 
       v-for="b in bookmarks" 
       :key="b.emp_seqno || b.id" 
       class="custom-card"
@@ -47,6 +47,7 @@
         </div>
       </div>
     </div>
+  </div>
 
   </div>
 </template>
