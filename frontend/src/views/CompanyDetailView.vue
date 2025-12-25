@@ -148,7 +148,7 @@ const ratioChartData = computed(() => {
         borderColor: '#10b981',
         backgroundColor: '#10b981',
         tension: 0.3, // 곡선 부드럽게
-        data: targetYears.value.map(y => store.getAccountValue(y, 'ratio', 'ROE')) // ratio 데이터 확인 필요
+        data: targetYears.value.map(y => store.getAccountValue(y, 'ratio', '자기자본순이익률')) // ratio 데이터 확인 필요
       },
       {
         label: '부채비율 (%)',
