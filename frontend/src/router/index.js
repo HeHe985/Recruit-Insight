@@ -10,6 +10,7 @@ import SignupView from '@/views/SignupView.vue'
 // import MyPageView from '@/views/MyPageView.vue' // 마이페이지 임시 파일
 import CoverLetterListView from '@/views/CoverLetterListView.vue'
 import CoverLetterDetailView from '@/views/CoverLetterDetailView.vue'
+import CoverLetterCreateView from '@/views/CoverLetterCreateView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +42,7 @@ const router = createRouter({
       name: 'login',
       component: LoginView
     },
+    // 자기소개서 CRUD ======================
     {
       path: '/accounts/signup',
       name: 'signup',
@@ -56,6 +58,11 @@ const router = createRouter({
       name: 'CoverLetterDatailView',
       component: CoverLetterDetailView
     },
+    {
+      path: '/cover-letter/create',
+      name: 'CoverLetterCreateView',
+      component: CoverLetterCreateView
+    }
   ],
 })
 
