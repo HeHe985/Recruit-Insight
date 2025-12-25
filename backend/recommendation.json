@@ -1,0 +1,102 @@
+[
+{
+    "model": "recommendations.recommendation",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "job": 77014,
+        "score": 70,
+        "reason": "지원자가 AWS EC2를 보유한 점에서 클라우드 관련 업무에 적합하며, IT 인프라와 관련된 경험이 유망한 후보로 평가됩니다. 그러나 해당 포지션은 다소 보안 및 인프라 운영에 중점을 두고 있어 일부 기술 스택의 차이는 존재합니다."
+    }
+},
+{
+    "model": "recommendations.recommendation",
+    "pk": 2,
+    "fields": {
+        "user": 1,
+        "job": 142006,
+        "score": 10,
+        "reason": "지원자의 경력 및 기술 스택이 안전/보건/환경 관련 경력직과 전혀 맞지 않기 때문에 적합하지 않습니다."
+    }
+},
+{
+    "model": "recommendations.recommendation",
+    "pk": 3,
+    "fields": {
+        "user": 1,
+        "job": 142009,
+        "score": 10,
+        "reason": "지원자의 기술 스택과 전무관한 연구개발, 영업 관련 직무로 전혀 관련성이 없습니다."
+    }
+},
+{
+    "model": "recommendations.recommendation",
+    "pk": 4,
+    "fields": {
+        "user": 1,
+        "job": 142345,
+        "score": 5,
+        "reason": "디자인 및 콘텐츠 관련 직무로, 지원자의 기술 및 경력과 전혀 맞지 않아 적합하지 않습니다."
+    }
+},
+{
+    "model": "recommendations.recommendation",
+    "pk": 5,
+    "fields": {
+        "user": 1,
+        "job": 142637,
+        "score": 5,
+        "reason": "상하수도 관련 기술직으로, 지원자와는 관련성이 낮기 때문에 적합하지 않습니다."
+    }
+},
+{
+    "model": "recommendations.recommendation",
+    "pk": 6,
+    "fields": {
+        "user": 1,
+        "job": 142683,
+        "score": 5,
+        "reason": "직무가 기술 전략과 기획에 중점을 두고 있어 지원자의 경험과 전혀 부합하지 않습니다."
+    }
+},
+{
+    "model": "recommendations.recommendation",
+    "pk": 7,
+    "fields": {
+        "user": 1,
+        "job": 142686,
+        "score": 5,
+        "reason": "EAI 시스템 운영 및 개발 직무는 지원자가 경험한 백엔드 개발과는 전혀 다른 분야여서 적합하지 않습니다."
+    }
+},
+{
+    "model": "recommendations.recommendation",
+    "pk": 8,
+    "fields": {
+        "user": 1,
+        "job": 142692,
+        "score": 0,
+        "reason": "법무 관련 직무로 지원자의 경력과 스킬이 전혀 맞지 않아 적합하지 않습니다."
+    }
+},
+{
+    "model": "recommendations.recommendation",
+    "pk": 9,
+    "fields": {
+        "user": 1,
+        "job": 142785,
+        "score": 0,
+        "reason": "Creative 분야의 콘텐츠 제작과 관련된 직무로, 지원자의 기술 스택과 전혀 관계가 없습니다."
+    }
+},
+{
+    "model": "recommendations.recommendation",
+    "pk": 10,
+    "fields": {
+        "user": 1,
+        "job": 142801,
+        "score": 0,
+        "reason": "임상 QA 관련 직무로, 지원자의 경력 및 기술과는 완전히 다르기 때문에 적합하지 않습니다."
+    }
+}
+]

@@ -1,3 +1,6 @@
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+// 데이터 보존 및 사용을 위한 플러그인
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -34,7 +37,11 @@ axios.interceptors.request.use((config) => {
 
 const app = createApp(App)
 
-app.use(createPinia())
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+app.use(pinia)
+
+// app.use(createPinia())
 app.use(router)
 
 app.mount('#app')
