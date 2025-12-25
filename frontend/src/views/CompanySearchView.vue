@@ -6,17 +6,16 @@
 </template>
 
 <script setup>
-  import { onMounted } from 'vue'
-  import { useCompanyStore } from '@/stores/companys.js';
+  // import { useCompanyStore } from '@/stores/companys.js';
 
-  import { RouterLink } from 'vue-router'
+  // import { RouterLink } from 'vue-router'
   import CompanyList from '@/components/CompanyList.vue'
 
-  const store = useCompanyStore()
+  // const store = useCompanyStore()
 
-  onMounted(() => {
-    store.getCompanys()
-  })
+  // onMounted(() => {
+  //   store.getCompanys()
+  // })
 </script>
 
 <style scoped>

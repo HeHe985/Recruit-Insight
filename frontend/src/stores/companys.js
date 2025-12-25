@@ -6,10 +6,22 @@ export const useCompanyStore = defineStore('company', () => {
   const companys = ref([])
   const API_URL = 'http://127.0.0.1:8000'
 
-  const getCompanys = function() {
+  // 검색어가 없으면 기본값
+  const getCompanys = function( keyword = null ) {
+    let url = `${API_URL}/api/v1/finance/corp_list/`
+    let params = {}
+
+    // 검색어가 들어온 경우
+    if (keyword) {
+      url = `${API_URL}/api/v1/finance/target_corp_list/`
+      params = { corp_name: keyword }
+    }
+    console.log(url)
+    console.log(params)
     axios({
       method: 'get',
-      url: `${API_URL}/api/v1/finance/corp_list/`
+      url: url,
+      params: params // 검색어가 없으면 빈 객체가 들어감
     })
     .then(res => {
       console.log(res)
