@@ -221,45 +221,73 @@ def financial_detail(request, corp_code):
     print(corp_code, bsns_year, reprt_code)
 
     # 당기 데이터
-    financial_data = [
-        models.FinancialData.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
-        # 전기 데이터(1년 전)
-        models.FinancialData.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
-        # 전전기 데이터(2년 전)
-        models.FinancialData.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
-    ]
+    financial_data = models.FinancialData.objects.filter(
+        corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code
+    )
 
     # 전기/전전기 데이터가 없다면?
     # 데이터 존재 여부 저장
-    data_exist_list = [False] * 3
+    # data_exist_list = [False] * 3
 
-    serializer_data = []
+    # serializer_data = []
 
-    print(financial_data[0])
+    print(financial_data)
     # 3년 데이터 존재 여부 확인
-    for i in range(3):
-        if financial_data[i].exists() is not True:  # 길이 확인
-            # 데이터가 존재X
-            print("데이터 없음", financial_data[i])
-            saved = get_data(corp, bsns_year, reprt_code)
-            print(bsns_year, "년도 데이터", saved)
-            financial_data[i] = models.FinancialData.objects.filter(
-                corp_code=corp, bsns_year=bsns_year, reprt_code=reprt_code
-            )
-            if financial_data[i].exists() is not True:  # 길이 재확인
-                serializer_data.append({"message": f"{bsns_year}년의 데이터가 없습니다."})
-                continue
-        data_exist_list[i] = True  # 존재한다면 True로 변경
-        serializer = FinancialDataSerializer(financial_data[i], many=True)  # 시리얼라이저 생성
-        serializer_data.append(serializer.data)
+    if financial_data.exists() is not True:  # 길이 확인
+        # 데이터가 존재X
+        print("데이터 없음", financial_data)
+        saved = get_data(corp, bsns_year, reprt_code)
+        print(bsns_year, "년도 데이터", saved)
+        financial_data = models.FinancialData.objects.filter(corp_code=corp, bsns_year=bsns_year, reprt_code=reprt_code)
+        if financial_data.exists() is not True:  # 길이 재확인
+            return Response({"message": f"{bsns_year}년의 데이터가 없습니다."})
 
-    response_data = {
-        "당기": serializer_data[0],
-        "전기": serializer_data[1],
-        "전전기": serializer_data[2],
-    }
+    serializer = FinancialDataSerializer(financial_data, many=True)  # 시리얼라이저 생성
 
-    return Response(response_data)
+    return Response(serializer.data)
+
+    # # 당기 데이터
+    # financial_data = models.FinancialData.objects.filter(
+    # corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
+    #     # 전기 데이터(1년 전)
+    #     models.FinancialData.objects.filter(
+    # corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
+    #     # 전전기 데이터(2년 전)
+    #     models.FinancialData.objects.filter(
+    # corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
+    # ]
+
+    # # 전기/전전기 데이터가 없다면?
+    # # 데이터 존재 여부 저장
+    # data_exist_list = [False] * 3
+
+    # serializer_data = []
+
+    # print(financial_data[0])
+    # # 3년 데이터 존재 여부 확인
+    # for i in range(3):
+    #     if financial_data[i].exists() is not True:  # 길이 확인
+    #         # 데이터가 존재X
+    #         print("데이터 없음", financial_data[i])
+    #         saved = get_data(corp, bsns_year, reprt_code)
+    #         print(bsns_year, "년도 데이터", saved)
+    #         financial_data[i] = models.FinancialData.objects.filter(
+    #             corp_code=corp, bsns_year=bsns_year, reprt_code=reprt_code
+    #         )
+    #         if financial_data[i].exists() is not True:  # 길이 재확인
+    #             serializer_data.append({"message": f"{bsns_year}년의 데이터가 없습니다."})
+    #             continue
+    #     data_exist_list[i] = True  # 존재한다면 True로 변경
+    #     serializer = FinancialDataSerializer(financial_data[i], many=True)  # 시리얼라이저 생성
+    #     serializer_data.append(serializer.data)
+
+    # response_data = {
+    #     "당기": serializer_data[0],
+    #     "전기": serializer_data[1],
+    #     "전전기": serializer_data[2],
+    # }
+
+    # return Response(response_data)
 
 
 @api_view(["GET"])
@@ -287,45 +315,73 @@ def financial_ratio(request, corp_code):
     bsns_year = request.GET.get("bsns_year")
     reprt_code = request.GET.get("reprt_code", "11011")
 
-    # print(corp_code, bsns_year, reprt_code)
-
     # 당기 데이터
-    financial_ratio_data = [
-        models.FinancialRatio.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
-        # 전기 데이터(1년 전)
-        models.FinancialRatio.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
-        # 전전기 데이터(2년 전)
-        models.FinancialRatio.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
-    ]
+    financial_data = models.FinancialRatio.objects.filter(
+        corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code
+    )
 
     # 전기/전전기 데이터가 없다면?
     # 데이터 존재 여부 저장
-    data_exist_list = [False] * 3
+    # data_exist_list = [False] * 3
 
-    serializer_data = []
+    # serializer_data = []
 
-    print(financial_ratio_data[0])
+    print(financial_data)
     # 3년 데이터 존재 여부 확인
-    for i in range(3):
-        if financial_ratio_data[i].exists() is not True:  # 길이 확인
-            # 데이터가 존재X
-            print("데이터 없음", financial_ratio_data[i])
-            saved = get_data(corp, bsns_year, reprt_code)
-            print(bsns_year, "년도 데이터", saved)
-            financial_ratio_data[i] = models.FinancialRatio.objects.filter(
-                corp_code=corp, bsns_year=bsns_year, reprt_code=reprt_code
-            )
-            if financial_ratio_data[i].exists() is not True:  # 길이 재확인
-                serializer_data.append({"message": f"{bsns_year}년의 데이터가 없습니다."})
-                continue
-        data_exist_list[i] = True  # 존재한다면 True로 변경
-        serializer = FinancialRatioSerializer(financial_ratio_data[i], many=True)  # 시리얼라이저 생성
-        serializer_data.append(serializer.data)
+    if financial_data.exists() is not True:  # 길이 확인
+        # 데이터가 존재X
+        print("데이터 없음", financial_data)
+        saved = get_data(corp, bsns_year, reprt_code)
+        print(bsns_year, "년도 데이터", saved)
+        financial_data = models.FinancialRatio.objects.filter(
+            corp_code=corp, bsns_year=bsns_year, reprt_code=reprt_code
+        )
+        if financial_data.exists() is not True:  # 길이 재확인
+            return Response({"message": f"{bsns_year}년의 데이터가 없습니다."})
 
-    response_data = {
-        "당기": serializer_data[0],
-        "전기": serializer_data[1],
-        "전전기": serializer_data[2],
-    }
+    serializer = FinancialRatioSerializer(financial_data, many=True)  # 시리얼라이저 생성
 
-    return Response(response_data)
+    return Response(serializer.data)
+
+    # print(corp_code, bsns_year, reprt_code)
+
+    # # 당기 데이터
+    # financial_ratio_data = [
+    #     models.FinancialRatio.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
+    #     # 전기 데이터(1년 전)
+    #     models.FinancialRatio.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
+    #     # 전전기 데이터(2년 전)
+    #     models.FinancialRatio.objects.filter(corp_code=corp, bsns_year=int(bsns_year), reprt_code=reprt_code),
+    # ]
+
+    # # 전기/전전기 데이터가 없다면?
+    # # 데이터 존재 여부 저장
+    # data_exist_list = [False] * 3
+
+    # serializer_data = []
+
+    # print(financial_ratio_data[0])
+    # # 3년 데이터 존재 여부 확인
+    # for i in range(3):
+    #     if financial_ratio_data[i].exists() is not True:  # 길이 확인
+    #         # 데이터가 존재X
+    #         print("데이터 없음", financial_ratio_data[i])
+    #         saved = get_data(corp, bsns_year, reprt_code)
+    #         print(bsns_year, "년도 데이터", saved)
+    #         financial_ratio_data[i] = models.FinancialRatio.objects.filter(
+    #             corp_code=corp, bsns_year=bsns_year, reprt_code=reprt_code
+    #         )
+    #         if financial_ratio_data[i].exists() is not True:  # 길이 재확인
+    #             serializer_data.append({"message": f"{bsns_year}년의 데이터가 없습니다."})
+    #             continue
+    #     data_exist_list[i] = True  # 존재한다면 True로 변경
+    #     serializer = FinancialRatioSerializer(financial_ratio_data[i], many=True)  # 시리얼라이저 생성
+    #     serializer_data.append(serializer.data)
+
+    # response_data = {
+    #     "당기": serializer_data[0],
+    #     "전기": serializer_data[1],
+    #     "전전기": serializer_data[2],
+    # }
+
+    # return Response(response_data)
