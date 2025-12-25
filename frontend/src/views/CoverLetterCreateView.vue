@@ -50,7 +50,7 @@
   const createCoverLetter = function () {
     axios({
       method: 'post',
-      url: `${store.API_URL}/api/v1/accounts/cover_letters/create`,
+      url: `${store.API_URL}/api/v1/accounts/cover_letters/create/`,
       data: {
         question: question.value,
         category: selectedOption.value,
@@ -58,8 +58,9 @@
         note: note.value
       }
     })
-    .then(() => {
-      router.push({name: 'CoverLetterCreateView'})
+    .then((res) => {
+      const id = res.data.id
+      router.push({name: 'CoverLetterDatailView', params: { id: id}})
     })
     .catch(err => console.log(err))
   }
