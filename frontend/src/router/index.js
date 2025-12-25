@@ -12,6 +12,7 @@ import BookmarkView from '@/views/BookmarkView.vue'
 // import MyPageView from '@/views/MyPageView.vue' // 마이페이지 임시 파일
 import CoverLetterListView from '@/views/CoverLetterListView.vue'
 import CoverLetterDetailView from '@/views/CoverLetterDetailView.vue'
+import CompanySearchView from '@/views/CompanySearchView.vue'
 import CoverLetterCreateView from '@/views/CoverLetterCreateView.vue'
 import CoverLetterEditView from '@/views/CoverLetterEditView.vue'
 import AIRecommendationView from '@/views/AIRecommendationView.vue'
@@ -51,6 +52,11 @@ const router = createRouter({
       path: '/accounts/signup',
       name: 'signup',
       component: SignupView
+    },
+    {
+      path: '/search',
+      name: 'CompanySearchView',
+      component: CompanySearchView
     },
     {
       path: '/mypage',

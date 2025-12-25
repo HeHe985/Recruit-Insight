@@ -29,6 +29,8 @@
 import { RouterView, RouterLink } from 'vue-router';
 import { useAccountsStore } from '@/stores/accounts';
 import { useRouter } from 'vue-router';
+// import CompanySearchView from '@/components/CompanySearchView.vue'
+
 
 const accounts = useAccountsStore()
 const router = useRouter()
@@ -37,8 +39,16 @@ const handleLogout = function() {
   accounts.logout()
   router.push('/accounts/login')
 }
+
 </script>
 
 <style scoped>
-
+  /* 검색 부분 스타일 */
+.search-box {
+  margin: 20px 0;
+}
+input {
+  padding: 5px;
+  margin-right: 5px;
+}
 </style>
