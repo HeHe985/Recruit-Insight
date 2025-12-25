@@ -80,7 +80,7 @@
       }
     })
     .then(() => {
-      router.push({name: 'CoverLetterDatailView', params: { id: route.params.id }})
+      router.push({name: 'CoverLetterDetailView', params: { id: route.params.id }})
     })
     .catch(err => console.log(err))
   }

@@ -164,13 +164,13 @@ def bookmark_list(request):
 @api_view(["GET", "POST"])
 def cover_letter_list(request):
     if request.method == "GET":
-        cover_letters = CoverLetter.objects.all()
+        cover_letters = CoverLetter.objects.filter(user=request.user)
         serializer = CoverLetterSerializer(cover_letters, many=True)
         return Response(serializer.data)
     elif request.method == "POST":
         serializer = CoverLetterSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
