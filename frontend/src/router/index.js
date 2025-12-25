@@ -12,6 +12,8 @@ import BookmarkView from '@/views/BookmarkView.vue'
 // import MyPageView from '@/views/MyPageView.vue' // 마이페이지 임시 파일
 import CoverLetterListView from '@/views/CoverLetterListView.vue'
 import CoverLetterDetailView from '@/views/CoverLetterDetailView.vue'
+import CoverLetterCreateView from '@/views/CoverLetterCreateView.vue'
+import CoverLetterEditView from '@/views/CoverLetterEditView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +45,7 @@ const router = createRouter({
       name: 'login',
       component: LoginView
     },
+    // 자기소개서 CRUD ======================
     {
       path: '/accounts/signup',
       name: 'signup',
@@ -70,7 +73,17 @@ const router = createRouter({
         },      
       ],
     },
-  ]
+    {
+      path: '/cover-letter/create',
+      name: 'CoverLetterCreateView',
+      component: CoverLetterCreateView
+    },
+    {
+      path: '/cover-letter/:id/edit',
+      name: 'CoverLetterEditView',
+      component: CoverLetterEditView
+    }
+  ],
 })
 
 // 라우터 가드, 페이지 이동 직전
