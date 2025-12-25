@@ -57,3 +57,16 @@ export const BookmarkListAPI = (empSeqno, accessToken) => {
     `http://localhost:8000/api/v1/accounts/bookmark/list/`
   )
 }
+
+
+export const RecommendationAPI = () => {
+  return axios.get(
+    `http://localhost:8000/api/v1/recommendations/recommend_list/`
+  )
+}
+
+export const NewRecommendAPI = () => {
+  return axios.post(
+    `http://localhost:8000/api/v1/recommendations/recommend/`
+  )
+}

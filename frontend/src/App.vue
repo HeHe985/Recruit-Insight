@@ -2,10 +2,11 @@
   <header>
     <h1>App View</h1>
     <nav>
-    <RouterLink :to="{name: 'home'}">Recruit Insight</RouterLink>
+    <RouterLink :to="{name: 'home'}"><img>Insight</RouterLink>
      | 
     <RouterLink :to="{name: 'job_postings_list'}">채용공고</RouterLink>
      | 
+    <RouterLink :to="{name: 'recommend'}">AI 추천</RouterLink>
     <div v-if="accounts.isAuthenticated">
       <!-- 로그인 했을 때 -->
       <a href="#" @click.prevent="handleLogout">LOGOUT</a>
