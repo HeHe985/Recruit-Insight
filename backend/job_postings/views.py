@@ -32,8 +32,8 @@ def job_postings_list(request):
 
 
 @api_view(["GET"])
-@authentication_classes([])
-@permission_classes([AllowAny])
+# @authentication_classes([])
+# @permission_classes([AllowAny])
 def job_posting_detail(request, emp_seqno):
     """
     특정 채용 공고의 상세 정보를 조회
