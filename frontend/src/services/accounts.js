@@ -13,3 +13,20 @@ export const refreshAPI = (refresh) => {
     { refresh }
   )
 }
+
+export const signupAPI = (username, password1, password2) => {
+  return axios.post(
+    "http://localhost:8000/api/v1/accounts/signup/", {
+    username,
+    password1,
+    password2,
+  }
+  )
+}
+
+export const logoutAPI = (refresh) => {
+  return axios.post(
+    "http://localhost:8000/api/v1/accounts/logout/",
+    { refresh }
+  )
+}
