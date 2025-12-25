@@ -46,3 +46,13 @@ def job_posting_detail(request, emp_seqno):
     job_posting = JobPostingList.objects.get(pk=emp_seqno)
     serializer = JobPostingListSerializer(job_posting)
     return Response(serializer.data)
+
+
+@api_view(["GET"])
+def job_postings_recommend(request):
+    """
+    추천 채용 공고 조회 (앞에서부터 3개)
+    """
+    postings = JobPostingList.objects.all()[:3]
+    serializer = JobPostingSerializer(postings, many=True)
+    return Response(serializer.data)
