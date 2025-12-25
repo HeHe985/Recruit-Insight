@@ -12,12 +12,9 @@ import BookmarkView from '@/views/BookmarkView.vue'
 // import MyPageView from '@/views/MyPageView.vue' // 마이페이지 임시 파일
 import CoverLetterListView from '@/views/CoverLetterListView.vue'
 import CoverLetterDetailView from '@/views/CoverLetterDetailView.vue'
-<<<<<<< HEAD
 import CompanySearchView from '@/views/CompanySearchView.vue'
-=======
 import CoverLetterCreateView from '@/views/CoverLetterCreateView.vue'
 import CoverLetterEditView from '@/views/CoverLetterEditView.vue'
->>>>>>> 8ec692a7a05d7d35370b272e20b7625773dfb352
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
