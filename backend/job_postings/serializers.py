@@ -1,9 +1,11 @@
 from rest_framework import serializers
 
 from .models import JobPostingDetail, JobPostingList
+from accounts.models import Bookmark
 
 
 class JobPostingSerializer(serializers.ModelSerializer):
+    isBookmarked = serializers.SerializerMethodField()
     class Meta:
         model = JobPostingList
         fields = (
@@ -13,7 +15,17 @@ class JobPostingSerializer(serializers.ModelSerializer):
             "emp_wanted_type_nm",
             "emp_wanted_stdt",
             "emp_wanted_endt",
+            "isBookmarked",
         )
+    def get_isBookmarked(self, obj):
+        request = self.context.get("request")
+        if not request or not request.user.is_authenticated:
+            return False
+
+        return Bookmark.objects.filter(
+            user=request.user,
+            job_posting_id=obj.emp_seqno,
+        ).exists()
 
 
 class JobPostingDetailSerializer(serializers.ModelSerializer):

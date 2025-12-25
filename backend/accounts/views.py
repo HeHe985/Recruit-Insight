@@ -136,7 +136,8 @@ def bookmark(request, empseqno):
         return Response({"message": "북마크가 추가되었습니다."}, status=status.HTTP_201_CREATED)
 
     elif request.method == "DELETE":
-        Bookmark.objects.get(job_posting=empseqno).delete()
+        # Bookmark.objects.filter(user=request.user, job_posting_id=empseqno).delete()
+        Bookmark.objects.get(user=request.user, job_posting_id=empseqno).delete()
         return Response({"message": "북마크가 삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
 
 
@@ -155,5 +156,5 @@ def bookmark_list(request):
     """
     bookmarks = request.user.bookmarks.all()
     bookmark_list = [bookmark.job_posting for bookmark in bookmarks]
-    serializer = JobPostingSerializer(bookmark_list, many=True)
+    serializer = JobPostingSerializer(bookmark_list, many=True, context={"request": request})
     return Response(serializer.data)
