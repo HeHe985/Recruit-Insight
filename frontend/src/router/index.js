@@ -62,13 +62,13 @@ const router = createRouter({
           component: BookmarkView
         },
         {
-          path: 'cover-letter',
+          path: 'cover-letters',
           name: 'CoverLetterListView',
           component : CoverLetterListView
         },
         {
-          path: 'cover-letter/:id',
-          name: 'CoverLetterDatailView',
+          path: 'cover-letters/:id',
+          name: 'CoverLetterDetailView',
           component: CoverLetterDetailView
         },      
       ],
@@ -82,7 +82,7 @@ const router = createRouter({
       path: '/cover-letter/:id/edit',
       name: 'CoverLetterEditView',
       component: CoverLetterEditView
-    }
+    },
   ],
 })
 

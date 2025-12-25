@@ -60,7 +60,7 @@
     })
     .then((res) => {
       const id = res.data.id
-      router.push({name: 'CoverLetterDatailView', params: { id: id}})
+      router.push({name: 'CoverLetterDetailView', params: { id: id}})
     })
     .catch(err => console.log(err))
   }
