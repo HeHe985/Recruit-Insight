@@ -60,6 +60,12 @@ const router = createRouter({
       component: CompanySearchView
     },
     {
+      path: '/company/:corpCode',
+      name: 'CompanyDetailView',
+      component: CompanyDetailView,
+      params: true
+    },
+    {
       path: '/mypage',
       name: 'mypage',
       component: MyPageView,
