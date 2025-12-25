@@ -7,7 +7,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useAccountsStore } from '@/stores/accounts'
 
 // import MyPageView from '@/views/MyPageView.vue' // 마이페이지 임시 파일
-import CoverLetterListView from '@/views/CoverLetterListView.vue' // 
+import CoverLetterListView from '@/views/CoverLetterListView.vue'
+import CoverLetterDetailView from '@/views/CoverLetterDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,8 +48,8 @@ const router = createRouter({
     {
       path: '/cover-letter/:id',
       name: 'CoverLetterDatailView',
-      component: 
-    }
+      component: CoverLetterDetailView
+    },
   ],
 })
 
