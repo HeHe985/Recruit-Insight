@@ -1,9 +1,10 @@
 <template>
-	<div>
+  <div>
     <ul>
       <li v-for="post in posts" :key="post.emp_seqno">
         <h3>
           <RouterLink
+            v-if="post.emp_seqno"
             :to="{
               name: 'job_posting_detail',
               params: { id: post.emp_seqno }
@@ -21,23 +22,22 @@
         </p>
       </li>
     </ul>
-	</div>
+  </div>
 </template>
 
 <script setup>
-import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue"
+import axios from "axios"
 
 const posts = ref([])
 
 onMounted(async () => {
-  const res = await axios.get(
-    'http://127.0.0.1:8000/api/v1/job_postings/'
-  )
+  const res = await axios.get("http://127.0.0.1:8000/api/v1/job_postings/")
+  // console.log(res.data)
   posts.value = res.data
 })
+
 </script>
 
 <style scoped>
-
 </style>

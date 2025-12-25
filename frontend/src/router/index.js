@@ -6,6 +6,8 @@ import LoginView from '@/views/LoginView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAccountsStore } from '@/stores/accounts'
 import SignupView from '@/views/SignupView.vue'
+import MyPageView from '@/views/MyPageView.vue'
+import BookmarkView from '@/views/BookmarkView.vue'
 
 // import MyPageView from '@/views/MyPageView.vue' // 마이페이지 임시 파일
 import CoverLetterListView from '@/views/CoverLetterListView.vue'
@@ -50,14 +52,26 @@ const router = createRouter({
       component: SignupView
     },
     {
-      path: '/cover-letter',
-      name: 'CoverLetterListView',
-      component : CoverLetterListView
-    },
-    {
-      path: '/cover-letter/:id',
-      name: 'CoverLetterDatailView',
-      component: CoverLetterDetailView
+      path: '/mypage',
+      name: 'mypage',
+      component: MyPageView,
+      children: [
+        {
+          path: '/bookmark/list',
+          name: 'bookmark',
+          component: BookmarkView
+        },
+        {
+          path: 'cover-letter',
+          name: 'CoverLetterListView',
+          component : CoverLetterListView
+        },
+        {
+          path: 'cover-letter/:id',
+          name: 'CoverLetterDatailView',
+          component: CoverLetterDetailView
+        },      
+      ],
     },
     {
       path: '/cover-letter/create',

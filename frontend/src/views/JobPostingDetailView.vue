@@ -2,6 +2,9 @@
 	<div>
 		<h1>Job Posting Detail View</h1>
     <h1>{{ post.emp_wanted_title }}</h1>
+    <button v-if="accounts.isAuthenticated" @click="toggleBookmark">
+      {{ post.is_bookmarked ? '북마크 삭제' : '북마크' }}
+    </button>
 
     <p>회사명: {{ post.emp_busi_nm }} ({{ post.co_clcd_nm }})</p>
     <p>고용형태: {{ post.emp_wanted_type_nm }}</p>
@@ -64,9 +67,13 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { addBookmarkAPI, deleteBookmarkAPI } from "@/services/accounts"
+import { useAccountsStore } from '@/stores/accounts'
 
 const route = useRoute()
 const post = ref({})
+// const isBookmarked = ref(false)
+const accounts = useAccountsStore()
 
 onMounted(async () => {
   const empSeqno = route.params.id
@@ -76,7 +83,22 @@ onMounted(async () => {
   )
 
   post.value = res.data
+  // post.value.isBookmarked = res.data.isBookmarked
 })
+
+const toggleBookmark = async () => {
+  const empSeqno = route.params.id
+  const accessToken = accounts.access
+
+  if (post.value.is_bookmarked) {
+    await deleteBookmarkAPI(empSeqno, accessToken)
+    post.value.is_bookmarked = false
+  } else {
+    await addBookmarkAPI(empSeqno, accessToken)
+    post.value.is_bookmarked = true 
+  }
+  // await fetchDetail()
+}
 </script>
 
 <style>
