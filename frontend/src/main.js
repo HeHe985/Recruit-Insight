@@ -14,6 +14,7 @@ import axios from "axios"
 // 모든 axios 요청이 실행되기 직전마다 자동 실행
 axios.interceptors.request.use((config) => {
   const token = sessionStorage.getItem("access")
+  // const token = localStorage.getItem("access")
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`

@@ -37,7 +37,7 @@ class CoverLetter(models.Model):
         ("8", "실패 경험"),
         ("9", "기타"),
     ]
-
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     question = models.CharField(max_length=100)  # 자기소개서 문항
     category = models.CharField(max_length=1, choices=CATEGORY)  # 카테고리 / 선택형으로 제공
     content = models.TextField()  # 내용

@@ -25,10 +25,11 @@
   const router = useRouter()
   const coverLetter = ref(null)
 
+
   onMounted(() => {
     axios({
       method: 'get',
-      url: `${store.API_URL}/api/v1/accounts/cover_letters/${route.params.id}/`
+      url: `http://localhost:8000/api/v1/accounts/cover_letters/${route.params.id}/`
     })
     .then((res) =>{
       console.log(res.data)
@@ -41,7 +42,7 @@
     if (confirm('정말 삭제하시겠습니까?')) {
       axios({
         method: 'delete',
-        url:  `${store.API_URL}/api/v1/accounts/cover_letters/${route.params.id}/`
+        url:  `http://localhost:8000/api/v1/accounts/cover_letters/${route.params.id}/`
       })
       .then(() => {
         alert('삭제되었습니다.')
