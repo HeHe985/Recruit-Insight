@@ -18,7 +18,6 @@
   import { onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { useCoverLetterStore } from '@/stores/coverletters.js'
-import CoverLetterEditView from './CoverLetterEditView.vue'
 
   const store = useCoverLetterStore()
   const route = useRoute()
