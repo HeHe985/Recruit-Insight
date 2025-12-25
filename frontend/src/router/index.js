@@ -53,6 +53,12 @@ const router = createRouter({
       component: CompanySearchView
     },
     {
+      path: '/company-detail/:corpCode',
+      name: 'CompanyDataView',
+      component: CompanyDataView,
+      props: true
+    },
+    {
       path: '/cover-letter',
       name: 'CoverLetterListView',
       component : CoverLetterListView
