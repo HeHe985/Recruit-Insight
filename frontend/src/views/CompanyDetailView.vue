@@ -3,7 +3,7 @@
     <header class="detail-header">
       <div class="header-top">
         <span class="badge-code" v-if="route.params.corpCode">CODE {{ route.params.corpCode }}</span>
-        <h1 class="corp-name">재무 분석 리포트</h1>
+        <h1 class="corp-name">{{ companyName }}재무 분석 리포트</h1>
       </div>
       <!-- <h1>🏢 기업 재무 상세 분석</h1> -->
       <p v-if="targetYears.length > 0">
@@ -98,6 +98,11 @@ ChartJS.register(
 
 const route = useRoute()
 const store = useCompanyStore()
+
+
+const found = store.companys.find( c => c.corp_code === route.params.corpCode)
+return found ? found.corp_name : ' '
+
 
 // 1. 페이지 진입 시 데이터 요청
 onMounted(() => {

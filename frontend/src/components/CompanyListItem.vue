@@ -9,6 +9,11 @@
       <h3 class="company-name">{{ company.corp_name }}</h3>
       <p class="company-code">Code: {{ company.corp_code }}</p>
     </div>
+
+    <div class="card-action">
+      <span>분석 보기</span>
+      <span class="arrow">→</span>
+    </div>
   </div>
 </template>
 
